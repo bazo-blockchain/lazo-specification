@@ -31,6 +31,6 @@ generateGrammarSource {
     }
 }
 
-clean.doLast {
-    file('generated-src').deleteDir()
+clean.doFirst {
+    file('src/generated').deleteDir()
 }

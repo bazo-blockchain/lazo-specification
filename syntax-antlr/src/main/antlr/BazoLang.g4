@@ -1,5 +1,4 @@
-grammar X;
-
+grammar BazoLang;
 
 program: versionDirective;
 
