@@ -1,4 +1,4 @@
-package LexerTests;
+package lexer;
 
 import bazolang.BazoLangLexer;
 import org.antlr.v4.runtime.CharStreams;

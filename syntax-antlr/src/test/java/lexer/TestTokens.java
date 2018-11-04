@@ -1,4 +1,4 @@
-package LexerTests;
+package lexer;
 
 import bazolang.BazoLangLexer;
 import org.antlr.v4.runtime.CharStreams;
@@ -9,7 +9,7 @@ import org.junit.Test;
 public class TestTokens {
     @Test
     public void test() {
-        BazoLangLexer lex = new BazoLangLexer(CharStreams.fromString("1.2"));
+        BazoLangLexer lex = new BazoLangLexer(CharStreams.fromString("version 1.2"));
         CommonTokenStream tokens = new CommonTokenStream(lex);
         tokens.fill();
 
