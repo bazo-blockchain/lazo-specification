@@ -1,3 +1,5 @@
+// Inspired by Solidity Example: https://solidity.readthedocs.io/en/v0.4.25/solidity-by-example.html#simple-open-auction
+
 version 1.0
 
 contract OpenAuction {
