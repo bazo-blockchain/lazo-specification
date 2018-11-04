@@ -1,23 +1,31 @@
 grammar BazoLang;
 
-program: versionDirective;
+// Parser Rules
+program: versionDirective EOF;
 
-versionDirective : 'version ' INTEGER '.' INTEGER ;
+versionDirective : 'version' WS INTEGER '.' INTEGER ;
 
 //
 //THROW : 'throw' EXCEPTION_CREATION;
 //EXCEPTION_CREATION : 'a';
 //EXCEPTION_DECLARATION : 'exception' IDENTIFIER '(' PARAM_LIST ')' '{' [VAR_DECLARATION]{0,1} [',' VAR_DECLARATION]* '}';
 
-// Tokens
+// Lexer Rules / Tokens
+
+// Reserved Keywords
+KEYWORD: BOOL | 'version';
+
+BOOL: 'true' | 'false' ;
+
 IDENTIFIER : [a-zA-Z] [a-zA-Z0-9]* ;
 
-ADDRESS : '0x' [0-9a-f]+;
-INTEGER : [0-9]+ ;
-BOOL : 'true' | 'false' ;
-STRING : '"' [CHARCODE]* '"';
-CHARACTER : '\u0027' CHARCODE '\u0027';
-WS : [ \t\r\n]+ -> skip ; // skip spaces, tabs, newlines
-CHARCODE : 'a';
+HEX_DIGIT: '0x' [0-9a-f]+;
+INTEGER: [0-9]+ ;
+STRING: '"' [CHARCODE]* '"';
+CHARACTER: '\'' CHARCODE '\'';
+CHARCODE: 'a'; // todo unicode character code
+NL: [\n];
 
-//tokens { BREAK, CONTINUE };
+WS: [ \t\f\r]+ -> skip; // skip spaces, tabs, form feed and carrige return
+LINE_COMMENT: '//' ~[\r\n]* -> skip;
+BLOCK_COMMENT: '/*' .*? '*/' -> skip;
