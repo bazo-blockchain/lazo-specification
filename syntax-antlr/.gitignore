@@ -27,3 +27,6 @@ hs_err_pid*
 build/
 *.iml
 out/
+
+# Generated grammar
+src/main/java/bazolang
