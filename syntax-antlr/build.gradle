@@ -20,17 +20,9 @@ dependencies {
 
 generateGrammarSource {
     maxHeapSize = "64m"
-
-    // Keep a copy of generated sources
-    doLast {
-        println "Copying generated grammar lexer/parser files to main directory."
-        copy {
-            from "${buildDir}/generated-src/antlr/main"
-            into "src/generated/main/java"
-        }
-    }
+    outputDirectory = file("src/main/java/bazolang")
 }
 
 clean.doFirst {
-    file('src/generated').deleteDir()
+    file('src/main/java/bazolang').deleteDir()
 }

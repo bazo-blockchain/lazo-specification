@@ -1,5 +1,9 @@
 grammar BazoLang;
 
+@header {
+    package bazolang;
+}
+
 // Parser Rules
 program: versionDirective EOF;
 

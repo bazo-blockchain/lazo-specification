@@ -1,3 +1,6 @@
+package LexerTests;
+
+import bazolang.BazoLangLexer;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Token;
