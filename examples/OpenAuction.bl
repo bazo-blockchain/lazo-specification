@@ -1,0 +1,67 @@
+version 1.0
+
+contract OpenAuction {
+	address beneficiary
+	int auctionEndTime
+	
+	// Current state of the auction	
+	address highestBidder
+	int highestBid
+	
+	// Allowed withdrawals
+	Map<address, int> pendingReturns
+	
+	bool ended
+	
+	event HighestBidIncreased(address bidder, int amount)
+	event AuctionEnded(address winner, int amount)
+	
+
+	constructor(int biddingTime, address beneficiary){
+		auctionEndTime = block.timestamp + biddingTime
+		this.beneficiary = beneficiary
+	}
+	
+	[Payable]
+	[Pre = block.timestamp <= auctionEndTime, "Auction already ended"]
+	[Pre = msg.coins > highestBid, "There is already a higher bid"]
+	function void bid(){
+		if(highestBid != 0){
+			pendingReturns[highestBidder] += highestBid
+		}
+		
+		highestBidder = msg.sender
+		highestBid = msg.coins
+		emit HighestBidIncreased(msg.sender, msg.coins)
+		
+	}
+	
+	function bool withdraw(){
+		int amount = pendingReturns[msg.sender]
+		
+		if(amount > 0){
+			pendingReturns[msg.sender] = 0
+			
+			try{
+				// todo interface and builder
+				Account a = (Account) msg.sender
+				a.transfer(amount).send()
+			} catch (Error e){
+				// no need to revert
+				pendingReturns[msg.sender] = amount
+				return false
+			}
+		}
+		return true
+	}
+	
+	[Pre = block.timestamp >= auctionEndTime, "Auction not yet ended"]
+	[Pre = !ended, "Auction is already ended"]
+	function void auctionEnd(){
+		ended = true
+		emit AuctionEnded(highestBidder, highestBid)
+		
+		Account a = (Account) beneficiary
+		a.transfer(highestBid)
+	}
+}
