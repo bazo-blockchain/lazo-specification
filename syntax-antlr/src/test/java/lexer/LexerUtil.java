@@ -25,8 +25,8 @@ public class LexerUtil {
     }
 
     private static List<Token> getTokensFromStream(CharStream cs) {
-        BazoLangLexer lex = new BazoLangLexer(cs);
-        CommonTokenStream tokens = new CommonTokenStream(lex);
+        var lex = new BazoLangLexer(cs);
+        var tokens = new CommonTokenStream(lex);
         tokens.fill();
         return tokens.getTokens();
     }

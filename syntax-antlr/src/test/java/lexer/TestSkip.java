@@ -11,17 +11,16 @@ import java.util.List;
 public class TestSkip {
     @Test
     public void testLineComments() {
-        List<Token> tokens = LexerUtil.getTokens("// test\n // line2 \n");
+        var tokens = LexerUtil.getTokens("// test\n // line2 \n");
         LexerUtil.assertTotalTokens(tokens, 0);
     }
 
     @Test
     public void testSkip() throws IOException {
-        List<Token> tokens = LexerUtil.getTokensFromFile("lexer/skip.bl");
-
+        var tokens = LexerUtil.getTokensFromFile("lexer/skip.bl");
         LexerUtil.assertTotalTokens(tokens, 2);
 
-        Token lastToken = tokens.remove(tokens.size() - 1);
+        var lastToken = tokens.remove(tokens.size() - 1);
         tokens.forEach(t -> Assert.assertEquals(BazoLangLexer.NL, t.getType()));
         Assert.assertEquals(Token.EOF, lastToken.getType());
     }
