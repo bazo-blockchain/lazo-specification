@@ -9,7 +9,7 @@ import java.util.List;
 public class TestInteger {
     @Test
     public void testIntegers() {
-        List<Token> tokens = LexerUtil.getToken("123 456");
+        List<Token> tokens = LexerUtil.getTokens("123 456");
         Assert.assertEquals(3, tokens.size()); // incl. EOF
         Assert.assertEquals("123", tokens.get(0).getText());
         Assert.assertEquals("456", tokens.get(1).getText());

@@ -7,7 +7,7 @@ grammar BazoLang;
 // Parser Rules
 // --------------------
 program
-  : versionDirective EOF ;
+  : NL* versionDirective NL* EOF ;
 
 versionDirective
   : 'version' INTEGER '.' INTEGER NL ; // todo prevent version 0x3.0x2
@@ -61,7 +61,13 @@ CHARCODE
   : 'a' ; // todo unicode character code
 
 NL
-  : [\n] ;
+  : '\r\n'
+  | '\n' ;
+
+
+// Skip Rules
+// ----------
+
 WS
   : [ \t\f\r]+ -> skip ; // skip spaces, tabs, form feed and carrige return
 
