@@ -57,7 +57,7 @@ STRING
   : '"' UNICODE_CHAR* '"' ;
 
 CHARACTER
-  : '\'' ( ESCAPED_CHAR | UNICODE_CHAR )? '\'' ;
+  : '\'' ( ESCAPED_CHAR | UNICODE_CHAR ) '\'' ;
 
 fragment ESCAPED_CHAR
   : '\\' ( '0' | 'n' | '\\' | '\'' | '"' )

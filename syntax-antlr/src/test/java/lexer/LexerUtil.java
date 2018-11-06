@@ -39,6 +39,11 @@ public class LexerUtil {
         Assert.assertEquals(expected + 1, tokens.size());
     }
 
+    public static void assertCharacter(Token t, char c) {
+        Assert.assertEquals(BazoLangLexer.CHARACTER, t.getType());
+        Assert.assertEquals(String.valueOf(c), t.getText());
+    }
+
     public static void printTokens(List<Token> tokens) {
         tokens.forEach(System.out::println);
     }
