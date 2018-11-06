@@ -17,6 +17,7 @@ public class TestSkip {
 
     @Test
     public void testSkip() throws IOException {
+        char c = '\0';
         var tokens = LexerUtil.getTokensFromFile("lexer/skip.bl");
         LexerUtil.assertTotalTokens(tokens, 2);
 

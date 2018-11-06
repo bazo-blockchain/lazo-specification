@@ -57,10 +57,10 @@ STRING
   : '"' UNICODE_CHAR* '"' ;
 
 CHARACTER
-  : '\'' ( ESCAPED_CHAR | UNICODE_CHAR )'\'' ;
+  : '\'' ( ESCAPED_CHAR | UNICODE_CHAR )? '\'' ;
 
 fragment ESCAPED_CHAR
-  : '\\' ( 'n' | '\\' | '\'' | '"' )
+  : '\\' ( '0' | 'n' | '\\' | '\'' | '"' )
   ;
 
 fragment UNICODE_CHAR

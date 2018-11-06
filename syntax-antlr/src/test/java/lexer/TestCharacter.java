@@ -11,7 +11,7 @@ public class TestCharacter {
     @Test
     public void TestChar() throws IOException {
         var tokens = LexerUtil.getTokensFromFile("lexer/characters.bl");
-        LexerUtil.assertTotalTokens(tokens, 16);
+        LexerUtil.assertTotalTokens(tokens, 15);
 
         var lastToken = tokens.remove(tokens.size() - 1);
 
