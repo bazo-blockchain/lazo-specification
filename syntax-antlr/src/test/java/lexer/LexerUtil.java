@@ -36,12 +36,21 @@ public class LexerUtil {
      * @param expected expected number of tokens without EOF
      */
     public static void assertTotalTokens(List<Token> tokens, int expected) {
-        Assert.assertEquals(expected + 1, tokens.size());
+        Assert.assertEquals(expected, tokens.size() - 1);
     }
 
-    public static void assertCharacter(Token t, char c) {
+    public static void assertCharacter(Token t, String c) {
         Assert.assertEquals(BazoLangLexer.CHARACTER, t.getType());
-        Assert.assertEquals(String.valueOf(c), t.getText());
+        Assert.assertEquals(c, t.getText());
+    }
+
+    public static void assertInteger(Token t, int i) {
+        Assert.assertEquals(BazoLangLexer.INTEGER, t.getType());
+        Assert.assertEquals(String.valueOf(i), t.getText());
+    }
+
+    public static void assertEOF(Token t) {
+        Assert.assertEquals("<EOF>", t.getText());
     }
 
     public static void printTokens(List<Token> tokens) {
