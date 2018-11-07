@@ -1,6 +1,6 @@
 VersionDirective = "version" Integer "." Integer;
 Contract = "contract" Identifier [ "is" Identifier { "," Identifier} ] "{" { ContractParts } "}";
-ContractParts = { VariableDeclaration | Function | Struct | Event | Enum };
+ContractParts = VariableDeclaration | Function | Struct | Event | Enum;
 Interface = "interface" Identifier "{" InterfaceParts "}";
 InterfaceParts = { FunctionHead };
 Constructor = "constructor" "(" ParameterList ")" StatementBlock;

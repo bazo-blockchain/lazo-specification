@@ -14,10 +14,19 @@ versionDirective
   : 'version' INTEGER '.' INTEGER ; // todo prevent version 0x3.0x2
 
 contractDeclaration
-  : 'contract' IDENTIFIER ('is' IDENTIFIER (',' IDENTIFIER)*)? '{' contractBody? '}';
+  : 'contract' IDENTIFIER ('is' IDENTIFIER (',' IDENTIFIER)*)? '{' contractParts* '}';
 
-contractBody
-  : (variableDeclaration | structDeclaration | functionDeclaration)+;
+interfaceDeclaration
+  : 'interface' IDENTIFIER '{' interfaceParts* '}';
+
+contractParts
+  : (variableDeclaration | structDeclaration | constructorDeclaration | functionDeclaration);
+
+interfaceParts
+  : functionHead SEMI;
+
+constructorDeclaration
+  : 'constructor' ('(' paramList? ')'| '()') statementBlock;
 
 functionDeclaration
   : functionHead statementBlock;
@@ -41,7 +50,7 @@ statementBlock
   : '{' statement* '}';
 
 statement
-  :  variableDeclaration | functionCallStatement | returnStatement ;
+  :  variableDeclaration | returnStatement | functionCallStatement ;
 
 variableDeclaration
   :  type IDENTIFIER assignment? SEMI;
@@ -58,7 +67,7 @@ designator
   | designator '[' expression ']' ;
 
 returnStatement
-  : 'return' expression (',' expression) ;
+  : 'return' expression (',' expression)? SEMI ;
 
 ternaryExpression
   : expression '?' statement ':' statement SEMI ;
@@ -169,7 +178,6 @@ structBody
 // Reserved Keywords
 
 
-
 KEYWORD
   : 'break'
   | 'continue'
@@ -179,7 +187,8 @@ KEYWORD
   | 'function'
   | 'Map'
   | 'struct'
-  | 'return' ;
+  | 'return'
+  | 'constructor';
 
 BOOL
   : 'true'
