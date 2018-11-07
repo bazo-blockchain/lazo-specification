@@ -41,7 +41,7 @@ statementBlock
   : '{' statement* '}';
 
 statement
-  :  variableDeclaration | functionCallStatement ;
+  :  variableDeclaration | functionCallStatement | returnStatement ;
 
 variableDeclaration
   :  type IDENTIFIER assignment? SEMI;
@@ -50,7 +50,7 @@ functionCallStatement
   : functionCall SEMI;
 
 assignment
-  : '=' expression;
+  : '=' (expression | ternaryExpression);
 
 designator
   : IDENTIFIER
