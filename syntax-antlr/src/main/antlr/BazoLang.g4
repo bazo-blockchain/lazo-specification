@@ -57,8 +57,61 @@ designator
   | designator '.' IDENTIFIER
   | designator '[' expression ']' ;
 
+returnStatement
+  : 'return' expression (',' expression) ;
+
+ternaryExpression
+  : expression '?' statement ':' statement SEMI ;
+
 expression
-  : operand;
+  : logicTerm ('||' logicTerm)*;
+logicTerm
+: logicFactor ('&&' logicFactor)*;
+
+logicFactor
+: bitwiseOrExp ('|' bitwiseOrExp)*;
+
+bitwiseOrExp
+: bitwiseXorExp ('^' bitwiseXorExp)*;
+
+bitwiseXorExp
+: bitwiseAndExp ('&' bitwiseAndExp)*;
+
+bitwiseAndExp
+  : equalityExp (('==' | '!=') equalityExp)* ;
+
+equalityExp
+  : comparisonExp (('<' | '<=' | '>' | '>=') comparisonExp)*;
+
+comparisonExp
+  : bitwiseShiftExp (('<<' | '>>') bitwiseShiftExp)*;
+
+bitwiseShiftExp
+  : term (('+' | '-') term)*;
+
+term
+  : factor (('*' | '/' | '%') factor)*;
+
+factor
+  : exponent ('**' exponent)*;
+
+exponent
+  : ('(' type ')')? castExpression;
+
+castExpression
+  : prefixExpression | unaryExpression;
+
+prefixExpression
+  : ('++' | '--')? callExpression;
+
+unaryExpression
+  : ( '!' | '+' | '-' | '∼' )? (callExpression | postfixExpression);
+
+postfixExpression
+  : callExpression ( '++' | '--' )? ;
+
+callExpression
+  : operand | '(' expression ')';
 
 operand
   : literal
@@ -76,7 +129,7 @@ literal
   | BOOL;
 
 structCreation
-  : 'new' IDENTIFIER '{'(IDENTIFIER assignment | expression)* '}' ;
+  : 'new' IDENTIFIER ('('(IDENTIFIER assignment | expression)* ')' | '()') ; // TODO Check how () can be omitted
 
 arrayCreation
   : 'new' IDENTIFIER '[' expression* ']';
@@ -123,7 +176,8 @@ KEYWORD
   | 'internal'
   | 'function'
   | 'Map'
-  | 'struct';
+  | 'struct'
+  | 'return' ;
 
 BOOL
   : 'true'
