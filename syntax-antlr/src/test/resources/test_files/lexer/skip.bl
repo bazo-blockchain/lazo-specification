@@ -1,0 +1,6 @@
+// inline comment
+// Next line has a NEWLINE token
+
+/* multi-line comment
+  Next line has a NEWLINE token */
+

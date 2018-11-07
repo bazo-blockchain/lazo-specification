@@ -1,0 +1,28 @@
+plugins {
+    id 'java'
+    id 'antlr'
+}
+
+group 'ch.hsr.bazo'
+version '1.0'
+
+sourceCompatibility = 1.10
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    antlr "org.antlr:antlr4:4.7.1"
+    compile "org.antlr:antlr4-runtime:4.7.1"
+}
+
+generateGrammarSource {
+    maxHeapSize = "64m"
+    outputDirectory = file("src/main/java/bazolang")
+}
+
+clean.doFirst {
+    file('src/main/java/bazolang').deleteDir()
+}
