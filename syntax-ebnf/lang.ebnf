@@ -57,13 +57,14 @@ MapCreation = "new" "Map" "<"Type "," Type ">" "(" ")";
 ArrayCreation = "new" Identifier "[" Expression "]";
 FunctionCall = Designator "(" ArgumentList ")";
 ArgumentList = [ Expression { "," Expression }];
-Identifier = Letter { Letter | Digit };
-Throw = "throw" ExceptionCreation;
+
 Continue = "continue";
 Break = "break";
-Catch = "catch" Identifier Identifier StatementBlock;
-Address = "0x" { HexDigit };
-Integer = Digit { Digit };
+
+Identifier = Letter { Letter | Digit };
+Integer = DecDigitLit | HexDigitLit;
+HexDigitLit = "0x" { HexDigit };
+DecDigitLit = { Digit };
 Character = "'" CharCode "'";
 Bool = "false" | "true";
 String = """ { CharCode } """;

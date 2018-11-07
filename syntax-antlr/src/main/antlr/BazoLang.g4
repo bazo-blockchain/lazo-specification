@@ -6,7 +6,6 @@ grammar BazoLang;
 
 // Parser Rules
 // --------------------
-start: INTEGER* EOF;
 
 program
   : versionDirective EOF ;
@@ -15,19 +14,26 @@ versionDirective
   : 'version' INTEGER '.' INTEGER ; // todo prevent version 0x3.0x2
 
 contractDeclaration
-  : 'contract' IDENTIFIER ('is' IDENTIFIER (',' IDENTIFIER)*) '{' contractBody? '}';
+  : 'contract' IDENTIFIER ('is' IDENTIFIER (',' IDENTIFIER)*)? '{' contractBody? '}';
 
 contractBody
-  : (variableDeclaration | structDeclaration | functionDeclaration)*;
+  : (variableDeclaration | structDeclaration | functionDeclaration)+;
 
 functionDeclaration
   : functionHead statementBlock;
 
 functionHead
-  : 'internal'? 'function' (type | '(' type (',' type)*')') IDENTIFIER '(' paramList? ')';
+  : 'internal'? 'function' (type | '(' type (',' type)*')') IDENTIFIER ('(' paramList? ')' | '()'); // TODO Check how () can be omitted
+
+functionCall
+  : IDENTIFIER ('(' argumentList? ')' | '()'); // TODO Check how () can be omitted
+
+argumentList
+  : expression (',' expression)* ;
 
 paramList
-  : (parameter (',' parameter)*)?;
+  : parameter (',' parameter)*;
+
 parameter
   : type IDENTIFIER; // todo add default value
 
@@ -35,13 +41,21 @@ statementBlock
   : '{' statement* '}';
 
 statement
-  : variableDeclaration ;
+  :  variableDeclaration | functionCallStatement ;
 
 variableDeclaration
   :  type IDENTIFIER assignment? SEMI;
 
+functionCallStatement
+  : functionCall SEMI;
+
 assignment
   : '=' expression;
+
+designator
+  : IDENTIFIER
+  | designator '.' IDENTIFIER
+  | designator '[' expression ']' ;
 
 expression
   : operand;
@@ -50,7 +64,10 @@ operand
   : literal
   | arrayCreation
   | mapCreation
-  | structCreation; // todo designator, structCreation
+  | structCreation
+  | designator
+  | functionCall
+  ; // todo designator, functioncall
 
 literal
   : INTEGER
@@ -96,8 +113,7 @@ structBody
 
 // Reserved Keywords
 
-SEMI
-  : ';';
+
 
 KEYWORD
   : 'break'
@@ -112,6 +128,19 @@ KEYWORD
 BOOL
   : 'true'
   | 'false' ;
+
+// Separators
+// -----
+LPAREN : '(' ;
+RPAREN : ')' ;
+LBRACE : '{' ;
+RBRACE : '}' ;
+LBRACK : '[' ;
+RBRACK : ']' ;
+SEMI : ';';
+COMMA : ',';
+DOT : '.';
+// -----
 
 IDENTIFIER
   : ALPHA_LETTER ( ALPHA_LETTER | DEC_DIGIT )* ;
