@@ -6,13 +6,85 @@ grammar BazoLang;
 
 // Parser Rules
 // --------------------
-start: CHARACTER* EOF;
+start: INTEGER* EOF;
 
 program
-  : NL* versionDirective NL* EOF ;
+  : versionDirective EOF ;
 
 versionDirective
-  : 'version' INTEGER '.' INTEGER NL ; // todo prevent version 0x3.0x2
+  : 'version' INTEGER '.' INTEGER ; // todo prevent version 0x3.0x2
+
+contractDeclaration
+  : 'contract' IDENTIFIER ('is' IDENTIFIER (',' IDENTIFIER)*) '{' contractBody? '}';
+
+contractBody
+  : (variableDeclaration | structDeclaration | functionDeclaration)*;
+
+functionDeclaration
+  : functionHead statementBlock;
+
+functionHead
+  : 'internal'? 'function' (type | '(' type (',' type)*')') IDENTIFIER '(' paramList? ')';
+
+paramList
+  : (parameter (',' parameter)*)?;
+parameter
+  : type IDENTIFIER; // todo add default value
+
+statementBlock
+  : '{' statement* '}';
+
+statement
+  : variableDeclaration ;
+
+variableDeclaration
+  :  type IDENTIFIER assignment? SEMI;
+
+assignment
+  : '=' expression;
+
+expression
+  : operand;
+
+operand
+  : literal
+  | arrayCreation
+  | mapCreation
+  | structCreation; // todo designator, structCreation
+
+literal
+  : INTEGER
+  | CHARACTER
+  | STRING
+  | BOOL;
+
+structCreation
+  : 'new' IDENTIFIER '{'(IDENTIFIER assignment | expression)* '}' ;
+
+arrayCreation
+  : 'new' IDENTIFIER '[' expression* ']';
+
+mapCreation
+  : 'new' mapType '()' ;
+
+type
+  : arrayType
+  | mapType
+  | IDENTIFIER;
+
+arrayType
+  : IDENTIFIER '[]';
+
+mapType
+  : 'Map' '<' type',' type '>';
+
+structDeclaration
+  : 'struct' IDENTIFIER '{' structBody* '}' ;
+
+structBody
+  : type IDENTIFIER SEMI;
+
+
 
 //
 //THROW : 'throw' EXCEPTION_CREATION;
@@ -23,9 +95,19 @@ versionDirective
 // -------------
 
 // Reserved Keywords
+
+SEMI
+  : ';';
+
 KEYWORD
-  : BOOL
-  | 'version' ;
+  : 'break'
+  | 'continue'
+  | 'contract'
+  | 'is'
+  | 'internal'
+  | 'function'
+  | 'Map'
+  | 'struct';
 
 BOOL
   : 'true'
@@ -39,7 +121,7 @@ INTEGER
   | HEX_DIGIT_LIT ;
 
 HEX_DIGIT_LIT
-  : '0' ( 'x' | 'X' ) HEX_DIGIT+ ;
+  : '0x' HEX_DIGIT+ ;
 
 fragment HEX_DIGIT
   : [0-9a-fA-F] ;
@@ -66,24 +148,24 @@ fragment ESCAPED_CHAR
 fragment UNICODE_CHAR
   : ~[\r\n] ; // any Unicode code point except carrige return & new line
 
-NL
-  : '\r\n'
-  | '\n' ;
+//NL
+//  : '\r\n'
+//  | '\n' ;
 
 // Skip Rules
 // ----------
 
-SEPARATOR
-  : [\r\n]+ -> skip ;
+//SEPARATOR
+//  : [\r\n]+ -> skip ;
 
 WS
-  : [ \t\f\r]+ -> skip ; // skip spaces, tabs, form feed and carrige return
+  : [ \t\f\r\n]+ -> skip ; // skip spaces, tabs, form feed and carrige return
 
 LINE_COMMENT
-  : '//' ~[\r\n]* NL -> skip ;
+  : '//' ~[\r\n]* -> skip ;
 
 BLOCK_COMMENT
-  : '/*' .*? '*/' NL -> skip ;
+  : '/*' .*? '*/' -> skip ;
 
 // Uniocde Code Points
 
