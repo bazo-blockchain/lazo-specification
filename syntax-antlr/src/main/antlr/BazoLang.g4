@@ -63,6 +63,8 @@ returnStatement
 ternaryExpression
   : expression '?' statement ':' statement SEMI ;
 
+// TODO Try to write with OR
+
 expression
   : logicTerm ('||' logicTerm)*;
 logicTerm
