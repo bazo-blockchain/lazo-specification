@@ -8,9 +8,9 @@ import java.io.IOException;
 
 public class TestInterfaces {
     @Test
-    public void TestChar() throws IOException {
+    public void TestTokens() throws IOException {
         var tokens = LexerUtil.getTokensFromFile("lexer/interfaces.bl");
-        LexerUtil.assertTotalTokens(tokens, 13);
+        LexerUtil.assertTotalTokens(tokens, 42);
 
         var lastToken = tokens.remove(tokens.size() - 1);
 
@@ -20,18 +20,44 @@ public class TestInterfaces {
                 ".",
                 "1",
                 ";",
-                "contract",
-                "EnumContract",
+                "interface",
+                "Mortal",
                 "{",
-                "enum",
-                "TestEnum",
+                "function",
+                "void",
+                "kill",
+                "()",
                 "{",
-                "TEST1",
-                ",",
-                "TEST2",
                 "}",
                 ";",
                 "}",
+                "interface",
+                "Testable",
+                "{",
+                "function",
+                "bool",
+                "test",
+                "()",
+                "{",
+                "}",
+                ";",
+                "function",
+                "bool",
+                "assert",
+                "()",
+                "{",
+                "}",
+                ";",
+                "}",
+                "contract",
+                "InterfaceContract",
+                "is",
+                "Mortal",
+                ",",
+                "Testable",
+                "{",
+                "}",
+
         };
         for (int i = 0; i < tokens.size(); i += 1) {
             LexerUtil.assertTokenContent(tokens.get(i), chars[i]);

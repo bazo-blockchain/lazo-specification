@@ -16,26 +16,4 @@ version 1.1;
 
         function (int, string) twoDiffReturnValuesWithParamsFunction(int a, string b) {}
 
-        function void voidFunction() {
-          print('Hello');
-        }
-
-        internal function int singleReturnValueFunction() {
-          int a = 5;
-          print(a);
-        }
-
-        function int singleReturnValueWithParamsFunction(int a) {
-            print(a);
-        }
-
-        function (int, int) twoReturnValuesFunction() {
-            return 1, 1;
-        }
-
-        internal function (int, int) twoReturnValuesWithParamsFunction(int a, string b) {
-            print(b);
-            return a, a;
-        }
-
     }

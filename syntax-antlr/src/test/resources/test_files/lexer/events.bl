@@ -5,6 +5,6 @@ contract EventContract {
     event TestEvent(string msg);
 
     function void emitEvent(){
-        emit TestEvent('This is a test!');
+        emit TestEvent("This is a test!");
     }
 }

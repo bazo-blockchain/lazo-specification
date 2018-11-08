@@ -8,9 +8,9 @@ import java.io.IOException;
 
 public class TestEvents {
     @Test
-    public void TestChar() throws IOException {
+    public void TestTokens() throws IOException {
         var tokens = LexerUtil.getTokensFromFile("lexer/events.bl");
-        LexerUtil.assertTotalTokens(tokens, 13);
+        LexerUtil.assertTotalTokens(tokens, 28);
 
         var lastToken = tokens.remove(tokens.size() - 1);
 
@@ -21,16 +21,27 @@ public class TestEvents {
                 "1",
                 ";",
                 "contract",
-                "EnumContract",
+                "EventContract",
                 "{",
-                "enum",
-                "TestEnum",
-                "{",
-                "TEST1",
-                ",",
-                "TEST2",
-                "}",
+                "event",
+                "TestEvent",
+                "(",
+                "string",
+                "msg",
+                ")",
                 ";",
+                "function",
+                "void",
+                "emitEvent",
+                "()",
+                "{",
+                "emit",
+                "TestEvent",
+                "(",
+                "\"This is a test!\"",
+                ")",
+                ";",
+                "}",
                 "}",
         };
         for (int i = 0; i < tokens.size(); i += 1) {
