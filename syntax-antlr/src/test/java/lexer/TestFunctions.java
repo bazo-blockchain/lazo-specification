@@ -10,7 +10,7 @@ public class TestFunctions {
     @Test
     public void TestTokens() throws IOException {
         var tokens = LexerUtil.getTokensFromFile("lexer/functions.bl");
-        LexerUtil.assertTotalTokens(tokens, 79);
+        LexerUtil.assertTotalTokens(tokens, 83);
 
         var lastToken = tokens.remove(tokens.size() - 1);
 
@@ -26,20 +26,23 @@ public class TestFunctions {
                 "function",
                 "void",
                 "emptyFunction",
-                "()",
+                "(",
+                ")",
                 "{",
                 "}",
                 "internal",
                 "function",
                 "void",
                 "internalFunction",
-                "()",
+                "(",
+                ")",
                 "{",
                 "}",
                 "function",
                 "int",
                 "singleReturnValueFunction",
-                "()",
+                "(",
+                ")",
                 "{",
                 "}",
                 "function",
@@ -58,7 +61,8 @@ public class TestFunctions {
                 "int",
                 ")",
                 "twoReturnValuesFunction",
-                "()",
+                "(",
+                ")",
                 "{",
                 "}",
                 "function",

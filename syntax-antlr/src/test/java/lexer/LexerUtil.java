@@ -40,7 +40,7 @@ public class LexerUtil {
     }
 
     public static void assertTokenContent(Token t, String c) {
-        Assert.assertEquals(c, t.getText());
+        Assert.assertEquals("Token error" + t.toString(), c, t.getText());
     }
 
     public static void assertCharacter(Token t, String c) {

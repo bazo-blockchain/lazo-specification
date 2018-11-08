@@ -10,7 +10,7 @@ public class TestSimpleContract {
     @Test
     public void TestChar() throws IOException {
         var tokens = LexerUtil.getTokensFromFile("lexer/simple_contract.bl");
-        LexerUtil.assertTotalTokens(tokens, 96);
+        LexerUtil.assertTotalTokens(tokens, 99);
 
         var lastToken = tokens.remove(tokens.size() - 1);
 
@@ -83,7 +83,8 @@ public class TestSimpleContract {
                 "function",
                 "void",
                 "test",
-                "()",
+                "(",
+                ")",
                 "{",
                 "int",
                 "a",
@@ -104,10 +105,12 @@ public class TestSimpleContract {
                 "function",
                 "void",
                 "test2",
-                "()",
+                "(",
+                ")",
                 "{",
                 "test",
-                "()",
+                "(",
+                ")",
                 ";",
                 "}",
                 "}",

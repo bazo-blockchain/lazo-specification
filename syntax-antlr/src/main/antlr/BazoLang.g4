@@ -32,7 +32,7 @@ interfaceParts
   : functionHead SEMI;
 
 constructorDeclaration
-  : 'constructor' ('(' paramList? ')'| '()') statementBlock;
+  : 'constructor' '(' paramList? ')' statementBlock;
 
 annotation
   : '[' IDENTIFIER ('=' IDENTIFIER)? ']';
@@ -41,7 +41,7 @@ emitStatement
   : 'emit' callStatement;
 
 eventDeclaration
-  : 'event' IDENTIFIER ('(' paramList*')' | '()') SEMI;
+  : 'event' IDENTIFIER '(' paramList*')' SEMI;
 
 enumDeclaration
   : 'enum' IDENTIFIER '{' IDENTIFIER (',' IDENTIFIER)* '}' SEMI;
@@ -65,10 +65,10 @@ functionDeclaration
   : functionHead statementBlock;
 
 functionHead
-  : 'internal'? 'function' (type | '(' type (',' type)*')') IDENTIFIER ('(' paramList? ')' | '()'); // TODO Check how () can be omitted
+  : 'internal'? 'function' (type | '(' type (',' type)*')') IDENTIFIER '(' paramList? ')';
 
 call
-  : IDENTIFIER ('(' argumentList? ')' | '()'); // TODO Check how () can be omitted
+  : IDENTIFIER '(' argumentList? ')';
 
 argumentList
   : expression (',' expression)* ;
@@ -186,13 +186,13 @@ literal
 //-----------------------------
 
 structCreation
-  : 'new' IDENTIFIER ('('(IDENTIFIER assignment | expression)* ')' | '()') ; // TODO Check how () can be omitted
+  : 'new' IDENTIFIER '('(IDENTIFIER assignment | expression)* ')' ;
 
 arrayCreation
   : 'new' IDENTIFIER '[' expression* ']';
 
 mapCreation
-  : 'new' mapType '()' ;
+  : 'new' mapType LPAREN RPAREN;
 
 type
   : arrayType

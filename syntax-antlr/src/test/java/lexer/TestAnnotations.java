@@ -10,7 +10,7 @@ public class TestAnnotations {
     @Test
     public void TestTokens() throws IOException {
         var tokens = LexerUtil.getTokensFromFile("lexer/annotations.bl");
-        LexerUtil.assertTotalTokens(tokens, 48);
+        LexerUtil.assertTotalTokens(tokens, 49);
 
         var lastToken = tokens.remove(tokens.size() - 1);
 
@@ -42,7 +42,8 @@ public class TestAnnotations {
                 "function",
                 "bool",
                 "isOwner",
-                "()",
+                "(",
+                ")",
                 "{",
                 "return",
                 "msg",

@@ -10,7 +10,7 @@ public class TestInterfaces {
     @Test
     public void TestTokens() throws IOException {
         var tokens = LexerUtil.getTokensFromFile("lexer/interfaces.bl");
-        LexerUtil.assertTotalTokens(tokens, 42);
+        LexerUtil.assertTotalTokens(tokens, 45);
 
         var lastToken = tokens.remove(tokens.size() - 1);
 
@@ -26,7 +26,8 @@ public class TestInterfaces {
                 "function",
                 "void",
                 "kill",
-                "()",
+                "(",
+                ")",
                 "{",
                 "}",
                 ";",
@@ -37,14 +38,16 @@ public class TestInterfaces {
                 "function",
                 "bool",
                 "test",
-                "()",
+                "(",
+                ")",
                 "{",
                 "}",
                 ";",
                 "function",
                 "bool",
                 "assert",
-                "()",
+                "(",
+                ")",
                 "{",
                 "}",
                 ";",

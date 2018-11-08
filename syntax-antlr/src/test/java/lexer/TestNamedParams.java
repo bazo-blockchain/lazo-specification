@@ -10,7 +10,7 @@ public class TestNamedParams {
     @Test
     public void TestChar() throws IOException {
         var tokens = LexerUtil.getTokensFromFile("lexer/named_params.bl");
-        LexerUtil.assertTotalTokens(tokens, 60);
+        LexerUtil.assertTotalTokens(tokens, 62);
 
         var lastToken = tokens.remove(tokens.size() - 1);
 
@@ -47,7 +47,8 @@ public class TestNamedParams {
                 "function",
                 "void",
                 "callTestNamedParamsWithoutNames",
-                "()",
+                "(",
+                ")",
                 "{",
                 "testNamedParams",
                 "(",
@@ -60,7 +61,8 @@ public class TestNamedParams {
                 "function",
                 "void",
                 "callTestNamedParamsWithNames",
-                "()",
+                "(",
+                ")",
                 "{",
                 "testNamedParams",
                 "(",
