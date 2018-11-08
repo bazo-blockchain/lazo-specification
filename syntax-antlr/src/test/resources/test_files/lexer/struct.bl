@@ -1,0 +1,15 @@
+version 1.1;
+
+contract StructContract {
+
+    struct TestStruct {
+        int testA;
+        bool testB;
+    }
+
+    function void testA() {
+        TestStruct a = new TestStruct(1, true);
+        TestStruct b = new TestStruct(1, testB=true);
+        TestStruct c = new TestStruct(testA=1, testB=true);
+    }
+}

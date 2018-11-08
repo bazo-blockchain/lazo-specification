@@ -35,7 +35,7 @@ constructorDeclaration
   : 'constructor' ('(' paramList? ')'| '()') statementBlock;
 
 annotation
-  : '[' IDENTIFIER ('=' (IDENTIFIER | functionDeclaration))? ']';
+  : '[' IDENTIFIER ('=' IDENTIFIER)? ']';
 
 emitStatement
   : 'emit' callStatement;

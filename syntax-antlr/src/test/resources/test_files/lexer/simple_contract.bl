@@ -1,0 +1,37 @@
+version 1.1;
+
+interface Simple {}
+
+contract SimpleContract is Simple {
+
+    // This is a singe line comment
+    /* This is a multiline comment
+        See?*/
+
+    int a = 1;
+    bool b = false;
+
+    enum TestEnum { TEST1, TEST2};
+
+    struct TestStruct {
+        int testA;
+        bool testB;
+    }
+
+    event TestEvent (int a, int b);
+
+    constructor (int a) {
+        this.a = a;
+    }
+
+    function void test() {
+       int a = 1;
+       int b = 2;
+       return a + b;
+    }
+
+    function void test2() {
+    test();
+    }
+
+}

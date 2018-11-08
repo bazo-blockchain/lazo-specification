@@ -39,6 +39,10 @@ public class LexerUtil {
         Assert.assertEquals(expected, tokens.size() - 1);
     }
 
+    public static void assertTokenContent(Token t, String c) {
+        Assert.assertEquals(c, t.getText());
+    }
+
     public static void assertCharacter(Token t, String c) {
         Assert.assertEquals(BazoLangLexer.CHARACTER, t.getType());
         Assert.assertEquals(c, t.getText());
