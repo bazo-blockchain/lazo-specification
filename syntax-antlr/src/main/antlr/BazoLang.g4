@@ -8,10 +8,10 @@ grammar BazoLang;
 // --------------------
 
 program
-  : versionDirective EOF ;
+  : versionDirective interfaceDeclaration* contractDeclaration EOF ;
 
 versionDirective
-  : 'version' INTEGER '.' INTEGER ; // todo prevent version 0x3.0x2
+  : 'version' INTEGER '.' INTEGER SEMI; // todo prevent version 0x3.0x2
 
 contractDeclaration
   : 'contract' IDENTIFIER ('is' IDENTIFIER (',' IDENTIFIER)*)? '{' contractParts* '}';
@@ -20,7 +20,13 @@ interfaceDeclaration
   : 'interface' IDENTIFIER '{' interfaceParts* '}';
 
 contractParts
-  : (variableDeclaration | structDeclaration | constructorDeclaration | functionDeclaration);
+  : variableDeclaration
+  | structDeclaration
+  | enumDeclaration
+  | constructorDeclaration
+  | eventDeclaration
+  | functionDeclaration
+  | annotation;
 
 interfaceParts
   : functionHead SEMI;
@@ -28,13 +34,40 @@ interfaceParts
 constructorDeclaration
   : 'constructor' ('(' paramList? ')'| '()') statementBlock;
 
+annotation
+  : '[' IDENTIFIER ('=' (IDENTIFIER | functionDeclaration))? ']';
+
+emitStatement
+  : 'emit' callStatement;
+
+eventDeclaration
+  : 'event' IDENTIFIER ('(' paramList*')' | '()') SEMI;
+
+enumDeclaration
+  : 'enum' IDENTIFIER '{' IDENTIFIER (',' IDENTIFIER)* '}' SEMI;
+
+ifStatement
+  : 'if' '(' expression ')' statementBlock ('else if' '(' expression ')' statementBlock)? ('else' statementBlock)? ;
+
+forStatement
+  : 'for' '(' IDENTIFIER ':' rangeStatement ')' statementBlock ;
+
+forEachStatement
+  : 'foreach' '(' type IDENTIFIER ':' designator ')' statementBlock;
+
+mapForEachStatement
+  : 'foreach' '(' (type? IDENTIFIER ',')? type IDENTIFIER ':' designator ')' statementBlock ;
+
+rangeStatement
+  : expression? 'to' expression ('by' expression)?; // Expression as we could use .size or negative integers
+
 functionDeclaration
   : functionHead statementBlock;
 
 functionHead
   : 'internal'? 'function' (type | '(' type (',' type)*')') IDENTIFIER ('(' paramList? ')' | '()'); // TODO Check how () can be omitted
 
-functionCall
+call
   : IDENTIFIER ('(' argumentList? ')' | '()'); // TODO Check how () can be omitted
 
 argumentList
@@ -50,19 +83,30 @@ statementBlock
   : '{' statement* '}';
 
 statement
-  :  variableDeclaration | returnStatement | functionCallStatement ;
+  : assignmentStatement
+  | returnStatement
+  | callStatement
+  | emitStatement
+  | variableDeclaration
+  | ifStatement
+  | forEachStatement
+  | forStatement
+  | mapForEachStatement;
 
 variableDeclaration
   :  type IDENTIFIER assignment? SEMI;
 
-functionCallStatement
-  : functionCall SEMI;
+callStatement
+  : call SEMI;
 
 assignment
   : '=' (expression | ternaryExpression);
 
+assignmentStatement
+  : designator assignment;
+
 designator
-  : IDENTIFIER
+  : IDENTIFIER // TODO this einbauen
   | designator '.' IDENTIFIER
   | designator '[' expression ']' ;
 
@@ -72,8 +116,8 @@ returnStatement
 ternaryExpression
   : expression '?' statement ':' statement SEMI ;
 
-// TODO Try to write with OR
-
+// TODO Try to write expression with OR and adjust sub-rules (see solidity)
+// ---------------------------
 expression
   : logicTerm ('||' logicTerm)*;
 logicTerm
@@ -130,14 +174,15 @@ operand
   | mapCreation
   | structCreation
   | designator
-  | functionCall
-  ; // todo designator, functioncall
+  | call;
 
 literal
   : INTEGER
   | CHARACTER
   | STRING
   | BOOL;
+
+//-----------------------------
 
 structCreation
   : 'new' IDENTIFIER ('('(IDENTIFIER assignment | expression)* ')' | '()') ; // TODO Check how () can be omitted
@@ -188,7 +233,9 @@ KEYWORD
   | 'Map'
   | 'struct'
   | 'return'
-  | 'constructor';
+  | 'constructor'
+  | 'emit'
+  | 'this';
 
 BOOL
   : 'true'
