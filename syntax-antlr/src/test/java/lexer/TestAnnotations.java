@@ -8,15 +8,64 @@ import java.io.IOException;
 
 public class TestAnnotations {
     @Test
-    public void TestChar() throws IOException {
+    public void TestTokens() throws IOException {
         var tokens = LexerUtil.getTokensFromFile("lexer/annotations.bl");
-        LexerUtil.assertTotalTokens(tokens, 13);
+        LexerUtil.assertTotalTokens(tokens, 48);
 
         var lastToken = tokens.remove(tokens.size() - 1);
 
-        var chars = new String[]{"'a'", "'\u0B85'", "'0'", "'\\0'", "'\\\\'", "'\\n'", "'\\''"};
-        for (int i = 0; i < tokens.size(); i += 2) {
-            LexerUtil.assertCharacter(tokens.get(i), chars[i / 2]);
+        var chars = new String[]{
+                "version",
+                "1",
+                ".",
+                "1",
+                ";",
+                "contract",
+                "AnnotationContract",
+                "{",
+                "address",
+                "owner",
+                ";",
+                "constructor",
+                "(",
+                "address",
+                "owner",
+                ")",
+                "{",
+                "this",
+                ".",
+                "owner",
+                "=",
+                "owner",
+                ";",
+                "}",
+                "function",
+                "bool",
+                "isOwner",
+                "()",
+                "{",
+                "return",
+                "msg",
+                ".",
+                "sender",
+                "==",
+                "this",
+                ".",
+                "owner",
+                ";",
+                "}",
+                "[",
+                "Pre",
+                "=",
+                "isOwner",
+                "]",
+                "[",
+                "Payable",
+                "]",
+                "}",
+        };
+        for (int i = 0; i < tokens.size(); i += 1) {
+            LexerUtil.assertTokenContent(tokens.get(i), chars[i]);
         }
         Assert.assertEquals(Token.EOF, lastToken.getType());
     }

@@ -13,8 +13,6 @@ contract AnnotationContract {
     }
 
     [Pre = isOwner]
-    [Pre = function bool isOwner() {
-        return msg.sender == this.owner;
-    }]
+
     [Payable]
 }

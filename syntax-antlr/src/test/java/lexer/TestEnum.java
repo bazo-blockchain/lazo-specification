@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class TestEnum {
     @Test
-    public void TestChar() throws IOException {
+    public void TestTokens() throws IOException {
         var tokens = LexerUtil.getTokensFromFile("lexer/enum.bl");
         LexerUtil.assertTotalTokens(tokens, 17);
 

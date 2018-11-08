@@ -255,6 +255,27 @@ COMMA : ',';
 DOT : '.';
 // -----
 
+// Arithmatics
+// -----------
+PLUS: '+';
+MIN: '-';
+MUL: '*';
+DIV: '/';
+MOD: '%';
+EXP: '**';
+// TODO add others
+// -----------
+
+// Comparison
+// ---------
+EQ: '==';
+NEQ: '!=';
+GT: '>';
+GT_EQ: '>=';
+LT: '<';
+LT_EQ: '<=';
+// ---------
+
 IDENTIFIER
   : ALPHA_LETTER ( ALPHA_LETTER | DEC_DIGIT )* ;
 
