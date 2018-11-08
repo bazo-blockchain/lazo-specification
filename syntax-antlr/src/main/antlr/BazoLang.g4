@@ -103,10 +103,11 @@ assignment
   : '=' (expression | ternaryExpression);
 
 assignmentStatement
-  : designator assignment;
+  : designator assignment SEMI;
 
 designator
-  : IDENTIFIER // TODO this einbauen
+  : IDENTIFIER
+  | 'this'
   | designator '.' IDENTIFIER
   | designator '[' expression ']' ;
 
