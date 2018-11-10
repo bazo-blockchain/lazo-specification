@@ -1,4 +1,4 @@
-package lexer;
+package lexer.lexemes;
 
 import bazolang.LazoLexer;
 import org.antlr.v4.runtime.CharStreams;

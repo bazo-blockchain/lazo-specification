@@ -1,16 +1,17 @@
-package lexer;
+package lexer.features;
 
+import lexer.LexerUtil;
 import org.antlr.v4.runtime.Token;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
 
-public class TestAnnotations {
+public class TestInterfaces {
     @Test
     public void TestTokens() throws IOException {
-        var tokens = LexerUtil.getTokensFromFile("lexer/annotations.bl");
-        LexerUtil.assertTotalTokens(tokens, 49);
+        var tokens = LexerUtil.getTokensFromFile("lexer/interfaces.bl");
+        LexerUtil.assertTotalTokens(tokens, 45);
 
         var lastToken = tokens.remove(tokens.size() - 1);
 
@@ -20,50 +21,47 @@ public class TestAnnotations {
                 ".",
                 "1",
                 ";",
-                "contract",
-                "AnnotationContract",
+                "interface",
+                "Mortal",
                 "{",
-                "address",
-                "owner",
-                ";",
-                "constructor",
+                "function",
+                "void",
+                "kill",
                 "(",
-                "address",
-                "owner",
                 ")",
                 "{",
-                "this",
-                ".",
-                "owner",
-                "=",
-                "owner",
+                "}",
                 ";",
                 "}",
+                "interface",
+                "Testable",
+                "{",
                 "function",
                 "bool",
-                "isOwner",
+                "test",
                 "(",
                 ")",
                 "{",
-                "return",
-                "msg",
-                ".",
-                "sender",
-                "==",
-                "this",
-                ".",
-                "owner",
+                "}",
+                ";",
+                "function",
+                "bool",
+                "assert",
+                "(",
+                ")",
+                "{",
+                "}",
                 ";",
                 "}",
-                "[",
-                "Pre",
-                "=",
-                "isOwner",
-                "]",
-                "[",
-                "Payable",
-                "]",
+                "contract",
+                "InterfaceContract",
+                "is",
+                "Mortal",
+                ",",
+                "Testable",
+                "{",
                 "}",
+
         };
         for (int i = 0; i < tokens.size(); i += 1) {
             LexerUtil.assertTokenContent(tokens.get(i), chars[i]);

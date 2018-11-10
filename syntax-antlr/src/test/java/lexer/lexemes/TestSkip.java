@@ -11,18 +11,18 @@
 //public class TestSkip {
 //    @Test
 //    public void testLineComments() {
-//        var tokens = LexerUtil.getTokens("// test\n // line2 \n");
-//        LexerUtil.assertTotalTokens(tokens, 0);
+//        var lexemes = LexerUtil.getTokens("// test\n // line2 \n");
+//        LexerUtil.assertTotalTokens(lexemes, 0);
 //    }
 //
 //    @Test
 //    public void testSkip() throws IOException {
 //        char c = '\0';
-//        var tokens = LexerUtil.getTokensFromFile("lexer/skip.bl");
-//        LexerUtil.assertTotalTokens(tokens, 2);
+//        var lexemes = LexerUtil.getTokensFromFile("lexer/skip.bl");
+//        LexerUtil.assertTotalTokens(lexemes, 2);
 //
-//        var lastToken = tokens.remove(tokens.size() - 1);
-//        tokens.forEach(t -> Assert.assertEquals(BazoLangLexer.NL, t.getType()));
+//        var lastToken = lexemes.remove(lexemes.size() - 1);
+//        lexemes.forEach(t -> Assert.assertEquals(BazoLangLexer.NL, t.getType()));
 //        Assert.assertEquals(Token.EOF, lastToken.getType());
 //    }
 //}

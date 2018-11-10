@@ -32,8 +32,8 @@ public class LexerUtil {
     }
 
     /**
-     * @param tokens   list of tokens
-     * @param expected expected number of tokens without EOF
+     * @param tokens   list of lexemes
+     * @param expected expected number of lexemes without EOF
      */
     public static void assertTotalTokens(List<Token> tokens, int expected) {
         Assert.assertEquals(expected, tokens.size() - 1);

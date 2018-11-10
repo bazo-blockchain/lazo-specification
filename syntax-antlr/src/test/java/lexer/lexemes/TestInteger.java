@@ -1,5 +1,6 @@
-package lexer;
+package lexer.lexemes;
 
+import lexer.LexerUtil;
 import org.junit.Test;
 
 public class TestInteger {
