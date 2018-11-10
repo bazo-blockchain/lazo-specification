@@ -31,6 +31,12 @@ public class LexerUtil {
         return tokens.getTokens();
     }
 
+    public static Token removeEOFToken(List<Token> tokens) {
+        var lastToken = tokens.remove(tokens.size() - 1);
+        assertEOF(lastToken);
+        return lastToken;
+    }
+
     /**
      * @param tokens   list of lexemes
      * @param expected expected number of lexemes without EOF
@@ -48,9 +54,23 @@ public class LexerUtil {
         Assert.assertEquals(c, t.getText());
     }
 
+    public static void assertString(Token t, String s) {
+        Assert.assertEquals(LazoLexer.STRING, t.getType());
+        Assert.assertEquals(s, t.getText());
+    }
+
     public static void assertInteger(Token t, int i) {
+        assertInteger(t, String.valueOf(i));
+    }
+
+    public static void assertInteger(Token t, String s) {
         Assert.assertEquals(LazoLexer.INTEGER, t.getType());
-        Assert.assertEquals(String.valueOf(i), t.getText());
+        Assert.assertEquals(s, t.getText());
+    }
+
+    public static void assertIdentifier(Token t, String identifier){
+        Assert.assertEquals(LazoLexer.IDENTIFIER, t.getType());
+        Assert.assertEquals(identifier, t.getText());
     }
 
     public static void assertEOF(Token t) {

@@ -390,7 +390,10 @@ LT_EQ: '<=';
 // ---------
 
 IDENTIFIER
-  : ALPHA_LETTER ( ALPHA_LETTER | DEC_DIGIT )* ;
+  : ( '_' | ALPHA_LETTER) ( '_' | ALPHA_LETTER | DEC_DIGIT )* ;
+
+fragment ALPHA_LETTER
+  : [a-zA-Z] ;
 
 INTEGER
   : DEC_DIGIT_LIT
@@ -407,9 +410,6 @@ DEC_DIGIT_LIT
 
 fragment DEC_DIGIT
   : [0-9] ;
-
-fragment ALPHA_LETTER
-  : [a-zA-Z] ;
 
 STRING
   : '"' UNICODE_CHAR* '"' ;
