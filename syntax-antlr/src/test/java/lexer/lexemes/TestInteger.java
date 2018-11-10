@@ -25,4 +25,13 @@ public class TestInteger {
         LexerUtil.assertInteger(tokens.get(2), "0x123af");
         LexerUtil.assertEOF(tokens.get(3));
     }
+
+    @Test
+    public void testInvalidHex() {
+        var tokens = LexerUtil.getTokens("0xg");
+        LexerUtil.assertTotalTokens(tokens, 2);
+
+        LexerUtil.assertInteger(tokens.get(0), 0);
+        LexerUtil.assertIdentifier(tokens.get(1), "xg");
+    }
 }
