@@ -325,7 +325,6 @@ structBody
   : type IDENTIFIER SEMI;
 
 
-
 //
 //THROW : 'throw' EXCEPTION_CREATION;
 //EXCEPTION_CREATION : 'a';
@@ -349,7 +348,7 @@ RETURN : 'return' ;
 STRUCT : 'struct' ;
 THIS : 'this' ;
 VERSION : 'version' ;
-// -----
+// ----- TODO: complete the keywords
 
 BOOL
   : 'true'
