@@ -334,29 +334,29 @@ structBody
 // Lexer Tokens
 // -------------
 
-// Reserved Keywords
-
-
-KEYWORD
-  : 'break'
-  | 'continue'
-  | 'contract'
-  | 'is'
-  | 'internal'
-  | 'function'
-  | 'Map'
-  | 'struct'
-  | 'return'
-  | 'constructor'
-  | 'emit'
-  | 'this';
+// Reserved Keywords (Hint: Order by asc)
+// -----------------
+BREAK : 'break' ;
+CONSTRUCTOR : 'constructor';
+CONTINUE: 'continue' ;
+CONTRACT : 'contract' ;
+EMIT : 'emit' ;
+FUNCTION : 'function' ;
+INTERNAL : 'internal' ;
+IS : 'is' ;
+MAP : 'Map' ;
+RETURN : 'return' ;
+STRUCT : 'struct' ;
+THIS : 'this' ;
+VERSION : 'version' ;
+// -----
 
 BOOL
   : 'true'
   | 'false' ;
 
-// Separators
-// -----
+// Punctuation marks
+// ----------------
 LPAREN : '(' ;
 RPAREN : ')' ;
 LBRACE : '{' ;
@@ -418,11 +418,11 @@ CHARACTER
   : '\'' ( ESCAPED_CHAR | UNICODE_CHAR ) '\'' ;
 
 fragment ESCAPED_CHAR
-  : '\\' ( '0' | 'n' | '\\' | '\'' | '"' )
-  ;
+  : '\\' ( '0' | 'n' | '\\' | '\'' | '"' ) ;
 
 fragment UNICODE_CHAR
-  : ~[\r\n] ; // any Unicode code point except carrige return & new line
+  : ~[\r\n] // any Unicode code point except carrige return & new line
+  ;
 
 // Skip Rules
 // ----------
@@ -431,7 +431,8 @@ NEWLINE
   : [\r\n]+ -> skip ;
 
 WHITE_SPACE
-  : [ \t\f\r]+ -> skip ; // skip spaces, tabs, form feed and carrige return
+  : [ \t\f\r]+ -> skip // skip spaces, tabs, form feed and carrige return
+  ;
 
 LINE_COMMENT
   : '//' ~[\r\n]* -> skip ;

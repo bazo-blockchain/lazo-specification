@@ -68,9 +68,18 @@ public class LexerUtil {
         Assert.assertEquals(s, t.getText());
     }
 
-    public static void assertIdentifier(Token t, String identifier){
+    public static void assertIdentifier(Token t, String identifier) {
         Assert.assertEquals(LazoLexer.IDENTIFIER, t.getType());
         Assert.assertEquals(identifier, t.getText());
+    }
+
+    public static void assertFixToken(Token t, int type, String content) {
+        Assert.assertEquals(
+                String.format("Token type error: expected %s got %s",
+                        LazoLexer.VOCABULARY.getDisplayName(type), LazoLexer.VOCABULARY.getDisplayName(t.getType())),
+                type,
+                t.getType());
+        assertTokenContent(t, content);
     }
 
     public static void assertEOF(Token t) {
