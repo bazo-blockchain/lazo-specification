@@ -1,6 +1,6 @@
 package lexer;
 
-import bazolang.BazoLangLexer;
+import bazolang.LazoLexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -25,7 +25,7 @@ public class LexerUtil {
     }
 
     private static List<Token> getTokensFromStream(CharStream cs) {
-        var lex = new BazoLangLexer(cs);
+        var lex = new LazoLexer(cs);
         var tokens = new CommonTokenStream(lex);
         tokens.fill();
         return tokens.getTokens();
@@ -44,12 +44,12 @@ public class LexerUtil {
     }
 
     public static void assertCharacter(Token t, String c) {
-        Assert.assertEquals(BazoLangLexer.CHARACTER, t.getType());
+        Assert.assertEquals(LazoLexer.CHARACTER, t.getType());
         Assert.assertEquals(c, t.getText());
     }
 
     public static void assertInteger(Token t, int i) {
-        Assert.assertEquals(BazoLangLexer.INTEGER, t.getType());
+        Assert.assertEquals(LazoLexer.INTEGER, t.getType());
         Assert.assertEquals(String.valueOf(i), t.getText());
     }
 

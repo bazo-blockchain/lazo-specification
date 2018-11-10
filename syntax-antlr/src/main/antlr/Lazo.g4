@@ -1,4 +1,4 @@
-grammar BazoLang;
+grammar Lazo;
 
 @header {
   package bazolang;
