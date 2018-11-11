@@ -4,138 +4,8 @@ grammar Lazo;
   package bazolang;
 }
 
-/**
-  The following code snippets for lexer and parser are copied from GoLang AntLR grammar file
-  and slightly modified for the Lazo Grammar.
-  Link: https://github.com/antlr/grammars-v4/blob/master/golang/Golang.g4
-  Accessed on: 10.Nov 2018
-*/
-@parser::members {
-        /**
-         * Returns {@code true} iff on the current index of the parser's
-         * token stream a token exists on the {@code HIDDEN} channel which
-         * either is a line terminator, or is a multi line comment that
-         * contains a line terminator.
-         *
-         * @return {@code true} iff on the current index of the parser's
-         * token stream a token exists on the {@code HIDDEN} channel which
-         * either is a line terminator, or is a multi line comment that
-         * contains a line terminator.
-         */
-        private boolean lineTerminatorAhead() {
-            // Get the token ahead of the current index.
-            int possibleIndexEosToken = this.getCurrentToken().getTokenIndex() - 1;
-            Token ahead = _input.get(possibleIndexEosToken);
-            if (ahead.getChannel() != Lexer.HIDDEN) {
-                // We're only interested in tokens on the HIDDEN channel.
-                return false;
-            }
-
-            if (ahead.getType() == TERMINATOR) {
-                // There is definitely a line terminator ahead.
-                return true;
-            }
-
-            if (ahead.getType() == WHITE_SPACE) {
-                // Get the token ahead of the current whitespaces.
-                possibleIndexEosToken = this.getCurrentToken().getTokenIndex() - 2;
-                ahead = _input.get(possibleIndexEosToken);
-            }
-
-            // Get the token's text and type.
-            String text = ahead.getText();
-            int type = ahead.getType();
-
-            // Check if the token is, or contains a line terminator.
-            return (type == BLOCK_COMMENT && (text.contains("\r") || text.contains("\n"))) ||
-                    (type == TERMINATOR);
-        }
-
-     /**
-     * Returns {@code true} if no line terminator exists between the specified
-     * token offset and the prior one on the {@code HIDDEN} channel.
-     *
-     * @return {@code true} if no line terminator exists between the specified
-     * token offset and the prior one on the {@code HIDDEN} channel.
-     */
-    private boolean noTerminatorBetween(int tokenOffset) {
-        BufferedTokenStream stream = (BufferedTokenStream)_input;
-        List<Token> tokens = stream.getHiddenTokensToLeft(stream.LT(tokenOffset).getTokenIndex());
-
-        if (tokens == null) {
-            return true;
-        }
-
-        for (Token token : tokens) {
-            if (token.getText().contains("\n"))
-                return false;
-        }
-
-        return true;
-    }
-
-     /**
-     * Returns {@code true} if no line terminator exists after any encounterd
-     * parameters beyond the specified token offset and the next on the
-     * {@code HIDDEN} channel.
-     *
-     * @return {@code true} if no line terminator exists after any encounterd
-     * parameters beyond the specified token offset and the next on the
-     * {@code HIDDEN} channel.
-     */
-    private boolean noTerminatorAfterParams(int tokenOffset) {
-        BufferedTokenStream stream = (BufferedTokenStream)_input;
-        int leftParams = 1;
-        int rightParams = 0;
-        String value;
-        if (stream.LT(tokenOffset).getText().equals("(")) {
-            // Scan past parameters
-            while (leftParams != rightParams) {
-                tokenOffset++;
-                value = stream.LT(tokenOffset).getText();
-                if (value.equals("(")) {
-                    leftParams++;
-                }
-                else if (value.equals(")")) {
-                    rightParams++;
-                }
-            }
-
-            tokenOffset++;
-            return noTerminatorBetween(tokenOffset);
-        }
-
-        return true;
-    }
-}
-
-@lexer::members {
-    // The most recently produced token.
-    private Token lastToken = null;
-    /**
-     * Return the next token from the character stream and records this last
-     * token in case it resides on the default channel. This recorded token
-     * is used to determine when the lexer could possibly match a regex
-     * literal.
-     *
-     * @return the next token from the character stream.
-     */
-    @Override
-    public Token nextToken() {
-        // Get the next token.
-        Token next = super.nextToken();
-        if (next.getChannel() == Token.DEFAULT_CHANNEL) {
-            // Keep track of the last token on the default channel.
-            this.lastToken = next;
-        }
-
-        return next;
-    }
-}
-// End of Code snippets
-
 // Parser Rules
-// --------------------
+// ------------
 
 program
   : versionDirective interfaceDeclaration* contractDeclaration EOF ;
@@ -352,17 +222,7 @@ arrayCreation
   : 'new' IDENTIFIER '[' expression* ']';
 
 mapCreation
-  : 'new' mapType LPAREN RPAREN;
-
-//THROW : 'throw' EXCEPTION_CREATION;
-//EXCEPTION_CREATION : 'a';
-//EXCEPTION_DECLARATION : 'exception' IDENTIFIER '(' PARAM_LIST ')' '{' [VAR_DECLARATION]{0,1} [',' VAR_DECLARATION]* '}';
-
-eos
-    : EOF
-    | {lineTerminatorAhead()}?
-    | {_input.LT(1).getText().equals("}") }?
-    ;
+  : 'new' mapType '(' ')';
 
 // ---------------------------------------------------
 // Lexer Tokens
