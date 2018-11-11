@@ -11,11 +11,7 @@ public class TestFunctions {
     @Test
     public void TestTokens() throws IOException {
         var tokens = LexerUtil.getTokensFromFile("lexer/functions.bl");
-        LexerUtil.assertTotalTokens(tokens, 83);
-
-        var lastToken = tokens.remove(tokens.size() - 1);
-
-        var chars = new String[]{
+        var expected = new String[]{
                 "version",
                 "1",
                 ".",
@@ -100,11 +96,7 @@ public class TestFunctions {
                 "}",
                 "}",
         };
-        for (int i = 0; i < tokens.size(); i += 1) {
-            LexerUtil.assertTokenContent(tokens.get(i), chars[i]);
-        }
-        Assert.assertEquals(Token.EOF, lastToken.getType());
-    }
 
-    // todo test now allowed chars
+        LexerUtil.assertTokens(tokens, expected, true);
+    }
 }

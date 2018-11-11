@@ -12,6 +12,10 @@ import java.nio.charset.StandardCharsets;
 
 public class ParserUtil {
 
+    public static LazoParser.ProgramContext getProgramFromFile(String path) throws IOException {
+        return getProgram(getParserForFile(path));
+    }
+
     public static LazoParser getParserForInput(String input) {
         return getParser(CharStreams.fromString(input));
     }
@@ -24,11 +28,16 @@ public class ParserUtil {
                 ));
     }
 
+    private static LazoParser.ProgramContext getProgram(LazoParser parser) {
+        var program = parser.program();
+        assertNoErrors(parser);
+        return program;
+    }
+
     private static LazoParser getParser(CharStream cs) {
         var lex = new LazoLexer(cs);
         var tokens = new CommonTokenStream(lex);
-        var parser = new LazoParser(tokens);
-        return parser;
+        return new LazoParser(tokens);
     }
 
     public static void assertNoErrors(LazoParser p) {

@@ -156,7 +156,9 @@ contractParts
   | constructorDeclaration
   | eventDeclaration
   | functionDeclaration
-  | annotation;
+  | annotation
+  | NLS
+  ;
 
 interfaceParts
   : functionHead SEMI;
@@ -363,6 +365,7 @@ CONTINUE: 'continue' ;
 CONTRACT : 'contract' ;
 EMIT : 'emit' ;
 FUNCTION : 'function' ;
+INTERFACE : 'interface' ;
 INTERNAL : 'internal' ;
 IS : 'is' ;
 MAP : 'Map' ;
@@ -449,7 +452,9 @@ NLS
   : NL+ ;
 
 NL
-  : [\n] ; // TODO: remove terminator and add CRLF as well
+  : [\n]
+  | [\r\n]
+  ; // TODO: remove terminator and add CRLF as well
 
 // Skip Rules
 // --------

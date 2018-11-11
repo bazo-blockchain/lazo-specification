@@ -11,11 +11,7 @@ public class TestEvents {
     @Test
     public void TestTokens() throws IOException {
         var tokens = LexerUtil.getTokensFromFile("lexer/events.bl");
-        LexerUtil.assertTotalTokens(tokens, 29);
-
-        var lastToken = tokens.remove(tokens.size() - 1);
-
-        var chars = new String[]{
+        var expected = new String[]{
                 "version",
                 "1",
                 ".",
@@ -46,11 +42,6 @@ public class TestEvents {
                 "}",
                 "}",
         };
-        for (int i = 0; i < tokens.size(); i += 1) {
-            LexerUtil.assertTokenContent(tokens.get(i), chars[i]);
-        }
-        Assert.assertEquals(Token.EOF, lastToken.getType());
+        LexerUtil.assertTokens(tokens, expected, true);
     }
-
-    // todo test now allowed chars
 }

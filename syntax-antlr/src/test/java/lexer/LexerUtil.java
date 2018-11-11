@@ -45,6 +45,21 @@ public class LexerUtil {
         Assert.assertEquals(expected, tokens.size() - 1);
     }
 
+    public static void assertTokens(List<Token> tokens, String[] expected, boolean ignoreNewlines) {
+        removeEOFToken(tokens);
+        int i = 0;
+        for (Token t : tokens) {
+            if (ignoreNewlines && t.getType() == LazoLexer.NLS) {
+                continue;
+            }
+
+            LexerUtil.assertTokenContent(t, expected[i]);
+            i++;
+        }
+
+        Assert.assertEquals("There should be more tokens", expected.length, i);
+    }
+
     public static void assertTokenContent(Token t, String c) {
         Assert.assertEquals("Token error" + t.toString(), c, t.getText());
     }
