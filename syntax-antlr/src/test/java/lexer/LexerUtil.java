@@ -31,12 +31,33 @@ public class LexerUtil {
         return tokens.getTokens();
     }
 
+    public static Token removeEOFToken(List<Token> tokens) {
+        var lastToken = tokens.remove(tokens.size() - 1);
+        assertEOF(lastToken);
+        return lastToken;
+    }
+
     /**
      * @param tokens   list of lexemes
      * @param expected expected number of lexemes without EOF
      */
     public static void assertTotalTokens(List<Token> tokens, int expected) {
         Assert.assertEquals(expected, tokens.size() - 1);
+    }
+
+    public static void assertTokens(List<Token> tokens, String[] expected, boolean ignoreNewlines) {
+        removeEOFToken(tokens);
+        int i = 0;
+        for (Token t : tokens) {
+            if (ignoreNewlines && t.getType() == LazoLexer.NLS) {
+                continue;
+            }
+
+            LexerUtil.assertTokenContent(t, expected[i]);
+            i++;
+        }
+
+        Assert.assertEquals("There should be more tokens", expected.length, i);
     }
 
     public static void assertTokenContent(Token t, String c) {
@@ -48,9 +69,32 @@ public class LexerUtil {
         Assert.assertEquals(c, t.getText());
     }
 
+    public static void assertString(Token t, String s) {
+        Assert.assertEquals(LazoLexer.STRING, t.getType());
+        Assert.assertEquals(s, t.getText());
+    }
+
     public static void assertInteger(Token t, int i) {
+        assertInteger(t, String.valueOf(i));
+    }
+
+    public static void assertInteger(Token t, String s) {
         Assert.assertEquals(LazoLexer.INTEGER, t.getType());
-        Assert.assertEquals(String.valueOf(i), t.getText());
+        Assert.assertEquals(s, t.getText());
+    }
+
+    public static void assertIdentifier(Token t, String identifier) {
+        Assert.assertEquals(LazoLexer.IDENTIFIER, t.getType());
+        Assert.assertEquals(identifier, t.getText());
+    }
+
+    public static void assertFixToken(Token t, int type, String content) {
+        Assert.assertEquals(
+                String.format("Token type error: expected %s got %s",
+                        LazoLexer.VOCABULARY.getDisplayName(type), LazoLexer.VOCABULARY.getDisplayName(t.getType())),
+                type,
+                t.getType());
+        assertTokenContent(t, content);
     }
 
     public static void assertEOF(Token t) {

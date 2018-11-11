@@ -9,13 +9,9 @@ import java.io.IOException;
 
 public class TestSimpleContract {
     @Test
-    public void TestChar() throws IOException {
+    public void testTokens() throws IOException {
         var tokens = LexerUtil.getTokensFromFile("lexer/simple_contract.bl");
-        LexerUtil.assertTotalTokens(tokens, 99);
-
-        var lastToken = tokens.remove(tokens.size() - 1);
-
-        var chars = new String[]{
+        var expected = new String[]{
                 "version",
                 "1",
                 ".",
@@ -117,11 +113,6 @@ public class TestSimpleContract {
                 "}",
 
         };
-        for (int i = 0; i < tokens.size(); i += 1) {
-            LexerUtil.assertTokenContent(tokens.get(i), chars[i]);
-        }
-        Assert.assertEquals(Token.EOF, lastToken.getType());
+        LexerUtil.assertTokens(tokens, expected, true);
     }
-
-    // todo test now allowed chars
 }
