@@ -149,61 +149,40 @@ ternaryExpression
 // TODO Try to write expression with OR and adjust sub-rules (see solidity)
 // ---------------------------
 expression
-  : logicTerm ('||' logicTerm)*;
+  : expression ( '++' | '--' )
+  | arrayIndexAccess // todo designator problem
+  | memberAccess
+  | callExpression
+  | newCreation
+  | '(' expression ')'
+  | ( '++' | '--' | '+' | '-' | '!' | '∼' ) expression // L2
+  | '(' type ')' expression   // L3
+  | expression '**' expression
+  | expression ('*' | '/' | '%') expression
+  | expression ('+' | '-') expression
+  | expression ('<<' | '>>') expression
+  | expression ('<' | '>' | '<=' | '>=') expression
+  | expression ('==' | '!=') expression
+  | expression '&' expression
+  | expression '^' expression
+  | expression '|' expression
+  | expression '&&' expression
+  | expression '||' expression
+  ;
 
-logicTerm
-  : logicFactor ('&&' logicFactor)*;
+arrayIndexAccess
+  : designator '[' expression ']' ;
 
-logicFactor
-  : bitwiseOrExp ('|' bitwiseOrExp)*;
+memberAccess
+  : designator '.' IDENTIFIER ;
 
-bitwiseOrExp
-  : bitwiseXorExp ('^' bitwiseXorExp)*;
-
-bitwiseXorExp
-  : bitwiseAndExp ('&' bitwiseAndExp)*;
-
-bitwiseAndExp
-  : equalityExp (('==' | '!=') equalityExp)* ;
-
-equalityExp
-  : comparisonExp (('<' | '<=' | '>' | '>=') comparisonExp)*;
-
-comparisonExp
-  : bitwiseShiftExp (('<<' | '>>') bitwiseShiftExp)*;
-
-bitwiseShiftExp
-  : term (('+' | '-') term)*;
-
-term
-  : factor (('*' | '/' | '%') factor)*;
-
-factor
-  : exponent ('**' exponent)*;
-
-exponent
-  : ('(' type ')')? castExpression;
-
-castExpression
-  : prefixExpression | unaryExpression;
-
-prefixExpression
-  : ('++' | '--')? callExpression;
-
-unaryExpression
-  : ( '!' | '+' | '-' | '∼' )? (callExpression | postfixExpression);
-
-postfixExpression
-  : callExpression ( '++' | '--' )? ;
+// todo from here
 
 callExpression
   : operand | '(' expression ')';
 
 operand
   : literal
-  | arrayCreation
-  | mapCreation
-  | structCreation
   | designator
   | call;
 
@@ -214,6 +193,12 @@ literal
   | BOOL;
 
 //-----------------------------
+
+newCreation
+  : structCreation
+  | arrayCreation
+  | mapCreation
+  ;
 
 structCreation
   : 'new' IDENTIFIER '('(IDENTIFIER assignment | expression)* ')' ;

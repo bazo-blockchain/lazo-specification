@@ -3,7 +3,10 @@ package parser;
 import bazolang.LazoParser;
 import bazolang.LazoParser.VersionDirectiveContext;
 import lexer.LexerUtil;
+import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.TerminalNode;
 import org.junit.Assert;
 
 import java.util.List;
@@ -75,6 +78,14 @@ public class NodeUtil {
         } else {
             Assert.assertEquals(expected, paramsList.parameter().size());
         }
+    }
+
+    public static void assertExpression(LazoParser.ExpressionContext expressionNode, String expected){
+        Assert.assertEquals(expected, expressionNode.getText());
+    }
+
+    public static void assertTerminalNode(ParseTree tree, String expected){
+        Assert.assertEquals(expected, tree.getText());
     }
 
     public static void removeNewlines(List<? extends ParserRuleContext> nodes) {
