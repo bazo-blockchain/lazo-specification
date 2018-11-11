@@ -9,11 +9,13 @@ contract SimpleContract {
     address a
   }
 
-  constructor (){
+  event TestEvent(String msg, int code)
+
+  constructor () {
 
   }
 
-  function void test(){
+  function void test() {
 
   }
 

@@ -174,7 +174,7 @@ structField
   : type IDENTIFIER NLS;
 
 eventDeclaration
-  : 'event' IDENTIFIER '(' paramList*')' SEMI;
+  : 'event' IDENTIFIER '(' paramList? ')' NLS;
 
 enumDeclaration
   : 'enum' IDENTIFIER '{' IDENTIFIER (',' IDENTIFIER)* '}' SEMI ;

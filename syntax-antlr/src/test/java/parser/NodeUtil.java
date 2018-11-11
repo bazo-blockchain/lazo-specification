@@ -42,6 +42,12 @@ public class NodeUtil {
         Assert.assertEquals(totalFields, structNode.structField().size());
     }
 
+    public static void assertEventDecl(LazoParser.EventDeclarationContext eventNode,
+                                       String name, int totalFields) {
+        LexerUtil.assertIdentifier(eventNode.IDENTIFIER().getSymbol(), name);
+        assertParameterListSize(eventNode.paramList(), totalFields);
+    }
+
     public static void assertConstructorDecl(LazoParser.ConstructorDeclarationContext constructorNode,
                                              int totalParams, int totalStatements, int totalAnnotations) {
         assertParameterListSize(constructorNode.paramList(), totalParams);
@@ -59,7 +65,7 @@ public class NodeUtil {
         if (expected == 0) {
             Assert.assertNull(paramsList);
         } else {
-            Assert.assertEquals(expected, paramsList.children.size());
+            Assert.assertEquals(expected, paramsList.parameter().size());
         }
     }
 
