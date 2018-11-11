@@ -11,8 +11,3 @@ interface BInterface {
 contract SimpleContract is AInterface, BInterface {
 
 }
-/*
-interface test {
-  function void test()
-  function void test2()
-}*/

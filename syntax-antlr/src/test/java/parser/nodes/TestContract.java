@@ -1,5 +1,7 @@
 package parser.nodes;
 
+import bazolang.LazoParser;
+import org.junit.Assert;
 import org.junit.Test;
 import parser.NodeUtil;
 import parser.ParserUtil;
@@ -26,8 +28,22 @@ public class TestContract {
     public void testSimpleContract() throws IOException {
         var program = ParserUtil.getProgramFromFile("parser/simple_contract.lz");
         NodeUtil.assertVersion(program.versionDirective(), 1, 0);
-        NodeUtil.assertContractDecl(program.contractDeclaration(), "SimpleContract", "AInterface", "BInterface");
         NodeUtil.assertInterfaceDecl(program.interfaceDeclaration(0), "AInterface");
         NodeUtil.assertInterfaceDecl(program.interfaceDeclaration(1), "BInterface");
+        NodeUtil.assertContractDecl(program.contractDeclaration(), "SimpleContract", "AInterface", "BInterface");
+    }
+
+    @Test
+    public void testContractParts() throws IOException {
+        var contractParts = ParserUtil.getProgramFromFile("parser/contract_parts.lz")
+                .contractDeclaration()
+                .contractPart();
+        NodeUtil.removeNewlines(contractParts);
+        Assert.assertEquals(2, contractParts.size());
+
+        var varX = contractParts.get(0).getChild(LazoParser.VariableDeclarationContext.class, 0);
+        var varY = contractParts.get(1).getChild(LazoParser.VariableDeclarationContext.class, 0);
+        NodeUtil.assertVariableDecl(varX, "x", "int");
+        NodeUtil.assertVariableDecl(varY, "b", "bool");
     }
 }

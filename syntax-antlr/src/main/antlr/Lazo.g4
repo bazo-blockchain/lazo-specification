@@ -143,13 +143,16 @@ program
 versionDirective
   : 'version' INTEGER '.' INTEGER NLS; // todo prevent version 0x3.0x2
 
-contractDeclaration
-  : 'contract' IDENTIFIER ('is' IDENTIFIER (',' IDENTIFIER)* )? '{' contractParts* '}' NLS?;
-
 interfaceDeclaration
-  : 'interface' IDENTIFIER '{' NLS interfacePart* '}' NLS;
+  : 'interface' IDENTIFIER '{' NLS* interfacePart* '}' NLS;
 
-contractParts
+interfacePart
+  : functionHead NLS ;
+
+contractDeclaration
+  : 'contract' IDENTIFIER ('is' IDENTIFIER (',' IDENTIFIER)* )? '{' NLS* contractPart* '}' NLS?;
+
+contractPart
   : variableDeclaration
   | structDeclaration
   | enumDeclaration
@@ -157,27 +160,37 @@ contractParts
   | eventDeclaration
   | functionDeclaration
   | annotation
-  | NLS
   ;
 
-interfacePart
-  : functionHead NLS
-  ;
+// Declarations
+// ------------
 
 constructorDeclaration
   : 'constructor' '(' paramList? ')' statementBlock;
 
-annotation
-  : '[' IDENTIFIER ('=' IDENTIFIER)? ']';
-
-emitStatement
-  : 'emit' callStatement;
+variableDeclaration
+  :  type IDENTIFIER assignment? NLS;
 
 eventDeclaration
   : 'event' IDENTIFIER '(' paramList*')' SEMI;
 
 enumDeclaration
   : 'enum' IDENTIFIER '{' IDENTIFIER (',' IDENTIFIER)* '}' SEMI;
+
+annotation
+  : '[' IDENTIFIER ('=' IDENTIFIER)? ']';
+
+functionDeclaration
+  : functionHead statementBlock;
+
+functionHead
+  : 'internal'? 'function' (type | '(' type (',' type)*')') IDENTIFIER '(' paramList? ')';
+
+// Statements
+// ----------
+
+emitStatement
+  : 'emit' callStatement;
 
 ifStatement
   : 'if' '(' expression ')' statementBlock ('else if' '(' expression ')' statementBlock)? ('else' statementBlock)? ;
@@ -193,12 +206,6 @@ mapForEachStatement
 
 rangeStatement
   : expression? 'to' expression ('by' expression)?; // Expression as we could use .size or negative integers
-
-functionDeclaration
-  : functionHead statementBlock;
-
-functionHead
-  : 'internal'? 'function' (type | '(' type (',' type)*')') IDENTIFIER '(' paramList? ')';
 
 call
   : IDENTIFIER '(' argumentList? ')';
@@ -225,9 +232,6 @@ statement
   | forEachStatement
   | forStatement
   | mapForEachStatement;
-
-variableDeclaration
-  :  type IDENTIFIER assignment? SEMI;
 
 callStatement
   : call SEMI;
@@ -450,9 +454,9 @@ fragment UNICODE_CHAR
   ;
 
 NLS
-  : NL+ ;
+  : NL+;
 
-NL
+fragment NL
   : [\n]
   | [\r\n]
   ; // TODO: remove terminator and add CRLF as well
