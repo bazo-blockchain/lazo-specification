@@ -39,11 +39,20 @@ public class TestContract {
                 .contractDeclaration()
                 .contractPart();
         NodeUtil.removeNewlines(contractParts);
-        Assert.assertEquals(2, contractParts.size());
+        Assert.assertEquals(3, contractParts.size());
 
+        // Variable Declaration
         var varX = contractParts.get(0).getChild(LazoParser.VariableDeclarationContext.class, 0);
         var varY = contractParts.get(1).getChild(LazoParser.VariableDeclarationContext.class, 0);
-        NodeUtil.assertVariableDecl(varX, "x", "int");
-        NodeUtil.assertVariableDecl(varY, "b", "bool");
+        NodeUtil.assertVariableDecl(varX, "x", "int", "3");
+        NodeUtil.assertVariableDecl(varY, "b", "bool", null);
+
+        // Struct Declaration
+        var structA = contractParts.get(2).getChild(LazoParser.StructDeclarationContext.class, 0);
+        NodeUtil.assertStructDecl(structA, "Person", 2);
+
+        // todo test event and enum declarations
+
+
     }
 }

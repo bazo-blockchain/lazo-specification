@@ -24,9 +24,22 @@ public class NodeUtil {
         LexerUtil.assertIdentifier(interfaceNode.IDENTIFIER().getSymbol(), name);
     }
 
-    public static void assertVariableDecl(LazoParser.VariableDeclarationContext variableNode, String name, String type) {
+    public static void assertVariableDecl(LazoParser.VariableDeclarationContext variableNode,
+                                          String name, String type, String assignment) {
         LexerUtil.assertIdentifier(variableNode.IDENTIFIER().getSymbol(), name);
         Assert.assertEquals(type, variableNode.type().getChild(0).getText());
+
+        if (assignment != null) {
+            Assert.assertEquals(assignment, variableNode.assignment().getChild(1).getText());
+        } else {
+            Assert.assertNull(variableNode.assignment());
+        }
+    }
+
+    public static void assertStructDecl(LazoParser.StructDeclarationContext structNode,
+                                        String name, int totalFields) {
+        LexerUtil.assertIdentifier(structNode.IDENTIFIER().getSymbol(), name);
+        Assert.assertEquals(totalFields, structNode.structField().size());
     }
 
     public static void assertFunctionHead(LazoParser.FunctionHeadContext functionHeadNode,

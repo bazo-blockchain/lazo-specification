@@ -3,4 +3,11 @@ version 1.0
 contract SimpleContract {
   int x = 3
   bool b
+
+  struct Person {
+    char c
+    address a
+  }
+
+
 }

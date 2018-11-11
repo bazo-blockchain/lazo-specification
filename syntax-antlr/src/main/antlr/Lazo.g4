@@ -150,7 +150,7 @@ interfacePart
   : functionHead NLS ;
 
 contractDeclaration
-  : 'contract' IDENTIFIER ('is' IDENTIFIER (',' IDENTIFIER)* )? '{' NLS* contractPart* '}' NLS?;
+  : 'contract' IDENTIFIER ('is' IDENTIFIER (',' IDENTIFIER)* )? '{' NLS* contractPart* NLS*'}' NLS?;
 
 contractPart
   : variableDeclaration
@@ -165,11 +165,14 @@ contractPart
 // Declarations
 // ------------
 
-constructorDeclaration
-  : 'constructor' '(' paramList? ')' statementBlock;
-
 variableDeclaration
   :  type IDENTIFIER assignment? NLS;
+
+structDeclaration
+  : 'struct' IDENTIFIER '{' NLS* structField* '}' NLS ;
+
+structField
+  : type IDENTIFIER NLS;
 
 eventDeclaration
   : 'event' IDENTIFIER '(' paramList*')' SEMI;
@@ -177,14 +180,37 @@ eventDeclaration
 enumDeclaration
   : 'enum' IDENTIFIER '{' IDENTIFIER (',' IDENTIFIER)* '}' SEMI;
 
-annotation
-  : '[' IDENTIFIER ('=' IDENTIFIER)? ']';
+constructorDeclaration
+  : 'constructor' '(' paramList? ')' statementBlock;
 
 functionDeclaration
   : functionHead statementBlock;
 
+annotation
+  : '[' IDENTIFIER ('=' IDENTIFIER)? ']';
+
 functionHead
   : 'internal'? 'function' (type | '(' type (',' type)*')') IDENTIFIER '(' paramList? ')';
+
+paramList
+  : parameter (',' parameter)*;
+
+parameter
+  : type IDENTIFIER; // todo add default value
+
+// Types
+// -----
+
+type
+  : arrayType
+  | mapType
+  | IDENTIFIER;
+
+arrayType
+  : IDENTIFIER '[]';
+
+mapType
+  : 'Map' '<' type',' type '>';
 
 // Statements
 // ----------
@@ -212,12 +238,6 @@ call
 
 argumentList
   : expression (',' expression)* ;
-
-paramList
-  : parameter (',' parameter)*;
-
-parameter
-  : type IDENTIFIER; // todo add default value
 
 statementBlock
   : '{' statement* '}';
@@ -259,16 +279,16 @@ ternaryExpression
 expression
   : logicTerm ('||' logicTerm)*;
 logicTerm
-: logicFactor ('&&' logicFactor)*;
+  : logicFactor ('&&' logicFactor)*;
 
 logicFactor
-: bitwiseOrExp ('|' bitwiseOrExp)*;
+  : bitwiseOrExp ('|' bitwiseOrExp)*;
 
 bitwiseOrExp
-: bitwiseXorExp ('^' bitwiseXorExp)*;
+  : bitwiseXorExp ('^' bitwiseXorExp)*;
 
 bitwiseXorExp
-: bitwiseAndExp ('&' bitwiseAndExp)*;
+  : bitwiseAndExp ('&' bitwiseAndExp)*;
 
 bitwiseAndExp
   : equalityExp (('==' | '!=') equalityExp)* ;
@@ -330,23 +350,6 @@ arrayCreation
 
 mapCreation
   : 'new' mapType LPAREN RPAREN;
-
-type
-  : arrayType
-  | mapType
-  | IDENTIFIER;
-
-arrayType
-  : IDENTIFIER '[]';
-
-mapType
-  : 'Map' '<' type',' type '>';
-
-structDeclaration
-  : 'struct' IDENTIFIER '{' structBody* '}' ;
-
-structBody
-  : type IDENTIFIER SEMI;
 
 //THROW : 'throw' EXCEPTION_CREATION;
 //EXCEPTION_CREATION : 'a';
