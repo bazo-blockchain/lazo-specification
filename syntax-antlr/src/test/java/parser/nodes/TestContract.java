@@ -39,7 +39,7 @@ public class TestContract {
                 .contractDeclaration()
                 .contractPart();
         NodeUtil.removeNewlines(contractParts);
-        Assert.assertEquals(4, contractParts.size());
+        Assert.assertEquals(5, contractParts.size());
 
         // Variable Declaration
         var varX = contractParts.get(0).getChild(LazoParser.VariableDeclarationContext.class, 0);
@@ -55,6 +55,12 @@ public class TestContract {
 
         // Constructor Declaration
         var constructor = contractParts.get(3).getChild(LazoParser.ConstructorDeclarationContext.class, 0);
-        NodeUtil.assertConstructorDecl(constructor, 0, 0);
+        NodeUtil.assertConstructorDecl(constructor, 0, 0, 0);
+
+        // Function Declaration
+        var testFunc = contractParts.get(4).getChild(LazoParser.FunctionDeclarationContext.class, 0);
+        Assert.assertEquals(0, testFunc.annotation().size());
+        NodeUtil.assertFunctionHead(testFunc.functionHead(), "test", 0, "void");
+        Assert.assertEquals(0, testFunc.statementBlock().statement().size());
     }
 }

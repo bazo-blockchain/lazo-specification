@@ -156,8 +156,8 @@ contractPart
   : variableDeclaration
   | structDeclaration
   | enumDeclaration
-  | constructorDeclaration
   | eventDeclaration
+  | constructorDeclaration
   | functionDeclaration
   ;
 
@@ -177,13 +177,13 @@ eventDeclaration
   : 'event' IDENTIFIER '(' paramList*')' SEMI;
 
 enumDeclaration
-  : 'enum' IDENTIFIER '{' IDENTIFIER (',' IDENTIFIER)* '}' SEMI;
+  : 'enum' IDENTIFIER '{' IDENTIFIER (',' IDENTIFIER)* '}' SEMI ;
 
 constructorDeclaration
-  :  annotation* 'constructor' '(' paramList? ')' statementBlock;
+  :  annotation* 'constructor' '(' paramList? ')' statementBlock ;
 
 functionDeclaration
-  : functionHead statementBlock;
+  : annotation* functionHead statementBlock ;
 
 functionHead
   : 'internal'? 'function' (type | '(' type (',' type)*')') IDENTIFIER '(' paramList? ')';

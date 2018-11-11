@@ -13,4 +13,8 @@ contract SimpleContract {
 
   }
 
+  function void test(){
+
+  }
+
 }

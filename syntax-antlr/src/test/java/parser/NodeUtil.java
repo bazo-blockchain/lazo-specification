@@ -43,9 +43,10 @@ public class NodeUtil {
     }
 
     public static void assertConstructorDecl(LazoParser.ConstructorDeclarationContext constructorNode,
-                                             int totalParams, int totalStatements) {
+                                             int totalParams, int totalStatements, int totalAnnotations) {
         assertParameterListSize(constructorNode.paramList(), totalParams);
         Assert.assertEquals(totalStatements, constructorNode.statementBlock().statement().size());
+        Assert.assertEquals(totalAnnotations, constructorNode.annotation().size());
     }
 
     public static void assertFunctionHead(LazoParser.FunctionHeadContext functionHeadNode,
