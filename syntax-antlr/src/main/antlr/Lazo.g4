@@ -186,16 +186,16 @@ functionDeclaration
   : annotation* functionHead statementBlock ;
 
 functionHead
-  : 'internal'? 'function' (type | '(' type (',' type)*')') IDENTIFIER '(' paramList? ')';
+  : 'internal'? 'function' (type | '(' type (',' type)*')') IDENTIFIER '(' paramList? ')' ;
 
 annotation
-  : '[' IDENTIFIER ('=' IDENTIFIER)? ']' NLS;
+  : '[' IDENTIFIER ('=' IDENTIFIER)? ']' NLS ;
 
 paramList
-  : parameter (',' parameter)*; // todo allow optional newline
+  : parameter (',' parameter)* ; // todo allow optional newline
 
 parameter
-  : type IDENTIFIER; // todo add default value
+  : type IDENTIFIER assignment? ;
 
 // Types
 // -----
@@ -203,19 +203,33 @@ parameter
 type
   : arrayType
   | mapType
-  | IDENTIFIER;
+  | IDENTIFIER ;
 
 arrayType
-  : IDENTIFIER '[]';
+  : IDENTIFIER '[' ']' ;
 
 mapType
-  : 'Map' '<' type',' type '>';
+  : 'Map' '<' type ',' type '>' ;
 
 // Statements
 // ----------
 
+statementBlock
+  : '{' ( NLS | statement )* '}';
+
+statement
+  : assignmentStatement
+  | returnStatement
+  | callStatement
+  | emitStatement
+  | variableDeclaration
+  | ifStatement
+  | forEachStatement
+  | forStatement
+  | mapForEachStatement ;
+
 emitStatement
-  : 'emit' callStatement;
+  : 'emit' callStatement ;
 
 ifStatement
   : 'if' '(' expression ')' statementBlock ('else if' '(' expression ')' statementBlock)? ('else' statementBlock)? ;
@@ -232,34 +246,20 @@ mapForEachStatement
 rangeStatement
   : expression? 'to' expression ('by' expression)?; // Expression as we could use .size or negative integers
 
+callStatement
+  : call NLS ;
+
 call
-  : IDENTIFIER '(' argumentList? ')';
+  : IDENTIFIER '(' argumentList? ')' ;
 
 argumentList
   : expression (',' expression)* ;
 
-statementBlock
-  : '{' ( NLS | statement )* '}';
-
-statement
-  : assignmentStatement
-  | returnStatement
-  | callStatement
-  | emitStatement
-  | variableDeclaration
-  | ifStatement
-  | forEachStatement
-  | forStatement
-  | mapForEachStatement;
-
-callStatement
-  : call SEMI;
+assignmentStatement
+  : designator assignment NLS ;
 
 assignment
-  : '=' (expression | ternaryExpression);
-
-assignmentStatement
-  : designator assignment SEMI;
+  : '=' ( expression | ternaryExpression ) ;
 
 designator
   : IDENTIFIER
@@ -268,15 +268,19 @@ designator
   | designator '[' expression ']' ;
 
 returnStatement
-  : 'return' expression (',' expression)? SEMI ;
+  : 'return' expression (',' expression)? NLS ;
+
+// Expressions
+// -----------
 
 ternaryExpression
-  : expression '?' statement ':' statement SEMI ;
+  : expression '?' expression ':' expression NLS ;
 
 // TODO Try to write expression with OR and adjust sub-rules (see solidity)
 // ---------------------------
 expression
   : logicTerm ('||' logicTerm)*;
+
 logicTerm
   : logicFactor ('&&' logicFactor)*;
 
