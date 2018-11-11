@@ -11,28 +11,45 @@ grammar Lazo;
   Accessed on: 10.Nov 2018
 */
 @parser::members {
-    private boolean hasNewline() {
-        var countEOF = this.getCurrentToken().getTokenIndex() - 1;
-        var nextToken = _input.get(countEOF);
-        if (nextToken.getChannel() != Lexer.HIDDEN) {
-            return false;
+        /**
+         * Returns {@code true} iff on the current index of the parser's
+         * token stream a token exists on the {@code HIDDEN} channel which
+         * either is a line terminator, or is a multi line comment that
+         * contains a line terminator.
+         *
+         * @return {@code true} iff on the current index of the parser's
+         * token stream a token exists on the {@code HIDDEN} channel which
+         * either is a line terminator, or is a multi line comment that
+         * contains a line terminator.
+         */
+        private boolean lineTerminatorAhead() {
+            // Get the token ahead of the current index.
+            int possibleIndexEosToken = this.getCurrentToken().getTokenIndex() - 1;
+            Token ahead = _input.get(possibleIndexEosToken);
+            if (ahead.getChannel() != Lexer.HIDDEN) {
+                // We're only interested in tokens on the HIDDEN channel.
+                return false;
+            }
+
+            if (ahead.getType() == TERMINATOR) {
+                // There is definitely a line terminator ahead.
+                return true;
+            }
+
+            if (ahead.getType() == WHITE_SPACE) {
+                // Get the token ahead of the current whitespaces.
+                possibleIndexEosToken = this.getCurrentToken().getTokenIndex() - 2;
+                ahead = _input.get(possibleIndexEosToken);
+            }
+
+            // Get the token's text and type.
+            String text = ahead.getText();
+            int type = ahead.getType();
+
+            // Check if the token is, or contains a line terminator.
+            return (type == BLOCK_COMMENT && (text.contains("\r") || text.contains("\n"))) ||
+                    (type == TERMINATOR);
         }
-
-        if (nextToken.getType() == NEWLINE) {
-            return true;
-        }
-
-        if (nextToken.getType() == WHITE_SPACE) {
-            countEOF = this.getCurrentToken().getTokenIndex() - 2;
-            nextToken = _input.get(countEOF);
-        }
-
-        var tokenLiteral = nextToken.getText();
-        var tokenType = nextToken.getType();
-
-        return (tokenType == BLOCK_COMMENT &&
-                (tokenLiteral.contains("\r") || tokenLiteral.contains("\n"))) || (tokenType == NEWLINE);
-    }
 
      /**
      * Returns {@code true} if no line terminator exists between the specified
@@ -124,7 +141,7 @@ program
   : versionDirective interfaceDeclaration* contractDeclaration EOF ;
 
 versionDirective
-  : 'version' INTEGER '.' INTEGER SEMI; // todo prevent version 0x3.0x2
+  : 'version' INTEGER '.' INTEGER NLS; // todo prevent version 0x3.0x2
 
 contractDeclaration
   : 'contract' IDENTIFIER ('is' IDENTIFIER (',' IDENTIFIER)*)? '{' contractParts* '}';
@@ -324,14 +341,19 @@ structDeclaration
 structBody
   : type IDENTIFIER SEMI;
 
-
-//
 //THROW : 'throw' EXCEPTION_CREATION;
 //EXCEPTION_CREATION : 'a';
 //EXCEPTION_DECLARATION : 'exception' IDENTIFIER '(' PARAM_LIST ')' '{' [VAR_DECLARATION]{0,1} [',' VAR_DECLARATION]* '}';
 
+eos
+    : EOF
+    | {lineTerminatorAhead()}?
+    | {_input.LT(1).getText().equals("}") }?
+    ;
+
+// ---------------------------------------------------
 // Lexer Tokens
-// -------------
+// ---------------------------------------------------
 
 // Reserved Keywords (Hint: Order by asc)
 // -----------------
@@ -423,10 +445,16 @@ fragment UNICODE_CHAR
   : ~[\r\n] // any Unicode code point except carrige return & new line
   ;
 
-// Skip Rules
-// ----------
+NLS
+  : NL+ ;
 
-NEWLINE
+NL
+  : [\n] ; // TODO: remove terminator and add CRLF as well
+
+// Skip Rules
+// --------
+
+TERMINATOR
   : [\r\n]+ -> skip ;
 
 WHITE_SPACE

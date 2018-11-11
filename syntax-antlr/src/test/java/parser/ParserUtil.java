@@ -5,6 +5,7 @@ import bazolang.LazoParser;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.junit.Assert;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -26,6 +27,11 @@ public class ParserUtil {
     private static LazoParser getParser(CharStream cs) {
         var lex = new LazoLexer(cs);
         var tokens = new CommonTokenStream(lex);
-        return new LazoParser(tokens);
+        var parser = new LazoParser(tokens);
+        return parser;
+    }
+
+    public static void assertNoErrors(LazoParser p) {
+        Assert.assertEquals(0, p.getNumberOfSyntaxErrors());
     }
 }
