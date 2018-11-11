@@ -42,14 +42,23 @@ public class NodeUtil {
         Assert.assertEquals(totalFields, structNode.structField().size());
     }
 
+    public static void assertConstructorDecl(LazoParser.ConstructorDeclarationContext constructorNode,
+                                             int totalParams, int totalStatements) {
+        assertParameterListSize(constructorNode.paramList(), totalParams);
+        Assert.assertEquals(totalStatements, constructorNode.statementBlock().statement().size());
+    }
+
     public static void assertFunctionHead(LazoParser.FunctionHeadContext functionHeadNode,
                                           String name, int totalParams, String... returnTypes) {
         LexerUtil.assertIdentifier(functionHeadNode.IDENTIFIER().getSymbol(), name);
+        assertParameterListSize(functionHeadNode.paramList(), totalParams);
+    }
 
-        if (totalParams == 0) {
-            Assert.assertNull(functionHeadNode.paramList());
+    public static void assertParameterListSize(LazoParser.ParamListContext paramsList, int expected) {
+        if (expected == 0) {
+            Assert.assertNull(paramsList);
         } else {
-            Assert.assertEquals(totalParams, functionHeadNode.paramList().children.size());
+            Assert.assertEquals(expected, paramsList.children.size());
         }
     }
 

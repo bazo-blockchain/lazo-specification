@@ -39,7 +39,7 @@ public class TestContract {
                 .contractDeclaration()
                 .contractPart();
         NodeUtil.removeNewlines(contractParts);
-        Assert.assertEquals(3, contractParts.size());
+        Assert.assertEquals(4, contractParts.size());
 
         // Variable Declaration
         var varX = contractParts.get(0).getChild(LazoParser.VariableDeclarationContext.class, 0);
@@ -53,6 +53,8 @@ public class TestContract {
 
         // todo test event and enum declarations
 
-
+        // Constructor Declaration
+        var constructor = contractParts.get(3).getChild(LazoParser.ConstructorDeclarationContext.class, 0);
+        NodeUtil.assertConstructorDecl(constructor, 0, 0);
     }
 }

@@ -150,7 +150,7 @@ interfacePart
   : functionHead NLS ;
 
 contractDeclaration
-  : 'contract' IDENTIFIER ('is' IDENTIFIER (',' IDENTIFIER)* )? '{' NLS* contractPart* NLS*'}' NLS?;
+  : 'contract' IDENTIFIER ('is' IDENTIFIER (',' IDENTIFIER)* )? '{' (NLS | contractPart)* '}' NLS?;
 
 contractPart
   : variableDeclaration
@@ -159,7 +159,6 @@ contractPart
   | constructorDeclaration
   | eventDeclaration
   | functionDeclaration
-  | annotation
   ;
 
 // Declarations
@@ -181,16 +180,16 @@ enumDeclaration
   : 'enum' IDENTIFIER '{' IDENTIFIER (',' IDENTIFIER)* '}' SEMI;
 
 constructorDeclaration
-  : 'constructor' '(' paramList? ')' statementBlock;
+  :  annotation* 'constructor' '(' paramList? ')' statementBlock;
 
 functionDeclaration
   : functionHead statementBlock;
 
-annotation
-  : '[' IDENTIFIER ('=' IDENTIFIER)? ']';
-
 functionHead
   : 'internal'? 'function' (type | '(' type (',' type)*')') IDENTIFIER '(' paramList? ')';
+
+annotation
+  : '[' IDENTIFIER ('=' IDENTIFIER)? ']' NLS;
 
 paramList
   : parameter (',' parameter)*;
@@ -240,7 +239,7 @@ argumentList
   : expression (',' expression)* ;
 
 statementBlock
-  : '{' statement* '}';
+  : '{' ( NLS | statement )* '}';
 
 statement
   : assignmentStatement

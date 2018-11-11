@@ -9,5 +9,8 @@ contract SimpleContract {
     address a
   }
 
+  constructor (){
+
+  }
 
 }
