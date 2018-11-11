@@ -177,7 +177,7 @@ eventDeclaration
   : 'event' IDENTIFIER '(' paramList? ')' NLS;
 
 enumDeclaration
-  : 'enum' IDENTIFIER '{' IDENTIFIER (',' IDENTIFIER)* '}' SEMI ;
+  : 'enum' IDENTIFIER '{' IDENTIFIER (',' IDENTIFIER)* '}' NLS ; // todo allow optional newlines between constants
 
 constructorDeclaration
   :  annotation* 'constructor' '(' paramList? ')' statementBlock ;
@@ -192,7 +192,7 @@ annotation
   : '[' IDENTIFIER ('=' IDENTIFIER)? ']' NLS;
 
 paramList
-  : parameter (',' parameter)*;
+  : parameter (',' parameter)*; // todo allow optional newline
 
 parameter
   : type IDENTIFIER; // todo add default value

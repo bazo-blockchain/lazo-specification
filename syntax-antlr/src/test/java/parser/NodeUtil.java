@@ -48,6 +48,14 @@ public class NodeUtil {
         assertParameterListSize(eventNode.paramList(), totalFields);
     }
 
+    public static void assertEnumDecl(LazoParser.EnumDeclarationContext enumNode, String name, String... values) {
+        LexerUtil.assertIdentifier(enumNode.IDENTIFIER(0).getSymbol(), name);
+
+        for (int i = 0; i < values.length; i++) {
+            LexerUtil.assertIdentifier(enumNode.IDENTIFIER(i + 1).getSymbol(), values[i]);
+        }
+    }
+
     public static void assertConstructorDecl(LazoParser.ConstructorDeclarationContext constructorNode,
                                              int totalParams, int totalStatements, int totalAnnotations) {
         assertParameterListSize(constructorNode.paramList(), totalParams);

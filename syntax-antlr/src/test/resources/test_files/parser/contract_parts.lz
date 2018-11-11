@@ -11,6 +11,8 @@ contract SimpleContract {
 
   event TestEvent(String msg, int code)
 
+  enum TestEnum { TEST1, TEST2 }
+
   constructor () {
 
   }

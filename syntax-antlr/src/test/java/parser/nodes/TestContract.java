@@ -39,7 +39,7 @@ public class TestContract {
                 .contractDeclaration()
                 .contractPart();
         NodeUtil.removeNewlines(contractParts);
-        Assert.assertEquals(6, contractParts.size());
+        Assert.assertEquals(7, contractParts.size());
 
         // Variable Declaration
         var varX = contractParts.get(0).getChild(LazoParser.VariableDeclarationContext.class, 0);
@@ -55,12 +55,16 @@ public class TestContract {
         var eventE = contractParts.get(3).getChild(LazoParser.EventDeclarationContext.class, 0);
         NodeUtil.assertEventDecl(eventE, "TestEvent", 2);
 
+        // Enum Declaration
+        var enumE = contractParts.get(4).getChild(LazoParser.EnumDeclarationContext.class, 0);
+        NodeUtil.assertEnumDecl(enumE, "TestEnum", "TEST1", "TEST2");
+
         // Constructor Declaration
-        var constructor = contractParts.get(4).getChild(LazoParser.ConstructorDeclarationContext.class, 0);
+        var constructor = contractParts.get(5).getChild(LazoParser.ConstructorDeclarationContext.class, 0);
         NodeUtil.assertConstructorDecl(constructor, 0, 0, 0);
 
         // Function Declaration
-        var testFunc = contractParts.get(5).getChild(LazoParser.FunctionDeclarationContext.class, 0);
+        var testFunc = contractParts.get(6).getChild(LazoParser.FunctionDeclarationContext.class, 0);
         Assert.assertEquals(0, testFunc.annotation().size());
         NodeUtil.assertFunctionHead(testFunc.functionHead(), "test", 0, "void");
         Assert.assertEquals(0, testFunc.statementBlock().statement().size());
