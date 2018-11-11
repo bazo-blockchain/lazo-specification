@@ -144,10 +144,10 @@ versionDirective
   : 'version' INTEGER '.' INTEGER NLS; // todo prevent version 0x3.0x2
 
 contractDeclaration
-  : 'contract' IDENTIFIER ('is' IDENTIFIER (',' IDENTIFIER)*)? '{' contractParts* '}';
+  : 'contract' IDENTIFIER ('is' IDENTIFIER (',' IDENTIFIER)* )? '{' contractParts* '}' NLS?;
 
 interfaceDeclaration
-  : 'interface' IDENTIFIER '{' interfaceParts* '}';
+  : 'interface' IDENTIFIER '{' NLS interfacePart* '}' NLS;
 
 contractParts
   : variableDeclaration
@@ -160,8 +160,9 @@ contractParts
   | NLS
   ;
 
-interfaceParts
-  : functionHead SEMI;
+interfacePart
+  : functionHead NLS
+  ;
 
 constructorDeclaration
   : 'constructor' '(' paramList? ')' statementBlock;

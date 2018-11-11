@@ -1,0 +1,18 @@
+version 1.0
+
+interface AInterface {
+
+}
+
+interface BInterface {
+
+}
+
+contract SimpleContract is AInterface, BInterface {
+
+}
+/*
+interface test {
+  function void test()
+  function void test2()
+}*/
