@@ -71,6 +71,26 @@ public class TestExpression {
         // todo add more complex cases
     }
 
+    @Test
+    public void testCall() {
+        NodeUtil.assertCallExpression(
+                getExpression("test()"),
+                "test");
+
+        NodeUtil.assertCallExpression(
+                getExpression("x.test()"),
+                "x.test");
+
+        NodeUtil.assertCallExpression(
+                getExpression("x[2].test()"),
+                "x[2].test");
+
+        NodeUtil.assertCallExpression(
+                getExpression("test(1, x, x[2], func())"),
+                "test",
+                "1", "x", "x[2]", "func()");
+    }
+
     private LazoParser.ExpressionContext getExpression(String input) {
         var parser = ParserUtil.getParserForInput(input);
         var expression = parser.expression();

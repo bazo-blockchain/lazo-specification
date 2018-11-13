@@ -120,7 +120,7 @@ callStatement
   : call NLS ;
 
 call
-  : IDENTIFIER '(' argumentList? ')' ;
+  : expression '(' argumentList? ')' ;
 
 argumentList
   : expression (',' expression)* ;
@@ -153,12 +153,12 @@ expression
   : expression ( '++' | '--' )
   | expression '[' expression ']' // index access
   | expression '.' IDENTIFIER     // member access
-  | callExpression
+  | expression '(' argumentList? ')' // call
   | newCreation
   | '(' expression ')'
   | ( '++' | '--' | '+' | '-' | '!' | '∼' ) expression // L2
   | '(' type ')' expression   // L3
-  | expression '**' expression
+  | <assoc=right> expression '**' expression
   | expression ('*' | '/' | '%') expression
   | expression ('+' | '-') expression
   | expression ('<<' | '>>') expression
@@ -169,17 +169,13 @@ expression
   | expression '|' expression
   | expression '&&' expression
   | expression '||' expression
+  | operand
   ;
 
 // todo from here
-
-callExpression
-  : operand | '(' expression ')';
-
 operand
   : literal
-  | designator
-  | call;
+  | designator;
 
 literal
   : INTEGER

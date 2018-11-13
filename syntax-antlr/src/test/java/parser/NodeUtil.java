@@ -94,6 +94,20 @@ public class NodeUtil {
         LexerUtil.assertIdentifier(memberAccessNode.IDENTIFIER().getSymbol(), expectedMemberField);
     }
 
+    public static void assertCallExpression(LazoParser.ExpressionContext callNode,
+                                            String func, String... args) {
+        assertExpression(callNode.getChild(LazoParser.ExpressionContext.class, 0), func);
+
+        var argList = callNode.getChild(LazoParser.ArgumentListContext.class, 0);
+        if (args.length == 0) {
+            Assert.assertNull(argList);
+        } else {
+            for (int i = 0; i < args.length; i++) {
+                assertExpression(argList.getChild(LazoParser.ExpressionContext.class, i), args[i]);
+            }
+        }
+    }
+
     public static void assertTerminalNode(ParseTree tree, String expected) {
         Assert.assertEquals(expected, tree.getText());
     }
