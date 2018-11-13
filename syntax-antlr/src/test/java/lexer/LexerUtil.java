@@ -1,6 +1,6 @@
 package lexer;
 
-import bazolang.BazoLangLexer;
+import bazolang.LazoLexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -25,28 +25,76 @@ public class LexerUtil {
     }
 
     private static List<Token> getTokensFromStream(CharStream cs) {
-        var lex = new BazoLangLexer(cs);
+        var lex = new LazoLexer(cs);
         var tokens = new CommonTokenStream(lex);
         tokens.fill();
         return tokens.getTokens();
     }
 
+    public static Token removeEOFToken(List<Token> tokens) {
+        var lastToken = tokens.remove(tokens.size() - 1);
+        assertEOF(lastToken);
+        return lastToken;
+    }
+
     /**
-     * @param tokens   list of tokens
-     * @param expected expected number of tokens without EOF
+     * @param tokens   list of lexemes
+     * @param expected expected number of lexemes without EOF
      */
     public static void assertTotalTokens(List<Token> tokens, int expected) {
         Assert.assertEquals(expected, tokens.size() - 1);
     }
 
+    public static void assertTokens(List<Token> tokens, String[] expected, boolean ignoreNewlines) {
+        removeEOFToken(tokens);
+        int i = 0;
+        for (Token t : tokens) {
+            if (ignoreNewlines && t.getType() == LazoLexer.NLS) {
+                continue;
+            }
+
+            LexerUtil.assertTokenContent(t, expected[i]);
+            i++;
+        }
+
+        Assert.assertEquals("There should be more tokens", expected.length, i);
+    }
+
+    public static void assertTokenContent(Token t, String c) {
+        Assert.assertEquals("Token error" + t.toString(), c, t.getText());
+    }
+
     public static void assertCharacter(Token t, String c) {
-        Assert.assertEquals(BazoLangLexer.CHARACTER, t.getType());
+        Assert.assertEquals(LazoLexer.CHARACTER, t.getType());
         Assert.assertEquals(c, t.getText());
     }
 
+    public static void assertString(Token t, String s) {
+        Assert.assertEquals(LazoLexer.STRING, t.getType());
+        Assert.assertEquals(s, t.getText());
+    }
+
     public static void assertInteger(Token t, int i) {
-        Assert.assertEquals(BazoLangLexer.INTEGER, t.getType());
-        Assert.assertEquals(String.valueOf(i), t.getText());
+        assertInteger(t, String.valueOf(i));
+    }
+
+    public static void assertInteger(Token t, String s) {
+        Assert.assertEquals(LazoLexer.INTEGER, t.getType());
+        Assert.assertEquals(s, t.getText());
+    }
+
+    public static void assertIdentifier(Token t, String identifier) {
+        Assert.assertEquals(LazoLexer.IDENTIFIER, t.getType());
+        Assert.assertEquals(identifier, t.getText());
+    }
+
+    public static void assertFixToken(Token t, int type, String content) {
+        Assert.assertEquals(
+                String.format("Token type error: expected %s got %s",
+                        LazoLexer.VOCABULARY.getDisplayName(type), LazoLexer.VOCABULARY.getDisplayName(t.getType())),
+                type,
+                t.getType());
+        assertTokenContent(t, content);
     }
 
     public static void assertEOF(Token t) {

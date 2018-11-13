@@ -1,0 +1,13 @@
+version 1.0
+
+interface AInterface {
+
+}
+
+interface BInterface {
+
+}
+
+contract SimpleContract is AInterface, BInterface {
+
+}

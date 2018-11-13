@@ -1,6 +1,6 @@
 VersionDirective = "version" Integer "." Integer;
 Contract = "contract" Identifier [ "is" Identifier { "," Identifier} ] "{" { ContractParts } "}";
-ContractParts = { VariableDeclaration | Function | Struct | Event | Enum };
+ContractParts = VariableDeclaration | Function | Struct | Event | Enum;
 Interface = "interface" Identifier "{" InterfaceParts "}";
 InterfaceParts = { FunctionHead };
 Constructor = "constructor" "(" ParameterList ")" StatementBlock;
@@ -37,7 +37,7 @@ BitwiseOrExpression = BitwiseXOrExpression "^" BitwiseXOrExpression;
 BitwiseXorExpression = BitwiseAndExpression "&" BitwiseAndExpression;
 BitwiseAndExpression = EqualityExpression { ( "!=" | "==" ) EqualityExpression };
 EqualityExpression = ComparisonExpression { ( "<" | "<=" | ">" | ">=" ) ComparisonExpression };
-ComparisonExpression = BitwiseShiftExpression ( "<<" | ">>" ) BitwiseShiftOperator;
+ComparisonExpression = BitwiseShiftExpression {( "<<" | ">>" ) BitwiseShiftExpression};
 BitwiseShiftExpression = Term {("+" | "-" ) Term};
 Term = Factor { ( "*" | "/" | "%" ) Factor };
 Factor = Exponent {( "**" ) Exponent};
@@ -50,6 +50,7 @@ PostfixExpression = CallExpression ( "++" | "--" );
 Operand = Literal | Designator | MapCreation | ArrayCreation | FunctionCall;
 Literal = Integer | Address | Character | String | Bool ;
 IterableDesignator = Identifier | Designator "." Identifier;
+
 Designator = Identifier | Designator "." Identifier | Designator "[" Expression "]";
 ExceptionDeclaration = "exception" Identifier "{" VariableDeclaration { "," VariableDeclaration} "}";
 ExceptionCreation = Identifier "(" ArgumentList ")" ;
@@ -57,13 +58,14 @@ MapCreation = "new" "Map" "<"Type "," Type ">" "(" ")";
 ArrayCreation = "new" Identifier "[" Expression "]";
 FunctionCall = Designator "(" ArgumentList ")";
 ArgumentList = [ Expression { "," Expression }];
-Identifier = Letter { Letter | Digit };
-Throw = "throw" ExceptionCreation;
+
 Continue = "continue";
 Break = "break";
-Catch = "catch" Identifier Identifier StatementBlock;
-Address = "0x" { HexDigit };
-Integer = Digit { Digit };
+
+Identifier = Letter { Letter | Digit };
+Integer = DecDigitLit | HexDigitLit;
+HexDigitLit = "0x" { HexDigit };
+DecDigitLit = { Digit };
 Character = "'" CharCode "'";
 Bool = "false" | "true";
 String = """ { CharCode } """;

@@ -1,0 +1,19 @@
+version 1.1;
+
+    contract FunctionContract {
+
+        function void emptyFunction() {}
+
+        internal function void internalFunction() {}
+
+        function int singleReturnValueFunction() {}
+
+        function int singleReturnValueWithParamsFunction(int a) {}
+
+        function (int, int) twoReturnValuesFunction() {}
+
+        function (int, int) twoReturnValuesWithParamsFunction(int a, string b) {}
+
+        function (int, string) twoDiffReturnValuesWithParamsFunction(int a, string b) {}
+
+    }
