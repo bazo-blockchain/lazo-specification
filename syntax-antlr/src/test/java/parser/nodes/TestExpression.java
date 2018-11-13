@@ -1,6 +1,7 @@
 package parser.nodes;
 
 import bazolang.LazoParser;
+import org.antlr.runtime.tree.ParseTree;
 import org.junit.Test;
 import parser.NodeUtil;
 import parser.ParserUtil;
@@ -18,8 +19,8 @@ public class TestExpression {
     @Test
     public void testArrayIndexAccess(){
         var expression = getExpression("x.y[z--]");
-        NodeUtil.assertExpression(getSubExpression(expression, 0), "x.y");
-        NodeUtil.assertTerminalNode(expression.getChild(1), "++");
+        var indexAccess = expression.getChild(LazoParser.IndexAccessContext.class, 0);
+        NodeUtil.assertIndexAccessExpression(indexAccess, "x.y", "z--");
     }
 
     private LazoParser.ExpressionContext getExpression(String input){

@@ -125,17 +125,19 @@ call
 argumentList
   : expression (',' expression)* ;
 
+// todo support indexAccess = exp;
 assignmentStatement
   : designator assignment NLS ;
 
 assignment
   : '=' ( expression | ternaryExpression ) ;
 
+// todo support test().x = 5
 designator
   : IDENTIFIER
   | 'this'
   | designator '.' IDENTIFIER
-  | designator '[' expression ']' ;
+  ;
 
 returnStatement
   : 'return' expression (',' expression)? NLS ;
@@ -150,7 +152,7 @@ ternaryExpression
 // ---------------------------
 expression
   : expression ( '++' | '--' )
-  | arrayIndexAccess // todo designator problem
+  | indexAccess
   | memberAccess
   | callExpression
   | newCreation
@@ -170,7 +172,7 @@ expression
   | expression '||' expression
   ;
 
-arrayIndexAccess
+indexAccess
   : designator '[' expression ']' ;
 
 memberAccess
