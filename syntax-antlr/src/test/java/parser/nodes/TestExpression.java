@@ -18,28 +18,57 @@ public class TestExpression {
 
     @Test
     public void testIndexAccess() {
-        var expType = LazoParser.IndexAccessContext.class;
         NodeUtil.assertIndexAccessExpression(
-                getExpression(expType, "x[2]"),
+                getExpression("x[2]"),
                 "x",
                 "2");
 
         NodeUtil.assertIndexAccessExpression(
-                getExpression(expType, "x.y.z[z--]"),
+                getExpression("x.y.z[z--]"),
                 "x.y.z",
                 "z--");
 
         NodeUtil.assertIndexAccessExpression(
-                getExpression(expType, "test()[2]"),
+                getExpression("test()[2]"),
                 "test()",
                 "2");
 
         NodeUtil.assertIndexAccessExpression(
-                getExpression(expType, "test().x[2]"),
+                getExpression("test().x[2]"),
                 "test().x",
                 "2");
 
         // todo test more complex index access
+    }
+
+    @Test
+    public void testMemberAccess() {
+        NodeUtil.assertMemberAccessExpression(
+                getExpression("x.y"),
+                "x",
+                "y");
+
+        NodeUtil.assertMemberAccessExpression(
+                getExpression("this.x"),
+                "this",
+                "x");
+
+        NodeUtil.assertMemberAccessExpression(
+                getExpression("this.x.y.z"),
+                "this.x.y",
+                "z");
+
+        NodeUtil.assertMemberAccessExpression(
+                getExpression("a[2].x"),
+                "a[2]",
+                "x");
+
+        NodeUtil.assertMemberAccessExpression(
+                getExpression("test().x"),
+                "test()",
+                "x");
+
+        // todo add more complex cases
     }
 
     private LazoParser.ExpressionContext getExpression(String input) {

@@ -135,7 +135,7 @@ assignment
 // todo support test().x = 5
 designator
   : IDENTIFIER
-  | 'this' '.' IDENTIFIER
+  | 'this'
   ;
 
 returnStatement
@@ -151,8 +151,8 @@ ternaryExpression
 // ---------------------------
 expression
   : expression ( '++' | '--' )
-  | indexAccess
-  | memberAccess
+  | expression '[' expression ']' // index access
+  | expression '.' IDENTIFIER     // member access
   | callExpression
   | newCreation
   | '(' expression ')'
@@ -169,15 +169,6 @@ expression
   | expression '|' expression
   | expression '&&' expression
   | expression '||' expression
-  ;
-
-indexAccess
-  : ( designator | memberAccess | call ) '[' expression ']' ;
-
-memberAccess
-  : designator '.' IDENTIFIER
-  | memberAccess '.' IDENTIFIER
-  | callExpression '.' IDENTIFIER
   ;
 
 // todo from here

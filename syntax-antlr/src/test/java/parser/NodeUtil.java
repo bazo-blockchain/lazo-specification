@@ -82,10 +82,16 @@ public class NodeUtil {
         Assert.assertEquals(expected, expressionNode.getText());
     }
 
-    public static void assertIndexAccessExpression(LazoParser.IndexAccessContext indexAccessNode,
+    public static void assertIndexAccessExpression(LazoParser.ExpressionContext indexAccessNode,
                                                    String expectedDesignator, String expectedExpression) {
-        Assert.assertEquals(expectedDesignator, indexAccessNode.getChild(0).getText());
-        assertExpression(indexAccessNode.getChild(LazoParser.ExpressionContext.class, 0), expectedExpression);
+        assertExpression(indexAccessNode.getChild(LazoParser.ExpressionContext.class, 0), expectedDesignator);
+        assertExpression(indexAccessNode.getChild(LazoParser.ExpressionContext.class, 1), expectedExpression);
+    }
+
+    public static void assertMemberAccessExpression(LazoParser.ExpressionContext memberAccessNode,
+                                                    String expectedParent, String expectedMemberField) {
+        assertExpression(memberAccessNode.getChild(LazoParser.ExpressionContext.class, 0), expectedParent);
+        LexerUtil.assertIdentifier(memberAccessNode.IDENTIFIER().getSymbol(), expectedMemberField);
     }
 
     public static void assertTerminalNode(ParseTree tree, String expected) {
