@@ -117,10 +117,7 @@ rangeStatement
   : expression? 'to' expression ('by' expression)?; // Expression as we could use .size or negative integers
 
 callStatement
-  : call NLS ;
-
-call
-  : expression '(' argumentList? ')' ;
+  : expression NLS ;
 
 argumentList
   : expression (',' expression)* ;
