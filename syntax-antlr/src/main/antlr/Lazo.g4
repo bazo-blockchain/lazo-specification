@@ -126,16 +126,15 @@ argumentList
   : expression (',' expression)* ;
 
 // todo support indexAccess = exp;
+// todo support test().x = 5
 assignmentStatement
   : designator assignment NLS ;
 
 assignment
-  : '=' ( expression | ternaryExpression ) ;
+  : '=' expression ;
 
-// todo support test().x = 5
 designator
   : IDENTIFIER
-  | 'this'
   ;
 
 returnStatement
@@ -143,21 +142,16 @@ returnStatement
 
 // Expressions
 // -----------
-
-ternaryExpression
-  : expression '?' expression ':' expression NLS ;
-
-// TODO Try to write expression with OR and adjust sub-rules (see solidity)
-// ---------------------------
 expression
   : expression ( '++' | '--' )
-  | expression '[' expression ']' // index access
-  | expression '.' IDENTIFIER     // member access
+  | expression '[' expression ']'    // index access
+  | expression '.' IDENTIFIER        // member access
   | expression '(' argumentList? ')' // call
   | newCreation
   | '(' expression ')'
-  | ( '++' | '--' | '+' | '-' | '!' | '∼' ) expression // L2
-  | '(' type ')' expression   // L3
+  // --- End of Level 1 ----
+  | <assoc=right> ( '++' | '--' | '+' | '-' | '!' | '∼' ) expression
+  | <assoc=right> '(' type ')' expression
   | <assoc=right> expression '**' expression
   | expression ('*' | '/' | '%') expression
   | expression ('+' | '-') expression
@@ -169,21 +163,9 @@ expression
   | expression '|' expression
   | expression '&&' expression
   | expression '||' expression
+  | <assoc=right> expression '?' expression ':' expression
   | operand
   ;
-
-// todo from here
-operand
-  : literal
-  | designator;
-
-literal
-  : INTEGER
-  | CHARACTER
-  | STRING
-  | BOOL;
-
-//-----------------------------
 
 newCreation
   : structCreation
@@ -199,6 +181,20 @@ arrayCreation
 
 mapCreation
   : 'new' mapType '(' ')';
+
+operand
+  : literal
+  | designator
+  ;
+
+literal
+  : INTEGER
+  | CHARACTER
+  | STRING
+  | BOOL
+  ;
+
+// End of Expressions
 
 // ---------------------------------------------------
 // Lexer Tokens
@@ -218,7 +214,6 @@ IS : 'is' ;
 MAP : 'Map' ;
 RETURN : 'return' ;
 STRUCT : 'struct' ;
-THIS : 'this' ;
 VERSION : 'version' ;
 // ----- TODO: complete the keywords
 

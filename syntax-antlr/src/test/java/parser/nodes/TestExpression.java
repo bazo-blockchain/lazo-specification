@@ -91,6 +91,8 @@ public class TestExpression {
                 "1", "x", "x[2]", "func()");
     }
 
+    // todo test other expressions
+
     private LazoParser.ExpressionContext getExpression(String input) {
         var parser = ParserUtil.getParserForInput(input);
         var expression = parser.expression();
@@ -106,10 +108,4 @@ public class TestExpression {
     private LazoParser.ExpressionContext getSubExpression(LazoParser.ExpressionContext exp, int index) {
         return exp.getChild(LazoParser.ExpressionContext.class, index);
     }
-
-    private int[] x() {
-        int[] x = new int[2];
-        return x;
-    }
-
 }
