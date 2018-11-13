@@ -135,8 +135,7 @@ assignment
 // todo support test().x = 5
 designator
   : IDENTIFIER
-  | 'this'
-  | designator '.' IDENTIFIER
+  | 'this' '.' IDENTIFIER
   ;
 
 returnStatement
@@ -173,10 +172,13 @@ expression
   ;
 
 indexAccess
-  : designator '[' expression ']' ;
+  : ( designator | memberAccess | call ) '[' expression ']' ;
 
 memberAccess
-  : designator '.' IDENTIFIER ;
+  : designator '.' IDENTIFIER
+  | memberAccess '.' IDENTIFIER
+  | callExpression '.' IDENTIFIER
+  ;
 
 // todo from here
 
