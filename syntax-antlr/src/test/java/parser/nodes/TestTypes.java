@@ -135,8 +135,6 @@ public class TestTypes {
         }
     }
 
-    // read only variables
-
     private LazoParser getParser(String input) {
         var parser = ParserUtil.getParserForInput(input);
         ParserUtil.assertNoErrors(parser);
