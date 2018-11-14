@@ -108,10 +108,10 @@ forStatement
   : 'for' '(' IDENTIFIER ':' rangeStatement ')' statementBlock ;
 
 forEachStatement
-  : 'foreach' '(' type IDENTIFIER ':' designator ')' statementBlock;
+  : 'foreach' '(' type IDENTIFIER ':' expression ')' statementBlock;
 
 mapForEachStatement
-  : 'foreach' '(' (type? IDENTIFIER ',')? type IDENTIFIER ':' designator ')' statementBlock ;
+  : 'foreach' '(' (type? IDENTIFIER ',')? type IDENTIFIER ':' expression ')' statementBlock ;
 
 rangeStatement
   : expression? 'to' expression ('by' expression)?; // Expression as we could use .size or negative integers

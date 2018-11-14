@@ -115,22 +115,50 @@ public class TestStatements {
 
     @Test
     public void testForEachStatement() {
-
+        var forEachStatement = getForEachStatement("foreach(int a : numbers) {}\n");
+        NodeUtil.assertForEachStatement(forEachStatement, "int", "a", "numbers", 0);
     }
 
     @Test
     public void testForStatement() {
-
+        var forStatement = getForStatement("for (a : 0 to 5 by 1) {}\n");
+        NodeUtil.assertForStatement(forStatement, "a", "0to5by1", 0);
     }
 
     @Test
     public void testRangeStatement() {
+        var rangeStatement = getRangeStatement("0 to 5\n");
+        NodeUtil.assertRangeStatement(rangeStatement, "0", "5", null);
+    }
 
+    @Test
+    public void testRangeStatementOnlyTo() {
+        var rangeStatement = getRangeStatement("to 5\n");
+        NodeUtil.assertRangeStatement(rangeStatement, null, "5", null);
+    }
+
+    @Test
+    public void testRangeStatementBy() {
+        var rangeStatement = getRangeStatement("0 to 5 by 1\n");
+        NodeUtil.assertRangeStatement(rangeStatement, "0", "5", "1");
     }
 
     @Test
     public void testMapForEachStatement() {
+        var mapForEachStatement = getMapForEachStatement("foreach(int k, int v : a) {}\n");
+        NodeUtil.assertMapForEachStatement(mapForEachStatement, "int", "k", "int", "v", "a", 0);
+    }
 
+    @Test
+    public void testMapForEachStatementKeyWithoutType() {
+        var mapForEachStatement = getMapForEachStatement("foreach(k, int v : a) {}\n");
+        NodeUtil.assertMapForEachStatement(mapForEachStatement, null, "k", "int", "v", "a", 0);
+    }
+
+    @Test
+    public void testMapForEachStatementOnlyValue() {
+        var mapForEachStatement = getMapForEachStatement("foreach(int v : a) {}\n");
+        NodeUtil.assertMapForEachStatement(mapForEachStatement, null, null, "int", "v", "a", 0);
     }
 
 
@@ -154,5 +182,21 @@ public class TestStatements {
 
     private LazoParser.IfStatementContext getIfStatement(String input) {
         return getParser(input).ifStatement();
+    }
+
+    private LazoParser.RangeStatementContext getRangeStatement(String input) {
+        return getParser(input).rangeStatement();
+    }
+
+    private LazoParser.ForStatementContext getForStatement(String input) {
+        return getParser(input).forStatement();
+    }
+
+    private LazoParser.ForEachStatementContext getForEachStatement(String input) {
+        return getParser(input).forEachStatement();
+    }
+
+    private LazoParser.MapForEachStatementContext getMapForEachStatement(String input) {
+        return getParser(input).mapForEachStatement();
     }
 }

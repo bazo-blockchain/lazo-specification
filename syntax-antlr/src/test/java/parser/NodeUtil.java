@@ -9,6 +9,8 @@ import org.antlr.v4.runtime.RuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Assert;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class NodeUtil {
@@ -163,6 +165,66 @@ public class NodeUtil {
         } else {
             Assert.assertEquals(2, node.children.size());
         }
+    }
+
+    public static void assertForEachStatement(LazoParser.ForEachStatementContext node, String type, String name,
+                                              String expression, int numOfStatements) {
+        Assert.assertEquals(type, node.type().getText());
+        Assert.assertEquals(name, node.IDENTIFIER().getText());
+        assertExpression(node.expression(), expression);
+        Assert.assertEquals(numOfStatements, node.statementBlock().getChildCount()-2);
+    }
+
+    public static void assertForStatement(LazoParser.ForStatementContext node, String name,
+                                              String range, int numOfStatements) {
+        Assert.assertEquals(name, node.IDENTIFIER().getText());
+        Assert.assertEquals(range, node.rangeStatement().getText());
+        Assert.assertEquals(numOfStatements, node.statementBlock().getChildCount()-2);
+
+    }
+
+    public static void assertRangeStatement(LazoParser.RangeStatementContext node, String from, String to, String by) {
+        if (from == null && by == null) {
+            Assert.assertEquals(to, node.getChild(1).getText());
+
+        }
+        else if (from != null && by == null) {
+            Assert.assertEquals(from, node.getChild(0).getText());
+            Assert.assertEquals(to, node.getChild(2).getText());
+        }
+        else if (from == null) {
+            Assert.assertEquals(to, node.getChild(1).getText());
+            Assert.assertEquals(by, node.getChild(3).getText());
+        }
+        else {
+            Assert.assertEquals(from, node.getChild(0).getText());
+            Assert.assertEquals(to, node.getChild(2).getText());
+            Assert.assertEquals(by, node.getChild(4).getText());
+
+        }
+    }
+
+    public static void assertMapForEachStatement(LazoParser.MapForEachStatementContext node, String keyType,
+                                                 String keyName, String valueType, String valueName, String expression,
+                                                 int numOfStatements) {
+
+        if (keyType != null) {
+            Assert.assertEquals(keyType, node.type(0).getText());
+            Assert.assertEquals(valueType, node.type(1).getText());
+        } else {
+            Assert.assertEquals(valueType, node.type(0).getText());
+        }
+
+        if (keyName != null) {
+            Assert.assertEquals(keyName, node.IDENTIFIER(0).getText());
+            Assert.assertEquals(valueName, node.IDENTIFIER(1).getText());
+        } else {
+            Assert.assertEquals(valueName, node.IDENTIFIER(0).getText());
+        }
+
+        assertExpression(node.expression(), expression);
+
+        Assert.assertEquals(numOfStatements, node.statementBlock().getChildCount()-2);
     }
 
     public static void removeNewlines(List<? extends ParserRuleContext> nodes) {
