@@ -37,6 +37,20 @@ public class NodeUtil {
         }
     }
 
+//    public static void assertNewArrayCreation(LazoParser.ArrayCreationContext arrayCreationContext,
+//                                                   String type, String expression, String... values) {
+//
+//        Assert.assertEquals(type, variableNode.type().getChild(0).getText());
+//
+//    }
+
+//    public static void assertNewMapCreation(LazoParser.MapCreationContext mapCreationContext,
+//                                              String type, String expression, String... values) {
+//
+//        Assert.assertEquals(type, variableNode.type().getChild(0).getText());
+//
+//    }
+
     public static void assertStructDecl(LazoParser.StructDeclarationContext structNode,
                                         String name, int totalFields) {
         LexerUtil.assertIdentifier(structNode.IDENTIFIER().getSymbol(), name);

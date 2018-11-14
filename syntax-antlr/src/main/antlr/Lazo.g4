@@ -174,7 +174,7 @@ structCreation
   : 'new' IDENTIFIER '('(IDENTIFIER assignment | expression)* ')' ;
 
 arrayCreation
-  : 'new' IDENTIFIER '[' expression* ']';
+  : 'new' IDENTIFIER ('[' expression ']' ('{' '}')?| '[' ']' '{' expression (',' expression)* '}');
 
 mapCreation
   : 'new' mapType '(' ')';

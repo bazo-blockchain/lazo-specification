@@ -51,20 +51,30 @@ public class TestTypes {
         NodeUtil.assertEnumDecl(getEnum("enum X { TEST1, TEST2 }\n"), "X", "TEST1", "TEST2");
     }
 
-//    @Test
-//    public void testMap() {
-//        NodeUtil.assertVariableDecl(getType("int x = 5\n"), "x", "int", "5");
-//    }
-//
-//    @Test
-//    public void testArray() {
-//        NodeUtil.assertVariableDecl(getType("int x = 5\n"), "x", "int", "5");
-//    }
-//
-//    @Test
-//    public void testInterface() {
-//        NodeUtil.assertVariableDecl(getType("int x = 5\n"), "x", "int", "5");
-//    }
+    @Test
+    public void testMapDecl() {
+        NodeUtil.assertVariableDecl(getType("Map<int, int> x\n"), "x", "Map<int,int>", null);
+    }
+
+    @Test
+    public void testArrayDecl() {
+        NodeUtil.assertVariableDecl(getType("int[] x\n"), "x", "int[]", null);
+    }
+
+    @Test
+    public void testMap() {
+        NodeUtil.assertVariableDecl(getType("Map<int, int> x = new Map<int, int>()\n"), "x", "Map<int,int>", null);
+    }
+
+    @Test
+    public void testArray() {
+        NodeUtil.assertVariableDecl(getType("int[] x = new int[5]\n"), "x", "int[]", "[]");
+    }
+
+    @Test
+    public void testInterface() {
+        NodeUtil.assertInterfaceDecl(getInterface("interface X {}\n"), "X");
+    }
 
     // todo test other types from document
 
@@ -88,5 +98,11 @@ public class TestTypes {
         var parser = ParserUtil.getParserForInput(input);
         ParserUtil.assertNoErrors(parser);
         return parser.enumDeclaration();
+    }
+
+    private LazoParser.InterfaceDeclarationContext getInterface(String input) {
+        var parser = ParserUtil.getParserForInput(input);
+        ParserUtil.assertNoErrors(parser);
+        return parser.interfaceDeclaration();
     }
 }
