@@ -26,6 +26,24 @@ public class TestFunctions {
     @Test
     public void testReturnTypes() throws IOException {
         var functions = getFunctions("parser/function_return_types.lazo");
+
+        NodeUtil.assertFunctionDeclaration(
+                getFunction(functions.get(0)),
+                "returnNothing", 0, 0, 1,
+                "void"
+        );
+
+        NodeUtil.assertFunctionDeclaration(
+                getFunction(functions.get(1)),
+                "returnSingle", 0, 0, 2,
+                "String"
+        );
+
+        NodeUtil.assertFunctionDeclaration(
+                getFunction(functions.get(2)),
+                "returnMultiple", 0, 0, 2,
+                "int", "char", "String"
+        );
     }
 
     private List<LazoParser.ContractPartContext> getFunctions(String path) throws IOException {
