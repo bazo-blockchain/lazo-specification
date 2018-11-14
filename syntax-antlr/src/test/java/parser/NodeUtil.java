@@ -37,19 +37,23 @@ public class NodeUtil {
         }
     }
 
-//    public static void assertNewArrayCreation(LazoParser.ArrayCreationContext arrayCreationContext,
-//                                                   String type, String expression, String... values) {
-//
-//        Assert.assertEquals(type, variableNode.type().getChild(0).getText());
-//
-//    }
+    public static void assertNewArrayCreation(LazoParser.ArrayCreationContext arrayCreationContext,
+                                                   String type, String expression, String... values) {
+        Assert.assertEquals(type, arrayCreationContext.IDENTIFIER().getText());
+        if (values.length == 0) {
+            assertExpression(arrayCreationContext.expression(0), expression);
+        } else {
+            for (int i = 0; i < arrayCreationContext.expression().size(); i++) {
+                assertExpression(arrayCreationContext.expression(i), values[i]);
+            }
+        }
+    }
 
-//    public static void assertNewMapCreation(LazoParser.MapCreationContext mapCreationContext,
-//                                              String type, String expression, String... values) {
-//
-//        Assert.assertEquals(type, variableNode.type().getChild(0).getText());
-//
-//    }
+    public static void assertNewMapCreation(LazoParser.MapCreationContext mapCreationContext,
+                                              String keyType, String valueType) {
+        Assert.assertEquals(keyType, mapCreationContext.mapType().type(0).getText());
+        Assert.assertEquals(valueType, mapCreationContext.mapType().type(1).getText());
+    }
 
     public static void assertStructDecl(LazoParser.StructDeclarationContext structNode,
                                         String name, int totalFields) {

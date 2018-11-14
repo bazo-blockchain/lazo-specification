@@ -62,13 +62,18 @@ public class TestTypes {
     }
 
     @Test
-    public void testMap() {
-        NodeUtil.assertVariableDecl(getType("Map<int, int> x = new Map<int, int>()\n"), "x", "Map<int,int>", null);
+    public void testMapCreation() {
+        NodeUtil.assertNewMapCreation(getNewMapCreation("new Map<int, int>()\n"), "int", "int");
     }
 
     @Test
-    public void testArray() {
-        NodeUtil.assertVariableDecl(getType("int[] x = new int[5]\n"), "x", "int[]", "[]");
+    public void testArrayCreationSingle() {
+        NodeUtil.assertNewArrayCreation(getNewArrayCreation("new int[5]\n"), "int", "5");
+    }
+
+    @Test
+    public void testArrayCreationMultiple() {
+        NodeUtil.assertNewArrayCreation(getNewArrayCreation("new int[]{ 1, 2, 3 }\n"), "int", null, "1", "2", "3");
     }
 
     @Test
@@ -104,5 +109,17 @@ public class TestTypes {
         var parser = ParserUtil.getParserForInput(input);
         ParserUtil.assertNoErrors(parser);
         return parser.interfaceDeclaration();
+    }
+
+    private LazoParser.ArrayCreationContext getNewArrayCreation(String input) {
+        var parser = ParserUtil.getParserForInput(input);
+        ParserUtil.assertNoErrors(parser);
+        return parser.arrayCreation();
+    }
+
+    private LazoParser.MapCreationContext getNewMapCreation(String input) {
+        var parser = ParserUtil.getParserForInput(input);
+        ParserUtil.assertNoErrors(parser);
+        return parser.mapCreation();
     }
 }
