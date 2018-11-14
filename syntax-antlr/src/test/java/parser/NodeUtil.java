@@ -4,6 +4,7 @@ import bazolang.LazoParser;
 import bazolang.LazoParser.VersionDirectiveContext;
 import lexer.LexerUtil;
 import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Assert;
 
 import java.util.List;
@@ -75,6 +76,40 @@ public class NodeUtil {
         } else {
             Assert.assertEquals(expected, paramsList.parameter().size());
         }
+    }
+
+    public static void assertExpression(LazoParser.ExpressionContext expressionNode, String expected) {
+        Assert.assertEquals(expected, expressionNode.getText());
+    }
+
+    public static void assertIndexAccessExpression(LazoParser.ExpressionContext indexAccessNode,
+                                                   String expectedDesignator, String expectedExpression) {
+        assertExpression(indexAccessNode.getChild(LazoParser.ExpressionContext.class, 0), expectedDesignator);
+        assertExpression(indexAccessNode.getChild(LazoParser.ExpressionContext.class, 1), expectedExpression);
+    }
+
+    public static void assertMemberAccessExpression(LazoParser.ExpressionContext memberAccessNode,
+                                                    String expectedParent, String expectedMemberField) {
+        assertExpression(memberAccessNode.getChild(LazoParser.ExpressionContext.class, 0), expectedParent);
+        LexerUtil.assertIdentifier(memberAccessNode.IDENTIFIER().getSymbol(), expectedMemberField);
+    }
+
+    public static void assertCallExpression(LazoParser.ExpressionContext callNode,
+                                            String func, String... args) {
+        assertExpression(callNode.getChild(LazoParser.ExpressionContext.class, 0), func);
+
+        var argList = callNode.getChild(LazoParser.ArgumentListContext.class, 0);
+        if (args.length == 0) {
+            Assert.assertNull(argList);
+        } else {
+            for (int i = 0; i < args.length; i++) {
+                assertExpression(argList.getChild(LazoParser.ExpressionContext.class, i), args[i]);
+            }
+        }
+    }
+
+    public static void assertTerminalNode(ParseTree tree, String expected) {
+        Assert.assertEquals(expected, tree.getText());
     }
 
     public static void removeNewlines(List<? extends ParserRuleContext> nodes) {
