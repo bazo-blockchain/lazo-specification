@@ -1,9 +1,12 @@
 package parser.nodes;
 
 import bazolang.LazoParser;
+import org.antlr.v4.runtime.RuleContext;
 import org.junit.Test;
 import parser.NodeUtil;
 import parser.ParserUtil;
+
+import java.util.List;
 
 public class TestTypes {
     @Test
@@ -92,8 +95,11 @@ public class TestTypes {
     }
 
     @Test
-    public void testEvent() {
-        NodeUtil.assertEventDecl(getEvent("event X (int a, int b)\n"), "X", 2);
+    public void testStructFields() {
+        var fields = getFields(getStruct("struct X { int a\n }\n"));
+        for (var field : fields) {
+            NodeUtil.assertField(field, "int", "a");
+        }
     }
 
     // todo test other types from document
@@ -102,45 +108,41 @@ public class TestTypes {
 
     // read only variables
 
-    private LazoParser.VariableDeclarationContext getType(String input) {
+    private LazoParser getParser(String input) {
         var parser = ParserUtil.getParserForInput(input);
         ParserUtil.assertNoErrors(parser);
-        return parser.variableDeclaration();
+        return parser;
+    }
+
+    private LazoParser.VariableDeclarationContext getType(String input) {
+        return getParser(input).variableDeclaration();
     }
 
     private LazoParser.StructDeclarationContext getStruct(String input) {
-        var parser = ParserUtil.getParserForInput(input);
-        ParserUtil.assertNoErrors(parser);
-        return parser.structDeclaration();
+        return getParser(input).structDeclaration();
     }
 
     private LazoParser.EnumDeclarationContext getEnum(String input) {
-        var parser = ParserUtil.getParserForInput(input);
-        ParserUtil.assertNoErrors(parser);
-        return parser.enumDeclaration();
+        return getParser(input).enumDeclaration();
     }
 
     private LazoParser.InterfaceDeclarationContext getInterface(String input) {
-        var parser = ParserUtil.getParserForInput(input);
-        ParserUtil.assertNoErrors(parser);
-        return parser.interfaceDeclaration();
+        return getParser(input).interfaceDeclaration();
     }
 
     private LazoParser.ArrayCreationContext getNewArrayCreation(String input) {
-        var parser = ParserUtil.getParserForInput(input);
-        ParserUtil.assertNoErrors(parser);
-        return parser.arrayCreation();
+        return getParser(input).arrayCreation();
     }
 
     private LazoParser.MapCreationContext getNewMapCreation(String input) {
-        var parser = ParserUtil.getParserForInput(input);
-        ParserUtil.assertNoErrors(parser);
-        return parser.mapCreation();
+        return getParser(input).mapCreation();
     }
 
     private LazoParser.EventDeclarationContext getEvent(String input) {
-        var parser = ParserUtil.getParserForInput(input);
-        ParserUtil.assertNoErrors(parser);
-        return parser.eventDeclaration();
+        return getParser(input).eventDeclaration();
+    }
+
+    private List<LazoParser.StructFieldContext> getFields(LazoParser.StructDeclarationContext structDeclNode) {
+        return structDeclNode.structField();
     }
 }

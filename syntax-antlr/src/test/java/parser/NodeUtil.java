@@ -3,7 +3,9 @@ package parser;
 import bazolang.LazoParser;
 import bazolang.LazoParser.VersionDirectiveContext;
 import lexer.LexerUtil;
+import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.RuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Assert;
 
@@ -65,6 +67,14 @@ public class NodeUtil {
                                        String name, int totalFields) {
         LexerUtil.assertIdentifier(eventNode.IDENTIFIER().getSymbol(), name);
         assertParameterListSize(eventNode.paramList(), totalFields);
+    }
+
+    public static void assertField(RuleContext node, String type, String name) {
+        var fieldType = node.getChild(0).getText();
+        var fieldName = node.getChild(1).getText();
+
+        Assert.assertEquals(type, fieldType);
+        Assert.assertEquals(name, fieldName);
     }
 
     public static void assertEnumDecl(LazoParser.EnumDeclarationContext enumNode, String name, String... values) {
