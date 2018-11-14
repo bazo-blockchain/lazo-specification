@@ -118,6 +118,13 @@ public class NodeUtil {
         assertExpression(castNode.getChild(LazoParser.ExpressionContext.class, 0), expression);
     }
 
+    public static void assertBinaryExpression(LazoParser.ExpressionContext binaryNode,
+                                              String exp1, String exp2, String operator) {
+        assertExpression(binaryNode.getChild(LazoParser.ExpressionContext.class, 0), exp1);
+        assertExpression(binaryNode.getChild(LazoParser.ExpressionContext.class, 1), exp2);
+        assertTerminalNode(binaryNode.getChild(1), operator);
+    }
+
     public static void assertTerminalNode(ParseTree tree, String expected) {
         Assert.assertEquals(expected, tree.getText());
     }

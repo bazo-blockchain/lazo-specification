@@ -152,6 +152,35 @@ public class TestExpression {
                 "x.test()");
     }
 
+    @Test
+    public void testExponentiation() {
+        var exp = getExpression("2**4**5");
+        NodeUtil.assertBinaryExpression(exp, "2", "4**5", "**");
+        NodeUtil.assertBinaryExpression(
+                exp.getChild(LazoParser.ExpressionContext.class, 1), "4", "5", "**");
+    }
+
+    @Test
+    public void testFactor() {
+        var mul = getExpression("2 * -3 * 4");
+        NodeUtil.assertBinaryExpression(mul, "2*-3", "4", "*");
+        NodeUtil.assertBinaryExpression(getSubExpression(mul, 0), "2", "-3", "*");
+
+        var mod = getExpression("2 ** 5 / 4 % 3");
+        var div = getSubExpression(mod, 0);
+        NodeUtil.assertBinaryExpression(mod, "2**5/4", "3", "%");
+        NodeUtil.assertBinaryExpression(div, "2**5", "4", "/");
+    }
+
+    @Test
+    public void testSummand() {
+        NodeUtil.assertBinaryExpression(
+                getExpression("2+3*4"),
+                "2",
+                "3*4",
+                "+");
+    }
+
     // todo test other expressions
 
     private LazoParser.ExpressionContext getExpression(String input) {
