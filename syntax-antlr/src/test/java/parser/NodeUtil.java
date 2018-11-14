@@ -3,14 +3,11 @@ package parser;
 import bazolang.LazoParser;
 import bazolang.LazoParser.VersionDirectiveContext;
 import lexer.LexerUtil;
-import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.RuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Assert;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class NodeUtil {
@@ -42,7 +39,7 @@ public class NodeUtil {
     }
 
     public static void assertNewArrayCreation(LazoParser.ArrayCreationContext arrayCreationContext,
-                                                   String type, String expression, String... values) {
+                                              String type, String expression, String... values) {
         Assert.assertEquals(type, arrayCreationContext.IDENTIFIER().getText());
         if (values.length == 0) {
             assertExpression(arrayCreationContext.expression(0), expression);
@@ -54,7 +51,7 @@ public class NodeUtil {
     }
 
     public static void assertNewMapCreation(LazoParser.MapCreationContext mapCreationContext,
-                                              String keyType, String valueType) {
+                                            String keyType, String valueType) {
         Assert.assertEquals(keyType, mapCreationContext.mapType().type(0).getText());
         Assert.assertEquals(valueType, mapCreationContext.mapType().type(1).getText());
     }
@@ -125,7 +122,7 @@ public class NodeUtil {
 
     public static void assertStatementBlock(LazoParser.StatementBlockContext statementBlockNode, int numOfStatements) {
         // -2 because of '{' and '}'
-        Assert.assertEquals(numOfStatements, statementBlockNode.children.size()-2);
+        Assert.assertEquals(numOfStatements, statementBlockNode.children.size() - 2);
     }
 
     public static void assertIndexAccessExpression(LazoParser.ExpressionContext indexAccessNode,
@@ -168,7 +165,7 @@ public class NodeUtil {
     }
 
     public static void assertTernaryExpression(LazoParser.ExpressionContext ternaryNode,
-                                               String condition, String trueExp, String falseExp){
+                                               String condition, String trueExp, String falseExp) {
         assertExpression(ternaryNode.getChild(LazoParser.ExpressionContext.class, 0), condition);
         assertExpression(ternaryNode.getChild(LazoParser.ExpressionContext.class, 1), trueExp);
         assertExpression(ternaryNode.getChild(LazoParser.ExpressionContext.class, 2), falseExp);
@@ -179,12 +176,12 @@ public class NodeUtil {
     }
 
     public static void assertReturnStatement(LazoParser.ReturnStatementContext node, String... values) {
-        if (values != null){
-            for (int i = 1; i < values.length-1; i+=2) {
+        if (values != null) {
+            for (int i = 1; i < values.length - 1; i += 2) {
                 // i=1 as first is "return"
                 // values.length -1 as last is "\n"
                 // i+=2 to skip the "," between the values
-                Assert.assertEquals(node.getChild(i).getText(), values[i-1]);
+                Assert.assertEquals(node.getChild(i).getText(), values[i - 1]);
             }
         } else {
             Assert.assertEquals(2, node.children.size());
@@ -196,14 +193,14 @@ public class NodeUtil {
         Assert.assertEquals(type, node.type().getText());
         Assert.assertEquals(name, node.IDENTIFIER().getText());
         assertExpression(node.expression(), expression);
-        Assert.assertEquals(numOfStatements, node.statementBlock().getChildCount()-2);
+        Assert.assertEquals(numOfStatements, node.statementBlock().getChildCount() - 2);
     }
 
     public static void assertForStatement(LazoParser.ForStatementContext node, String name,
-                                              String range, int numOfStatements) {
+                                          String range, int numOfStatements) {
         Assert.assertEquals(name, node.IDENTIFIER().getText());
         Assert.assertEquals(range, node.rangeStatement().getText());
-        Assert.assertEquals(numOfStatements, node.statementBlock().getChildCount()-2);
+        Assert.assertEquals(numOfStatements, node.statementBlock().getChildCount() - 2);
 
     }
 
@@ -211,16 +208,13 @@ public class NodeUtil {
         if (from == null && by == null) {
             Assert.assertEquals(to, node.getChild(1).getText());
 
-        }
-        else if (from != null && by == null) {
+        } else if (from != null && by == null) {
             Assert.assertEquals(from, node.getChild(0).getText());
             Assert.assertEquals(to, node.getChild(2).getText());
-        }
-        else if (from == null) {
+        } else if (from == null) {
             Assert.assertEquals(to, node.getChild(1).getText());
             Assert.assertEquals(by, node.getChild(3).getText());
-        }
-        else {
+        } else {
             Assert.assertEquals(from, node.getChild(0).getText());
             Assert.assertEquals(to, node.getChild(2).getText());
             Assert.assertEquals(by, node.getChild(4).getText());
@@ -248,7 +242,7 @@ public class NodeUtil {
 
         assertExpression(node.expression(), expression);
 
-        Assert.assertEquals(numOfStatements, node.statementBlock().getChildCount()-2);
+        Assert.assertEquals(numOfStatements, node.statementBlock().getChildCount() - 2);
     }
 
     public static void removeNewlines(List<? extends ParserRuleContext> nodes) {

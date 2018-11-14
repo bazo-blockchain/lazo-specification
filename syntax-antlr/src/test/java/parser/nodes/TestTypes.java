@@ -1,7 +1,6 @@
 package parser.nodes;
 
 import bazolang.LazoParser;
-import org.antlr.v4.runtime.RuleContext;
 import org.junit.Test;
 import parser.NodeUtil;
 import parser.ParserUtil;

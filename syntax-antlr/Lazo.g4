@@ -11,16 +11,16 @@ program
   : versionDirective interfaceDeclaration* contractDeclaration EOF ;
 
 versionDirective
-  : 'version' INTEGER '.' INTEGER NLS; // todo prevent version 0x3.0x2
+  : 'version' INTEGER '.' INTEGER NLS ;
 
 interfaceDeclaration
-  : 'interface' IDENTIFIER '{' NLS* interfacePart* '}' NLS;
+  : 'interface' IDENTIFIER '{' NLS* interfacePart* '}' NLS ;
 
 interfacePart
   : functionHead NLS ;
 
 contractDeclaration
-  : 'contract' IDENTIFIER ('is' IDENTIFIER (',' IDENTIFIER)* )? '{' (NLS | contractPart)* '}' NLS?;
+  : 'contract' IDENTIFIER ('is' IDENTIFIER (',' IDENTIFIER)* )? '{' (NLS | contractPart)* '}' NLS? ;
 
 contractPart
   : variableDeclaration
@@ -59,7 +59,7 @@ functionHead
   : 'internal'? 'function' (type | '(' type (',' type)*')') IDENTIFIER '(' paramList? ')' ;
 
 annotation
-  : '[' IDENTIFIER ('=' IDENTIFIER)? ']' NLS ;
+  : '[' IDENTIFIER ('=' expression)? ']' NLS ;
 
 paramList
   : parameter (',' parameter)* ; // todo allow optional newline
@@ -303,20 +303,16 @@ NLS
 fragment NL
   : [\n]
   | [\r\n]
-  ; // TODO: remove terminator and add CRLF as well
+  ;
 
 // Skip Rules
 // --------
-
-TERMINATOR
-  : [\r\n]+ -> skip ;
-
 WHITE_SPACE
   : [ \t\f\r]+ -> skip // skip spaces, tabs, form feed and carrige return
   ;
 
 LINE_COMMENT
-  : '//' ~[\r\n]* -> skip ;
+  : '//' ~[\r\n]* [\r\n] -> skip ;
 
 BLOCK_COMMENT
   : '/*' .*? '*/' -> skip ;

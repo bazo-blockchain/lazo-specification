@@ -5,13 +5,11 @@ import org.junit.Test;
 import parser.NodeUtil;
 import parser.ParserUtil;
 
-import java.util.List;
-
 public class TestStatements {
 
     @Test
     public void testEmptyReturnStatement() {
-        NodeUtil.assertReturnStatement(getReturnStatement("return \n"), null);
+        NodeUtil.assertReturnStatement(getReturnStatement("return \n"));
     }
 
     @Test

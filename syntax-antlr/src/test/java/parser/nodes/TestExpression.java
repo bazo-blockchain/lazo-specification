@@ -267,7 +267,7 @@ public class TestExpression {
     }
 
     @Test
-    public void assertOperandExpression(){
+    public void assertOperandExpression() {
         NodeUtil.assertExpression(getExpression("x"), "x");
     }
 
