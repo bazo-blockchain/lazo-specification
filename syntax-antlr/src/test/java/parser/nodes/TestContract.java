@@ -26,7 +26,7 @@ public class TestContract {
 
     @Test
     public void testSimpleContract() throws IOException {
-        var program = ParserUtil.getProgramFromFile("parser/simple_contract.lz");
+        var program = ParserUtil.getProgramFromFile("parser/simple_contract.lazo");
         NodeUtil.assertVersion(program.versionDirective(), 1, 0);
         NodeUtil.assertInterfaceDecl(program.interfaceDeclaration(0), "AInterface");
         NodeUtil.assertInterfaceDecl(program.interfaceDeclaration(1), "BInterface");
@@ -35,7 +35,7 @@ public class TestContract {
 
     @Test
     public void testContractParts() throws IOException {
-        var contractParts = ParserUtil.getProgramFromFile("parser/contract_parts.lz")
+        var contractParts = ParserUtil.getProgramFromFile("parser/contract_parts.lazo")
                 .contractDeclaration()
                 .contractPart();
         NodeUtil.removeNewlines(contractParts);

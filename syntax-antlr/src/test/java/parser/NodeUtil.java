@@ -98,6 +98,14 @@ public class NodeUtil {
         Assert.assertEquals(totalAnnotations, constructorNode.annotation().size());
     }
 
+    public static void assertFunctionDeclaration(LazoParser.FunctionDeclarationContext functionNode,
+                                                 String name, int totalParams, int totalAnnotations,
+                                                 int totalStatements, String... returnTypes) {
+        assertFunctionHead(functionNode.functionHead(), name, totalParams, returnTypes);
+        Assert.assertEquals(totalAnnotations, functionNode.annotation().size());
+        assertStatementBlock(functionNode.statementBlock(), totalStatements);
+    }
+
     public static void assertFunctionHead(LazoParser.FunctionHeadContext functionHeadNode,
                                           String name, int totalParams, String... returnTypes) {
         LexerUtil.assertIdentifier(functionHeadNode.IDENTIFIER().getSymbol(), name);
@@ -121,8 +129,7 @@ public class NodeUtil {
     }
 
     public static void assertStatementBlock(LazoParser.StatementBlockContext statementBlockNode, int numOfStatements) {
-        // -2 because of '{' and '}'
-        Assert.assertEquals(numOfStatements, statementBlockNode.children.size() - 2);
+        Assert.assertEquals(numOfStatements, statementBlockNode.statement().size());
     }
 
     public static void assertIndexAccessExpression(LazoParser.ExpressionContext indexAccessNode,
@@ -252,6 +259,14 @@ public class NodeUtil {
             if (item.getRuleIndex() == LazoParser.NLS) {
                 it.remove();
             }
+        }
+    }
+
+    public static <T extends ParserRuleContext> void removeNewlines(T rule) {
+        var it = rule.children.iterator();
+        while (it.hasNext()) {
+            var item = it.next();
+
         }
     }
 }

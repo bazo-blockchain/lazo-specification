@@ -25,8 +25,8 @@ contract OpenAuction {
     }
 
     [Payable]
-    [Pre = block.timestamp <= auctionEndTime, "Auction already ended"]
-    [Pre = msg.coins > highestBid, "There is already a higher bid"]
+    [Pre = block.timestamp <= auctionEndTime]
+    [Pre = msg.coins > highestBid]
     function void bid(){
         if(highestBid != 0){
             pendingReturns[highestBidder] += highestBid
@@ -57,8 +57,8 @@ contract OpenAuction {
         return true
     }
 
-    [Pre = block.timestamp >= auctionEndTime, "Auction not yet ended"]
-    [Pre = !ended, "Auction is already ended"]
+    [Pre = block.timestamp >= auctionEndTime]
+    [Pre = !ended]
     function void auctionEnd(){
         ended = true
         emit AuctionEnded(highestBidder, highestBid)
