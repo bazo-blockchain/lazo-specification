@@ -115,6 +115,10 @@ public class NodeUtil {
         }
     }
 
+    public static void assertType(LazoParser.TypeContext typeNode, String expectedType) {
+        Assert.assertEquals(expectedType, typeNode.getText());
+    }
+
     public static void assertExpression(LazoParser.ExpressionContext expressionNode, String expected) {
         Assert.assertEquals(expected, expressionNode.getText());
     }
@@ -148,6 +152,26 @@ public class NodeUtil {
                 assertExpression(argList.getChild(LazoParser.ExpressionContext.class, i), args[i]);
             }
         }
+    }
+
+    public static void assertCastExpression(LazoParser.ExpressionContext castNode,
+                                            String type, String expression) {
+        assertType(castNode.getChild(LazoParser.TypeContext.class, 0), type);
+        assertExpression(castNode.getChild(LazoParser.ExpressionContext.class, 0), expression);
+    }
+
+    public static void assertBinaryExpression(LazoParser.ExpressionContext binaryNode,
+                                              String exp1, String exp2, String operator) {
+        assertExpression(binaryNode.getChild(LazoParser.ExpressionContext.class, 0), exp1);
+        assertExpression(binaryNode.getChild(LazoParser.ExpressionContext.class, 1), exp2);
+        assertTerminalNode(binaryNode.getChild(1), operator);
+    }
+
+    public static void assertTernaryExpression(LazoParser.ExpressionContext ternaryNode,
+                                               String condition, String trueExp, String falseExp){
+        assertExpression(ternaryNode.getChild(LazoParser.ExpressionContext.class, 0), condition);
+        assertExpression(ternaryNode.getChild(LazoParser.ExpressionContext.class, 1), trueExp);
+        assertExpression(ternaryNode.getChild(LazoParser.ExpressionContext.class, 2), falseExp);
     }
 
     public static void assertTerminalNode(ParseTree tree, String expected) {
