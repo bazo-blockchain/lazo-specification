@@ -3,6 +3,7 @@ package parser;
 import bazolang.LazoParser;
 import bazolang.LazoParser.VersionDirectiveContext;
 import lexer.LexerUtil;
+import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Assert;
@@ -106,6 +107,11 @@ public class NodeUtil {
                 assertExpression(argList.getChild(LazoParser.ExpressionContext.class, i), args[i]);
             }
         }
+    }
+
+    public static void assertStructCreation(LazoParser.StructCreationContext structCreationNode,
+                                            String name, String... args) {
+        // todo
     }
 
     public static void assertTerminalNode(ParseTree tree, String expected) {

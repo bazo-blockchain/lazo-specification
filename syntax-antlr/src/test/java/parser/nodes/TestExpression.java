@@ -11,7 +11,6 @@ public class TestExpression {
     @Test
     public void testPostfixIncrement() {
         var expression = getExpression("x.y++");
-
         NodeUtil.assertExpression(getSubExpression(expression, 0), "x.y");
         NodeUtil.assertTerminalNode(expression.getChild(1), "++");
     }
@@ -90,6 +89,27 @@ public class TestExpression {
                 "test",
                 "1", "x", "x[2]", "func()");
     }
+
+    @Test
+    public void testNewCreation() {
+
+        // new Person(12, s = "test")
+        // new int[23]
+        // new Map<int, Person>()
+    }
+
+    // todo test ( expression )
+
+    @Test
+    public void testPrefixIncrement() {
+        var expression = getExpression("++x.y[2]");
+
+        NodeUtil.assertTerminalNode(expression.getChild(0), "++");
+        NodeUtil.assertExpression(getSubExpression(expression, 0), "x.y[2]");
+    }
+
+
+
 
     // todo test other expressions
 
