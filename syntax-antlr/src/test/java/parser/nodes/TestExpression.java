@@ -202,7 +202,7 @@ public class TestExpression {
         NodeUtil.assertBinaryExpression(
                 getExpression("2 > 3 + 5"),
                 "2",
-                "3+3",
+                "3+5",
                 ">");
     }
 
@@ -236,7 +236,40 @@ public class TestExpression {
                 "^");
     }
 
-    // todo test other expressions
+    @Test
+    public void testLogicExpressions() {
+        NodeUtil.assertBinaryExpression(
+                getExpression("x && y || z"),
+                "x&&y",
+                "z",
+                "||");
+
+        NodeUtil.assertBinaryExpression(
+                getExpression("x || y && z"),
+                "x",
+                "y&&z",
+                "||");
+    }
+
+    @Test
+    public void testTernaryExpression() {
+        NodeUtil.assertTernaryExpression(
+                getExpression("x == 4 ? x + 1 : x + 2"),
+                "x==4",
+                "x+1",
+                "x+2");
+
+        NodeUtil.assertTernaryExpression(
+                getExpression("test() ? x > 4 : x ? y : x[2]"),
+                "test()",
+                "x>4",
+                "x?y:x[2]");
+    }
+
+    @Test
+    public void assertOperandExpression(){
+        NodeUtil.assertExpression(getExpression("x"), "x");
+    }
 
     private LazoParser.ExpressionContext getExpression(String input) {
         var parser = ParserUtil.getParserForInput(input);

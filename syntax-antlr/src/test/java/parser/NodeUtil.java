@@ -125,6 +125,13 @@ public class NodeUtil {
         assertTerminalNode(binaryNode.getChild(1), operator);
     }
 
+    public static void assertTernaryExpression(LazoParser.ExpressionContext ternaryNode,
+                                               String condition, String trueExp, String falseExp){
+        assertExpression(ternaryNode.getChild(LazoParser.ExpressionContext.class, 0), condition);
+        assertExpression(ternaryNode.getChild(LazoParser.ExpressionContext.class, 1), trueExp);
+        assertExpression(ternaryNode.getChild(LazoParser.ExpressionContext.class, 2), falseExp);
+    }
+
     public static void assertTerminalNode(ParseTree tree, String expected) {
         Assert.assertEquals(expected, tree.getText());
     }
