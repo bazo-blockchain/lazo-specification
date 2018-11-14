@@ -95,14 +95,40 @@ public class TestTypes {
     }
 
     @Test
-    public void testStructFields() {
+    public void testStructField() {
         var fields = getFields(getStruct("struct X { int a\n }\n"));
         for (var field : fields) {
             NodeUtil.assertField(field, "int", "a");
         }
     }
 
-    // todo test other types from document
+    @Test
+    public void testStructFields() {
+        var fields = getFields(getStruct("struct X { int a\n bool b\n }\n"));
+        var types = new String[]{"int", "bool"};
+        var names = new String[]{"a", "b"};
+        for (int i = 0; i < fields.size(); i++) {
+            NodeUtil.assertField(fields.get(i), types[i], names[i]);
+        }
+    }
+
+    @Test
+    public void testEventField() {
+        var params = getFields(getEvent("event X (int a)\n"));
+        for (var param : params) {
+            NodeUtil.assertField(param, "int", "a");
+        }
+    }
+
+    @Test
+    public void testEventFields() {
+        var params = getFields(getEvent("event X (int a, bool b)\n"));
+        var types = new String[]{"int", "bool"};
+        var names = new String[]{"a", "b"};
+        for (int i = 0; i < params.size(); i++) {
+            NodeUtil.assertField(params.get(i), types[i], names[i]);
+        }
+    }
 
     // struct fields
 
@@ -144,5 +170,9 @@ public class TestTypes {
 
     private List<LazoParser.StructFieldContext> getFields(LazoParser.StructDeclarationContext structDeclNode) {
         return structDeclNode.structField();
+    }
+
+    private List<LazoParser.ParameterContext> getFields(LazoParser.EventDeclarationContext eventDeclNode) {
+        return eventDeclNode.paramList().parameter();
     }
 }

@@ -35,7 +35,7 @@ contractPart
 // ------------
 
 variableDeclaration
-  :  type IDENTIFIER assignment? NLS;
+  :  'readonly'? type IDENTIFIER assignment? NLS;
 
 structDeclaration
   : 'struct' IDENTIFIER '{' NLS* structField* '}' NLS ;
@@ -212,6 +212,7 @@ MAP : 'Map' ;
 RETURN : 'return' ;
 STRUCT : 'struct' ;
 VERSION : 'version' ;
+READONLY : 'readonly' ;
 // ----- TODO: complete the keywords
 
 BOOL
