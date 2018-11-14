@@ -120,7 +120,26 @@ public class NodeUtil {
         if (expected == 0) {
             Assert.assertNull(paramsList);
         } else {
-            Assert.assertEquals(expected, paramsList.parameter().size());
+            int total = paramsList.parameter().size() + paramsList.defaultParameter().size();
+            Assert.assertEquals(expected, total);
+        }
+    }
+
+    public static void assertParameters(LazoParser.ParamListContext paramList, String[][] params) {
+        for (int i = 0; i < paramList.children.size(); i += 2) {
+            int index = i / 2;
+            var expectedParam = params[index];
+
+            LazoParser.ParameterContext param = null;
+            if (paramList.getChild(i) instanceof LazoParser.ParameterContext) {
+                param = (LazoParser.ParameterContext) paramList.getChild(i);
+            }else{
+                var defaultParam = (LazoParser.DefaultParameterContext) paramList.getChild(i);
+                param = defaultParam.parameter();
+                assertExpression(defaultParam.assignment().expression(), expectedParam[2]);
+            }
+            assertType(param.type(), expectedParam[0]);
+            LexerUtil.assertIdentifier(param.IDENTIFIER().getSymbol(), expectedParam[1]);
         }
     }
 
@@ -191,7 +210,7 @@ public class NodeUtil {
         assertExpression(node.expression(), target);
         assertExpression(node.assignment().expression(), value);
 
-        if(operator != null){
+        if (operator != null) {
             Assert.assertEquals(operator, node.getChild(1).getText());
         }
     }

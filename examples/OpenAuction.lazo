@@ -1,5 +1,4 @@
 // Inspired by Solidity Example: https://solidity.readthedocs.io/en/v0.4.25/solidity-by-example.html#simple-open-auction
-
 version 1.0
 
 contract OpenAuction {
@@ -38,23 +37,15 @@ contract OpenAuction {
 
     }
 
-    function bool withdraw(){
+    function void withdraw(){
         int amount = pendingReturns[msg.sender]
 
         if(amount > 0){
             pendingReturns[msg.sender] = 0
 
-            try{
-                // todo interface and builder
-                Account a = (Account) msg.sender
-                a.transfer(amount).send()
-            } catch (Error e){
-                // no need to revert
-                pendingReturns[msg.sender] = amount
-                return false
-            }
+            Account a = (Account) msg.sender
+            a.transfer(amount).send()
         }
-        return true
     }
 
     [Pre = block.timestamp >= auctionEndTime]

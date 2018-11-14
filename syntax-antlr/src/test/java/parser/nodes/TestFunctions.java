@@ -46,6 +46,42 @@ public class TestFunctions {
         );
     }
 
+    @Test
+    public void testParameters() throws IOException {
+        var functions = getFunctions("parser/function_parameters.lazo");
+
+        NodeUtil.assertFunctionDeclaration(
+                getFunction(functions.get(0)),
+                "params", 2, 0, 2,
+                "void"
+        );
+
+        var params = new String[][]{
+                {"int", "i", null},
+                {"String", "s", null}
+        };
+        NodeUtil.assertParameters(
+                getFunction(functions.get(0)).functionHead().paramList(), params);
+    }
+
+    @Test
+    public void testDefaultParameters() throws IOException {
+        var functions = getFunctions("parser/function_parameters.lazo");
+
+        NodeUtil.assertFunctionDeclaration(
+                getFunction(functions.get(1)),
+                "defaultValue", 2, 0, 1,
+                "void"
+        );
+
+        var params = new String[][]{
+                {"int", "i", null},
+                {"String", "s", "\"default\""}
+        };
+        NodeUtil.assertParameters(
+                getFunction(functions.get(1)).functionHead().paramList(), params);
+    }
+
     private List<LazoParser.ContractPartContext> getFunctions(String path) throws IOException {
         return ParserUtil.getProgramFromFile(path)
                 .contractDeclaration()
@@ -55,5 +91,4 @@ public class TestFunctions {
     private LazoParser.FunctionDeclarationContext getFunction(LazoParser.ContractPartContext contractPart) {
         return contractPart.getChild(LazoParser.FunctionDeclarationContext.class, 0);
     }
-
 }

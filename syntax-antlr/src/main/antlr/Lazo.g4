@@ -62,10 +62,13 @@ annotation
   : '[' IDENTIFIER ('=' expression)? ']' NLS ;
 
 paramList
-  : parameter (',' parameter)* ; // todo allow optional newline
+  : parameter (',' parameter)* (',' defaultParameter)* ; // todo allow optional newline
 
 parameter
-  : type IDENTIFIER assignment? ;
+  : type IDENTIFIER ;
+
+defaultParameter
+  : parameter assignment ;
 
 // Types
 // -----
