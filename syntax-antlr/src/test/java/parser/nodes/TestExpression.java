@@ -106,6 +106,11 @@ public class TestExpression {
 
         NodeUtil.assertTerminalNode(expression.getChild(0), "++");
         NodeUtil.assertExpression(getSubExpression(expression, 0), "x.y[2]");
+
+        var rightAssoc = getExpression("---x");
+
+        NodeUtil.assertTerminalNode(rightAssoc.getChild(0), "--");
+        NodeUtil.assertExpression(getSubExpression(rightAssoc, 0), "-x");
     }
 
     @Test
@@ -129,6 +134,23 @@ public class TestExpression {
         NodeUtil.assertExpression(getSubExpression(bitwiseNot, 0), "x++");
     }
 
+    @Test
+    public void testCast() {
+        NodeUtil.assertCastExpression(
+                getExpression("(int) x\n"),
+                "int",
+                "x");
+
+        NodeUtil.assertCastExpression(
+                getExpression("(int) x++\n"),
+                "int",
+                "x++");
+
+        NodeUtil.assertCastExpression(
+                getExpression("(int) x.test()\n"),
+                "int",
+                "x.test()");
+    }
 
     // todo test other expressions
 

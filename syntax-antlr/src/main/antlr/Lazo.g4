@@ -148,7 +148,7 @@ expression
   | '(' expression ')'
   // --- End of Level 1 ----
   | <assoc=right> ( '++' | '--' | '+' | '-' | '!' | TILDE ) expression
-  | <assoc=right> '(' type ')' expression
+  | <assoc=right> '(' type ')' expression      // cast
   | <assoc=right> expression '**' expression
   | expression ('*' | '/' | '%') expression
   | expression ('+' | '-') expression
