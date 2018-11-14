@@ -35,7 +35,7 @@ contractPart
 // ------------
 
 variableDeclaration
-  :  type IDENTIFIER assignment? NLS;
+  :  'readonly'? type IDENTIFIER assignment? NLS;
 
 structDeclaration
   : 'struct' IDENTIFIER '{' NLS* structField* '}' NLS ;
@@ -108,10 +108,10 @@ forStatement
   : 'for' '(' IDENTIFIER ':' rangeStatement ')' statementBlock ;
 
 forEachStatement
-  : 'foreach' '(' type IDENTIFIER ':' designator ')' statementBlock;
+  : 'foreach' '(' type IDENTIFIER ':' expression ')' statementBlock;
 
 mapForEachStatement
-  : 'foreach' '(' (type? IDENTIFIER ',')? type IDENTIFIER ':' designator ')' statementBlock ;
+  : 'foreach' '(' (type? IDENTIFIER ',')? type IDENTIFIER ':' expression ')' statementBlock ;
 
 rangeStatement
   : expression? 'to' expression ('by' expression)?; // Expression as we could use .size or negative integers
@@ -135,7 +135,7 @@ designator
   ;
 
 returnStatement
-  : 'return' expression (',' expression)? NLS ;
+  : 'return' (expression (',' expression)*)? NLS ;
 
 // Expressions
 // -----------
@@ -174,7 +174,7 @@ structCreation
   : 'new' IDENTIFIER '('(IDENTIFIER assignment | expression)* ')' ;
 
 arrayCreation
-  : 'new' IDENTIFIER '[' expression* ']';
+  : 'new' IDENTIFIER ('[' expression ']' ('{' '}')?| '[' ']' '{' expression (',' expression)* '}');
 
 mapCreation
   : 'new' mapType '(' ')';
@@ -212,6 +212,7 @@ MAP : 'Map' ;
 RETURN : 'return' ;
 STRUCT : 'struct' ;
 VERSION : 'version' ;
+READONLY : 'readonly' ;
 // ----- TODO: complete the keywords
 
 BOOL
