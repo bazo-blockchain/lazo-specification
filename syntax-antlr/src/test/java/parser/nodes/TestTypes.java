@@ -12,6 +12,11 @@ public class TestTypes {
     }
 
     @Test
+    public void testIntegerHex() {
+        NodeUtil.assertVariableDecl(getType("int x = 0x5\n"), "x", "int", "0x5");
+    }
+
+    @Test
     public void TestBoolean() {
         NodeUtil.assertVariableDecl(getType("bool x = true\n"), "x", "bool", "true");
     }
@@ -81,6 +86,16 @@ public class TestTypes {
         NodeUtil.assertInterfaceDecl(getInterface("interface X {}\n"), "X");
     }
 
+    @Test
+    public void testEmptyEvent() {
+        NodeUtil.assertEventDecl(getEvent("event X ()\n"), "X", 0);
+    }
+
+    @Test
+    public void testEvent() {
+        NodeUtil.assertEventDecl(getEvent("event X (int a, int b)\n"), "X", 2);
+    }
+
     // todo test other types from document
 
     // struct fields
@@ -121,5 +136,11 @@ public class TestTypes {
         var parser = ParserUtil.getParserForInput(input);
         ParserUtil.assertNoErrors(parser);
         return parser.mapCreation();
+    }
+
+    private LazoParser.EventDeclarationContext getEvent(String input) {
+        var parser = ParserUtil.getParserForInput(input);
+        ParserUtil.assertNoErrors(parser);
+        return parser.eventDeclaration();
     }
 }
