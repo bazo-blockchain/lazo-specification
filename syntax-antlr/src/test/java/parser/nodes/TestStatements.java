@@ -31,22 +31,86 @@ public class TestStatements {
 
     @Test
     public void testCallStatement() {
+        NodeUtil.assertExpression(getCallStatement("a()\n").expression(), "a()");
+    }
 
+    @Test
+    public void testNestedCallStatement() {
+        NodeUtil.assertExpression(getCallStatement("a.a()\n").expression(), "a.a()");
     }
 
     @Test
     public void testEmitStatement() {
-
+        NodeUtil.assertExpression(getEmitStatement("emit A()\n").callStatement().expression(), "A()");
     }
 
     @Test
-    public void testVariableDeclarationStatement() {
+    public void testEmitStatementWithParams() {
+        NodeUtil.assertExpression(getEmitStatement("emit A(1, 2)\n").callStatement().expression(), "A(1,2)");
+    }
 
+    @Test
+    public void testEmptyIfStatement() {
+        var ifStatement = getIfStatement("if (a){}\n");
+        NodeUtil.assertExpression(ifStatement.expression(0), "a");
+        NodeUtil.assertStatementBlock(ifStatement.statementBlock(0), 0);
     }
 
     @Test
     public void testIfStatement() {
+        var ifStatement = getIfStatement("if (a){ int a = 5\n int b = 6\n}\n");
+        NodeUtil.assertExpression(ifStatement.expression(0), "a");
+        NodeUtil.assertStatementBlock(ifStatement.statementBlock(0), 2);
+    }
 
+    @Test
+    public void testEmptyIfElseStatement() {
+        var ifStatement = getIfStatement("if (a){} else {}\n");
+        NodeUtil.assertExpression(ifStatement.expression(0), "a");
+        NodeUtil.assertStatementBlock(ifStatement.statementBlock(0), 0);
+        NodeUtil.assertStatementBlock(ifStatement.statementBlock(1), 0);
+    }
+
+    @Test
+    public void testIfElseStatement() {
+        var ifStatement = getIfStatement("if (a){ int a = 5\n} else { int a = 4\n}\n");
+        NodeUtil.assertExpression(ifStatement.expression(0), "a");
+        NodeUtil.assertStatementBlock(ifStatement.statementBlock(0), 1);
+        NodeUtil.assertStatementBlock(ifStatement.statementBlock(1), 1);
+    }
+
+    @Test
+    public void testEmptyIfElseIfStatement() {
+        var ifStatement = getIfStatement("if (a){} else if (b) {}\n");
+        NodeUtil.assertExpression(ifStatement.expression(0), "a");
+        NodeUtil.assertStatementBlock(ifStatement.statementBlock(0), 0);
+        NodeUtil.assertStatementBlock(ifStatement.statementBlock(1), 0);
+    }
+
+    @Test
+    public void testIfElseIfStatement() {
+        var ifStatement = getIfStatement("if (a){ int a = 5\n} else if (b) {int a = 4\n}\n");
+        NodeUtil.assertExpression(ifStatement.expression(0), "a");
+        NodeUtil.assertStatementBlock(ifStatement.statementBlock(0), 1);
+        NodeUtil.assertStatementBlock(ifStatement.statementBlock(1), 1);
+    }
+
+    @Test
+    public void testEmptyIfElseIfElseStatement() {
+        var ifStatement = getIfStatement("if (a){} else if (b) {} else {}\n");
+        NodeUtil.assertExpression(ifStatement.expression(0), "a");
+        NodeUtil.assertStatementBlock(ifStatement.statementBlock(0), 0);
+        NodeUtil.assertStatementBlock(ifStatement.statementBlock(1), 0);
+        NodeUtil.assertStatementBlock(ifStatement.statementBlock(2), 0);
+    }
+
+    @Test
+    public void testIfElseIfElseStatement() {
+        var ifStatement = getIfStatement("if (a){ int a = 5\n} else if (b) {int a = 4\n} else { }\n");
+        NodeUtil.assertExpression(ifStatement.expression(0), "a");
+        NodeUtil.assertStatementBlock(ifStatement.statementBlock(0), 1);
+        NodeUtil.assertStatementBlock(ifStatement.statementBlock(1), 1);
+        NodeUtil.assertStatementBlock(ifStatement.statementBlock(2), 0);
     }
 
     @Test
@@ -56,6 +120,11 @@ public class TestStatements {
 
     @Test
     public void testForStatement() {
+
+    }
+
+    @Test
+    public void testRangeStatement() {
 
     }
 
@@ -75,4 +144,15 @@ public class TestStatements {
         return getParser(input).returnStatement();
     }
 
+    private LazoParser.CallStatementContext getCallStatement(String input) {
+        return getParser(input).callStatement();
+    }
+
+    private LazoParser.EmitStatementContext getEmitStatement(String input) {
+        return getParser(input).emitStatement();
+    }
+
+    private LazoParser.IfStatementContext getIfStatement(String input) {
+        return getParser(input).ifStatement();
+    }
 }

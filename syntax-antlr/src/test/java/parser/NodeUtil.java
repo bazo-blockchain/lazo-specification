@@ -117,6 +117,11 @@ public class NodeUtil {
         Assert.assertEquals(expected, expressionNode.getText());
     }
 
+    public static void assertStatementBlock(LazoParser.StatementBlockContext statementBlockNode, int numOfStatements) {
+        // -2 because of '{' and '}'
+        Assert.assertEquals(numOfStatements, statementBlockNode.children.size()-2);
+    }
+
     public static void assertIndexAccessExpression(LazoParser.ExpressionContext indexAccessNode,
                                                    String expectedDesignator, String expectedExpression) {
         assertExpression(indexAccessNode.getChild(LazoParser.ExpressionContext.class, 0), expectedDesignator);
