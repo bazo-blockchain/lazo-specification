@@ -77,6 +77,13 @@ public class NodeUtil {
         Assert.assertEquals(name, fieldName);
     }
 
+
+    public static void assertModifier(RuleContext node, String... modifiers) {
+        for (int i = 0; i < modifiers.length; i++) {
+            Assert.assertEquals(node.getChild(i).getText(), modifiers[i]);
+        }
+    }
+
     public static void assertEnumDecl(LazoParser.EnumDeclarationContext enumNode, String name, String... values) {
         LexerUtil.assertIdentifier(enumNode.IDENTIFIER(0).getSymbol(), name);
 

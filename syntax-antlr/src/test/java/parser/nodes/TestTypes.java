@@ -35,6 +35,11 @@ public class TestTypes {
     }
 
     @Test
+    public void testReadonly() {
+        NodeUtil.assertModifier(getType("readonly int x = 5\n"), "readonly");
+    }
+
+    @Test
     public void testEmptyStruct() {
         NodeUtil.assertStructDecl(getStruct("struct X {}\n"), "X", 0);
     }
@@ -130,8 +135,6 @@ public class TestTypes {
         }
     }
 
-    // struct fields
-
     // read only variables
 
     private LazoParser getParser(String input) {
@@ -175,4 +178,5 @@ public class TestTypes {
     private List<LazoParser.ParameterContext> getFields(LazoParser.EventDeclarationContext eventDeclNode) {
         return eventDeclNode.paramList().parameter();
     }
+
 }
