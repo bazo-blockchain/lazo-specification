@@ -181,6 +181,61 @@ public class TestExpression {
                 "+");
     }
 
+    @Test
+    public void testBitwiseShift() {
+        NodeUtil.assertBinaryExpression(
+                getExpression("2<<3>>4"),
+                "2<<3",
+                "4",
+                ">>"
+        );
+    }
+
+    @Test
+    public void testRelationalComparison() {
+        NodeUtil.assertBinaryExpression(
+                getExpression("2 < 3 <= 5"),
+                "2<3",
+                "5",
+                "<=");
+
+        NodeUtil.assertBinaryExpression(
+                getExpression("2 > 3 + 5"),
+                "2",
+                "3+3",
+                ">");
+    }
+
+    @Test
+    public void testEqualityComparison() {
+        NodeUtil.assertBinaryExpression(
+                getExpression("false == 5 > 3"),
+                "false",
+                "5>3",
+                "==");
+
+        NodeUtil.assertBinaryExpression(
+                getExpression("x == y == z"),
+                "x==y",
+                "z",
+                "==");
+    }
+
+    @Test
+    public void testBitwiseOperators() {
+        NodeUtil.assertBinaryExpression(
+                getExpression("5 & 4 | 3"),
+                "5&4",
+                "3",
+                "|");
+
+        NodeUtil.assertBinaryExpression(
+                getExpression("x ^ y + z"),
+                "x",
+                "y+z",
+                "^");
+    }
+
     // todo test other expressions
 
     private LazoParser.ExpressionContext getExpression(String input) {
