@@ -120,9 +120,21 @@ public class TestStatements {
     }
 
     @Test
+    public void testForEachStatementWithStatements() {
+        var forEachStatement = getForEachStatement("foreach(int a : numbers) {int a = 5\n}\n");
+        NodeUtil.assertForEachStatement(forEachStatement, "int", "a", "numbers", 1);
+    }
+
+    @Test
     public void testForStatement() {
         var forStatement = getForStatement("for (a : 0 to 5 by 1) {}\n");
         NodeUtil.assertForStatement(forStatement, "a", "0to5by1", 0);
+    }
+
+    @Test
+    public void testForStatementWithStatements() {
+        var forStatement = getForStatement("for (a : 0 to 5 by 1) {int a = 5 \n}\n");
+        NodeUtil.assertForStatement(forStatement, "a", "0to5by1", 1);
     }
 
     @Test
@@ -147,6 +159,12 @@ public class TestStatements {
     public void testMapForEachStatement() {
         var mapForEachStatement = getMapForEachStatement("foreach(int k, int v : a) {}\n");
         NodeUtil.assertMapForEachStatement(mapForEachStatement, "int", "k", "int", "v", "a", 0);
+    }
+
+    @Test
+    public void testMapForEachStatementWithStatements() {
+        var mapForEachStatement = getMapForEachStatement("foreach(int k, int v : a) { int a = 5\n}\n");
+        NodeUtil.assertMapForEachStatement(mapForEachStatement, "int", "k", "int", "v", "a", 1);
     }
 
     @Test
