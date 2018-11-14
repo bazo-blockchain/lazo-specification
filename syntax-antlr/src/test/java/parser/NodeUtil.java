@@ -147,6 +147,19 @@ public class NodeUtil {
         Assert.assertEquals(expected, tree.getText());
     }
 
+    public static void assertReturnStatement(LazoParser.ReturnStatementContext node, String... values) {
+        if (values != null){
+            for (int i = 1; i < values.length-1; i+=2) {
+                // i=1 as first is "return"
+                // values.length -1 as last is "\n"
+                // i+=2 to skip the "," between the values
+                Assert.assertEquals(node.getChild(i).getText(), values[i-1]);
+            }
+        } else {
+            Assert.assertEquals(2, node.children.size());
+        }
+    }
+
     public static void removeNewlines(List<? extends ParserRuleContext> nodes) {
         var it = nodes.iterator();
         while (it.hasNext()) {

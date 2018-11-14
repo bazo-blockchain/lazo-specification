@@ -135,7 +135,7 @@ designator
   ;
 
 returnStatement
-  : 'return' expression (',' expression)? NLS ;
+  : 'return' (expression (',' expression)*)? NLS ;
 
 // Expressions
 // -----------
