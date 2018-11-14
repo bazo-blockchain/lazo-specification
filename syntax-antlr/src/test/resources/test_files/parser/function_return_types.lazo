@@ -1,0 +1,20 @@
+version 1.0
+
+contract TestFunctions {
+
+    function void returnNothing(){
+        if(highestBid != 0){
+            pendingReturns[highestBidder] += highestBid
+        }
+    }
+
+    function String returnSingle(){
+        emit HighestBidIncreased(msg.sender, msg.coins)
+        return "Something"
+    }
+
+    function (int, char, String) returnMultiple(){
+        int x = 5
+        return x, 'c', "String"
+    }
+}

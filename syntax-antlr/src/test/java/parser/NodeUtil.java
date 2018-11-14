@@ -110,6 +110,10 @@ public class NodeUtil {
                                           String name, int totalParams, String... returnTypes) {
         LexerUtil.assertIdentifier(functionHeadNode.IDENTIFIER().getSymbol(), name);
         assertParameterListSize(functionHeadNode.paramList(), totalParams);
+
+        for (int i = 0; i < returnTypes.length; i++) {
+            assertType(functionHeadNode.type(i), returnTypes[i]);
+        }
     }
 
     public static void assertParameterListSize(LazoParser.ParamListContext paramsList, int expected) {
@@ -180,6 +184,16 @@ public class NodeUtil {
 
     public static void assertTerminalNode(ParseTree tree, String expected) {
         Assert.assertEquals(expected, tree.getText());
+    }
+
+    public static void assertAssignmentStatement(LazoParser.AssignmentStatementContext node,
+                                                 String target, String value, String operator) {
+        assertExpression(node.expression(), target);
+        assertExpression(node.assignment().expression(), value);
+
+        if(operator != null){
+            Assert.assertEquals(operator, node.getChild(1).getText());
+        }
     }
 
     public static void assertReturnStatement(LazoParser.ReturnStatementContext node, String... values) {
@@ -259,14 +273,6 @@ public class NodeUtil {
             if (item.getRuleIndex() == LazoParser.NLS) {
                 it.remove();
             }
-        }
-    }
-
-    public static <T extends ParserRuleContext> void removeNewlines(T rule) {
-        var it = rule.children.iterator();
-        while (it.hasNext()) {
-            var item = it.next();
-
         }
     }
 }

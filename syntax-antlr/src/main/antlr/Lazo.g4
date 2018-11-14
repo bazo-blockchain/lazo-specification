@@ -122,10 +122,8 @@ callStatement
 argumentList
   : expression (',' expression)* ;
 
-// todo support indexAccess = exp;
-// todo support test().x = 5
 assignmentStatement
-  : designator assignment NLS ;
+  : expression ( '+' | '-' | '**' | '*' | '/' | '%' | '<<' | '>>' | '&' | '^' | '|' )? assignment NLS ;
 
 assignment
   : '=' expression ;

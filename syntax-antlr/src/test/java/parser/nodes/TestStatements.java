@@ -8,6 +8,17 @@ import parser.ParserUtil;
 public class TestStatements {
 
     @Test
+    public void testAssignmentStatement() {
+        NodeUtil.assertAssignmentStatement(
+                getAssignmentStatement("x.y = 5\n"),
+                "x.y", "5", null);
+
+        NodeUtil.assertAssignmentStatement(
+                getAssignmentStatement("x += 5\n"),
+                "x", "5", "+");
+    }
+
+    @Test
     public void testEmptyReturnStatement() {
         NodeUtil.assertReturnStatement(getReturnStatement("return \n"));
     }
@@ -182,6 +193,10 @@ public class TestStatements {
         var parser = ParserUtil.getParserForInput(input);
         ParserUtil.assertNoErrors(parser);
         return parser;
+    }
+
+    private LazoParser.AssignmentStatementContext getAssignmentStatement(String input) {
+        return getParser(input).assignmentStatement();
     }
 
     private LazoParser.ReturnStatementContext getReturnStatement(String input) {

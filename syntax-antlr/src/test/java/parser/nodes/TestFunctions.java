@@ -21,7 +21,11 @@ public class TestFunctions {
         NodeUtil.assertFunctionDeclaration(
                 getFunction(functions.get(1)),
                 "getInternalValue", 0, 0, 1, "int");
+    }
 
+    @Test
+    public void testReturnTypes() throws IOException {
+        var functions = getFunctions("parser/function_return_types.lazo");
     }
 
     private List<LazoParser.ContractPartContext> getFunctions(String path) throws IOException {
@@ -30,7 +34,7 @@ public class TestFunctions {
                 .contractPart();
     }
 
-    private LazoParser.FunctionDeclarationContext getFunction(LazoParser.ContractPartContext contractPart){
+    private LazoParser.FunctionDeclarationContext getFunction(LazoParser.ContractPartContext contractPart) {
         return contractPart.getChild(LazoParser.FunctionDeclarationContext.class, 0);
     }
 
