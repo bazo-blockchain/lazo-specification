@@ -108,7 +108,26 @@ public class TestExpression {
         NodeUtil.assertExpression(getSubExpression(expression, 0), "x.y[2]");
     }
 
+    @Test
+    public void testUnaryMinus() {
+        var expression = getExpression("-test()");
 
+        NodeUtil.assertTerminalNode(expression.getChild(0), "-");
+        NodeUtil.assertExpression(getSubExpression(expression, 0), "test()");
+    }
+
+    @Test
+    public void testUnaryNot() {
+        var logicalNot = getExpression("!test().x");
+
+        NodeUtil.assertTerminalNode(logicalNot.getChild(0), "!");
+        NodeUtil.assertExpression(getSubExpression(logicalNot, 0), "test().x");
+
+        var bitwiseNot = getExpression("~x++");
+
+        NodeUtil.assertTerminalNode(bitwiseNot.getChild(0), "~");
+        NodeUtil.assertExpression(getSubExpression(bitwiseNot, 0), "x++");
+    }
 
 
     // todo test other expressions

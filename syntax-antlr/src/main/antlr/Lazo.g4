@@ -147,7 +147,7 @@ expression
   | newCreation
   | '(' expression ')'
   // --- End of Level 1 ----
-  | <assoc=right> ( '++' | '--' | '+' | '-' | '!' | '∼' ) expression
+  | <assoc=right> ( '++' | '--' | '+' | '-' | '!' | TILDE ) expression
   | <assoc=right> '(' type ')' expression
   | <assoc=right> expression '**' expression
   | expression ('*' | '/' | '%') expression
@@ -239,8 +239,17 @@ MUL: '*';
 DIV: '/';
 MOD: '%';
 EXP: '**';
-// TODO add others
-// -----------
+LSHIFT: '<<';
+RSHIFT: '>>';
+
+// Logical Operators
+AND: '&&';
+OR: '||';
+NOT: '!';
+BITWISE_AND: '&';
+BITWISE_OR: '|';
+CARET: '^';
+TILDE: [\u007e];
 
 // Comparison
 // ---------
