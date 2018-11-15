@@ -73,7 +73,7 @@ contract Ballot {
     readonly function int winningPoposal() {
             int winningVoteCount = 0
             int winningProposal = 0
-            for (int p : 0 to proposals.length - 1) {
+            for (p : 0 to proposals.length - 1) {
                 if (proposals[p].voteCount > winningVoteCount) {
                     winningVoteCount = proposals[p].voteCount
                     winningPoposal = p
