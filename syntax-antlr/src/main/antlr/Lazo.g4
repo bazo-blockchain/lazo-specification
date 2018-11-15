@@ -56,7 +56,7 @@ functionDeclaration
   : annotation* functionHead statementBlock ;
 
 functionHead
-  : 'internal'? 'function' (type | '(' type (',' type)*')') IDENTIFIER '(' paramList? ')' ;
+  : 'internal'? 'readonly'? 'function' (type | '(' type (',' type)*')') IDENTIFIER '(' paramList? ')' ;
 
 annotation
   : '[' IDENTIFIER ('=' IDENTIFIER)? ']' NLS ;
