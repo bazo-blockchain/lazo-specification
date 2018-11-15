@@ -30,23 +30,11 @@ contract Ballot {
         }
     }
 
-    function bool isChairPerson() {
-        return msg.sender == chairperson
-    }
-
-    function bool didNotVoteYet(address voter) {
-        return !voters[voter].voted
-    }
-
-    function bool doesNotHaveRightToVote(address voter) {
-        return voters[voter].weight == 0
-    }
-
-    [Pre=isChairPerson]
-    [Pre=didNotVoteYet(voter)]
-    [Pre=doesNotHaveRightToVote(voter)]
+    [Pre=msg.sender == chairperson]
+    [Pre=!voters[voter].voted]
+    [Pre=voters[voter].weight == 0]
     function void giveRightToVote(address voter) {
-        
+        voters[voter].weight = 1
     }
 
     [Pre = !voters[msg.sender].voted]
@@ -73,5 +61,29 @@ contract Ballot {
         }
     }
 
+    [Pre=!voters[msg.sender].voted]
+    function void vote(int proposal) {
+        Voter sender = voters[msg.sender]
+        sender.voted = true
+        sender.vote = proposal
+
+        proposals[proposal].voteCount += sender.weight
+    }
+
+    readonly function int winningPoposal() {
+            int winningVoteCount = 0
+            int winningProposal = 0
+            for (int p : 0 to proposals.length - 1) {
+                if (proposals[p].voteCount > winningVoteCount) {
+                    winningVoteCount = proposals[p].voteCount
+                    winningPoposal = p
+                }
+            }
+            return winningPoposal
+    }
+
+    readonly function String winnerName() {
+        return proposals[winningPoposal()].name
+    }
 
 }
