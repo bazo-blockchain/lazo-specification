@@ -43,10 +43,10 @@ contract Ballot {
         Voter sender = voters[msg.sender]
         to_ = to
         for (_ : to 9) {
-            if (voters[to].delegate == address(0)) {
+            if (voters[to_].delegate == address(0)) {
                 break
             }
-            to_ = voters[to].delegate
+            to_ = voters[to_].delegate
 
             assert(to_ != msg.sender) // Found loop in delegation
         }
