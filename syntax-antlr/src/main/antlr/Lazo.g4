@@ -93,7 +93,7 @@ statementBlock
 statement
   : assignmentStatement
   | returnStatement
-  | callStatement
+  | expressionStatement
   | emitStatement
   | variableDeclaration
   | ifStatement
@@ -102,7 +102,7 @@ statement
   | mapForEachStatement ;
 
 emitStatement
-  : 'emit' callStatement ;
+  : 'emit' expression NLS;
 
 ifStatement
   : 'if' '(' expression ')' statementBlock ('else if' '(' expression ')' statementBlock)? ('else' statementBlock)? ;
@@ -119,14 +119,14 @@ mapForEachStatement
 rangeStatement
   : expression? 'to' expression ('by' expression)?; // Expression as we could use .size or negative integers
 
-callStatement
+expressionStatement
   : expression NLS ;
 
 argumentList
   : expression (',' expression)* ;
 
 assignmentStatement
-  : expression ( '+' | '-' | '**' | '*' | '/' | '%' | '<<' | '>>' | '&' | '^' | '|' )? assignment NLS ;
+  : expression assignment NLS ;
 
 assignment
   : '=' expression ;
@@ -162,6 +162,7 @@ expression
   | expression '&&' expression
   | expression '||' expression
   | <assoc=right> expression '?' expression ':' expression
+  | expression ( '+' | '-' | '**' | '*' | '/' | '%' | '<<' | '>>' | '&' | '^' | '|' ) '=' expression
   | operand
   ;
 

@@ -5,17 +5,26 @@ import org.junit.Test;
 import parser.NodeUtil;
 import parser.ParserUtil;
 
+import java.util.function.Function;
+
 public class TestStatements {
 
     @Test
     public void testAssignmentStatement() {
         NodeUtil.assertAssignmentStatement(
                 getAssignmentStatement("x.y = 5\n"),
-                "x.y", "5", null);
+                "x.y", "5");
+    }
 
-        NodeUtil.assertAssignmentStatement(
-                getAssignmentStatement("x += 5\n"),
+    @Test
+    public void testExpressionStatement() {
+        NodeUtil.assertShorthandAssignment(
+                getExpressionStatement("x += 5\n").expression(),
                 "x", "5", "+");
+
+        NodeUtil.assertExpression(
+                getExpressionStatement("x++\n").expression(),
+                "x++");
     }
 
     @Test
@@ -40,22 +49,23 @@ public class TestStatements {
 
     @Test
     public void testCallStatement() {
-        NodeUtil.assertExpression(getCallStatement("a()\n").expression(), "a()");
+
+        NodeUtil.assertExpression(getExpressionStatement("a()\n").expression(), "a()");
     }
 
     @Test
     public void testNestedCallStatement() {
-        NodeUtil.assertExpression(getCallStatement("a.a()\n").expression(), "a.a()");
+        NodeUtil.assertExpression(getExpressionStatement("a.a()\n").expression(), "a.a()");
     }
 
     @Test
     public void testEmitStatement() {
-        NodeUtil.assertExpression(getEmitStatement("emit A()\n").callStatement().expression(), "A()");
+        NodeUtil.assertExpression(getEmitStatement("emit A()\n").expression(), "A()");
     }
 
     @Test
     public void testEmitStatementWithParams() {
-        NodeUtil.assertExpression(getEmitStatement("emit A(1, 2)\n").callStatement().expression(), "A(1,2)");
+        NodeUtil.assertExpression(getEmitStatement("emit A(1, 2)\n").expression(), "A(1,2)");
     }
 
     @Test
@@ -189,45 +199,46 @@ public class TestStatements {
     }
 
 
-    private LazoParser getParser(String input) {
+    private <R> R getStatementNode(String input, Function<LazoParser, R> func) {
         var parser = ParserUtil.getParserForInput(input);
+        R result = func.apply(parser);
         ParserUtil.assertNoErrors(parser);
-        return parser;
+        return result;
     }
 
     private LazoParser.AssignmentStatementContext getAssignmentStatement(String input) {
-        return getParser(input).assignmentStatement();
+        return getStatementNode(input, (p) -> p.assignmentStatement());
+    }
+
+    private LazoParser.ExpressionStatementContext getExpressionStatement(String input) {
+        return getStatementNode(input, (p) -> p.expressionStatement());
     }
 
     private LazoParser.ReturnStatementContext getReturnStatement(String input) {
-        return getParser(input).returnStatement();
-    }
-
-    private LazoParser.CallStatementContext getCallStatement(String input) {
-        return getParser(input).callStatement();
+        return getStatementNode(input, (p) -> p.returnStatement());
     }
 
     private LazoParser.EmitStatementContext getEmitStatement(String input) {
-        return getParser(input).emitStatement();
+        return getStatementNode(input, (p) -> p.emitStatement());
     }
 
     private LazoParser.IfStatementContext getIfStatement(String input) {
-        return getParser(input).ifStatement();
+        return getStatementNode(input, (p) -> p.ifStatement());
     }
 
     private LazoParser.RangeStatementContext getRangeStatement(String input) {
-        return getParser(input).rangeStatement();
+        return getStatementNode(input, (p) -> p.rangeStatement());
     }
 
     private LazoParser.ForStatementContext getForStatement(String input) {
-        return getParser(input).forStatement();
+        return getStatementNode(input, (p) -> p.forStatement());
     }
 
     private LazoParser.ForEachStatementContext getForEachStatement(String input) {
-        return getParser(input).forEachStatement();
+        return getStatementNode(input, (p) -> p.forEachStatement());
     }
 
     private LazoParser.MapForEachStatementContext getMapForEachStatement(String input) {
-        return getParser(input).mapForEachStatement();
+        return getStatementNode(input, (p) -> p.mapForEachStatement());
     }
 }

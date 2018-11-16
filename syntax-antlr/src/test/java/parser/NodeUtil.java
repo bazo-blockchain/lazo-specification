@@ -133,7 +133,7 @@ public class NodeUtil {
             LazoParser.ParameterContext param = null;
             if (paramList.getChild(i) instanceof LazoParser.ParameterContext) {
                 param = (LazoParser.ParameterContext) paramList.getChild(i);
-            }else{
+            } else {
                 var defaultParam = (LazoParser.DefaultParameterContext) paramList.getChild(i);
                 param = defaultParam.parameter();
                 assertExpression(defaultParam.assignment().expression(), expectedParam[2]);
@@ -201,18 +201,21 @@ public class NodeUtil {
         assertExpression(ternaryNode.getChild(LazoParser.ExpressionContext.class, 2), falseExp);
     }
 
+    public static void assertShorthandAssignment(LazoParser.ExpressionContext assignmentNode,
+                                                 String target, String value, String operator) {
+        assertExpression(assignmentNode.expression(0), target);
+        assertExpression(assignmentNode.expression(1), value);
+        Assert.assertEquals(operator, assignmentNode.getChild(1).getText());
+    }
+
     public static void assertTerminalNode(ParseTree tree, String expected) {
         Assert.assertEquals(expected, tree.getText());
     }
 
     public static void assertAssignmentStatement(LazoParser.AssignmentStatementContext node,
-                                                 String target, String value, String operator) {
+                                                 String target, String value) {
         assertExpression(node.expression(), target);
         assertExpression(node.assignment().expression(), value);
-
-        if (operator != null) {
-            Assert.assertEquals(operator, node.getChild(1).getText());
-        }
     }
 
     public static void assertReturnStatement(LazoParser.ReturnStatementContext node, String... values) {
