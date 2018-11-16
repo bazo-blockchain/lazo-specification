@@ -106,6 +106,22 @@ public class NodeUtil {
         assertStatementBlock(functionNode.statementBlock(), totalStatements);
     }
 
+    public static void assertAnnotations(List<LazoParser.AnnotationContext> annotations, String[][] expected) {
+        for (int i = 0; i < expected.length; i++) {
+            assertAnnotation(annotations.get(i), expected[i][0], expected[i][1]);
+        }
+    }
+
+    public static void assertAnnotation(LazoParser.AnnotationContext annotationNode,
+                                        String identifier, String value) {
+        LexerUtil.assertIdentifier(annotationNode.IDENTIFIER().getSymbol(), identifier);
+        if (value == null) {
+            Assert.assertNull(annotationNode.expression());
+        } else {
+            assertExpression(annotationNode.expression(), value);
+        }
+    }
+
     public static void assertFunctionHead(LazoParser.FunctionHeadContext functionHeadNode,
                                           String name, int totalParams, String... returnTypes) {
         LexerUtil.assertIdentifier(functionHeadNode.IDENTIFIER().getSymbol(), name);
@@ -180,7 +196,7 @@ public class NodeUtil {
                 assertExpression(argList.getChild(LazoParser.ExpressionContext.class, a), args[a]);
                 i++;
             }
-            for(int n = 0; n < argList.namedArgument().size(); n++){
+            for (int n = 0; n < argList.namedArgument().size(); n++) {
                 Assert.assertEquals(args[i], argList.namedArgument(n).getText());
                 i++;
             }

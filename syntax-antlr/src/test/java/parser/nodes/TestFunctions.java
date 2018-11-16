@@ -82,6 +82,49 @@ public class TestFunctions {
                 getFunction(functions.get(1)).functionHead().paramList(), params);
     }
 
+    @Test
+    public void testConstructorAnnotation() throws IOException {
+        var constructor = getFunctions("parser/constructor_annotation.lazo");
+
+        NodeUtil.assertConstructorDecl(
+                constructor.get(1).getChild(LazoParser.ConstructorDeclarationContext.class, 0),
+                2, 1, 1
+        );
+    }
+
+    @Test
+    public void testFunctionAnnotations() throws IOException {
+        var function = getFunction(getFunctions("parser/function_annotation.lazo").get(0));
+
+        NodeUtil.assertFunctionDeclaration(
+                function,
+                "test", 1, 3, 1,
+                "void"
+        );
+        var annotations = new String[][]{
+                {"Owner", null},
+                {"ReadOnly", null},
+                {"MaxCalls", "2"}
+        };
+        NodeUtil.assertAnnotations(function.annotation(), annotations);
+    }
+
+    @Test
+    public void testFunctionPrePostAnnotations() throws IOException {
+        var function = getFunction(getFunctions("parser/function_annotation.lazo").get(1));
+
+        NodeUtil.assertFunctionDeclaration(
+                function,
+                "test2", 2, 2, 4,
+                "int", "int"
+        );
+        var annotations = new String[][]{
+                {"Pre", "x>y"},
+                {"Post", "y>x"}
+        };
+        NodeUtil.assertAnnotations(function.annotation(), annotations);
+    }
+
     private List<LazoParser.ContractPartContext> getFunctions(String path) throws IOException {
         return ParserUtil.getProgramFromFile(path)
                 .contractDeclaration()
