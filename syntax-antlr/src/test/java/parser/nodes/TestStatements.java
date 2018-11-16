@@ -49,23 +49,30 @@ public class TestStatements {
 
     @Test
     public void testCallStatement() {
+        NodeUtil.assertCallExpression(getExpressionStatement("a()\n").expression(), "a");
+    }
 
-        NodeUtil.assertExpression(getExpressionStatement("a()\n").expression(), "a()");
+    @Test
+    public void testCallStatementWithParams() {
+        NodeUtil.assertCallExpression(
+                getExpressionStatement("a('c', x = 45)\n").expression(),
+                "a",
+                "'c'", "x=45");
     }
 
     @Test
     public void testNestedCallStatement() {
-        NodeUtil.assertExpression(getExpressionStatement("a.a()\n").expression(), "a.a()");
+        NodeUtil.assertCallExpression(getExpressionStatement("a.a()\n").expression(), "a.a");
     }
 
     @Test
     public void testEmitStatement() {
-        NodeUtil.assertExpression(getEmitStatement("emit A()\n").expression(), "A()");
+        NodeUtil.assertCallExpression(getEmitStatement("emit A()\n").expression(), "A");
     }
 
     @Test
     public void testEmitStatementWithParams() {
-        NodeUtil.assertExpression(getEmitStatement("emit A(1, 2)\n").expression(), "A(1,2)");
+        NodeUtil.assertCallExpression(getEmitStatement("emit A(1, 2)\n").expression(), "A", "1", "2");
     }
 
     @Test

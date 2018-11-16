@@ -123,7 +123,10 @@ expressionStatement
   : expression NLS ;
 
 argumentList
-  : expression (',' expression)* ;
+  : expression (',' expression)* (',' namedArgument)* ;
+
+namedArgument
+  : IDENTIFIER '=' expression ;
 
 assignmentStatement
   : expression assignment NLS ;
@@ -132,8 +135,7 @@ assignment
   : '=' expression ;
 
 designator
-  : IDENTIFIER
-  ;
+  : IDENTIFIER ;
 
 returnStatement
   : 'return' (expression (',' expression)*)? NLS ;

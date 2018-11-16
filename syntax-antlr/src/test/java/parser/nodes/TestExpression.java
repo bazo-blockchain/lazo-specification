@@ -91,6 +91,17 @@ public class TestExpression {
     }
 
     @Test
+    public void testCallParameters(){
+        NodeUtil.assertCallExpression(
+                getExpression("test(1)"),
+                "test", "1");
+
+        NodeUtil.assertCallExpression(
+                getExpression("test(true, x = 123)"),
+                "test", "true", "x=123");
+    }
+
+    @Test
     public void testNewCreation() {
 
         // new Person(12, s = "test")

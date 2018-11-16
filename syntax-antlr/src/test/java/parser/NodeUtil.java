@@ -175,9 +175,16 @@ public class NodeUtil {
         if (args.length == 0) {
             Assert.assertNull(argList);
         } else {
-            for (int i = 0; i < args.length; i++) {
-                assertExpression(argList.getChild(LazoParser.ExpressionContext.class, i), args[i]);
+            int i = 0;
+            for (int a = 0; a < argList.expression().size(); a++) {
+                assertExpression(argList.getChild(LazoParser.ExpressionContext.class, a), args[a]);
+                i++;
             }
+            for(int n = 0; n < argList.namedArgument().size(); n++){
+                Assert.assertEquals(args[i], argList.namedArgument(n).getText());
+                i++;
+            }
+            Assert.assertEquals(args.length, i);
         }
     }
 
