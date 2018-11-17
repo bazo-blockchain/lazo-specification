@@ -140,19 +140,13 @@ public class TestStatements {
     }
 
     @Test
-    public void testForEachStatement() {
-        var forEachStatement = getForEachStatement("foreach(int a : numbers) {}\n");
-        NodeUtil.assertForEachStatement(forEachStatement, "int", "a", "numbers", 0);
-    }
-
-    @Test
-    public void testForEachStatementWithStatements() {
-        var forEachStatement = getForEachStatement("foreach(int a : numbers) {int a = 5\n}\n");
-        NodeUtil.assertForEachStatement(forEachStatement, "int", "a", "numbers", 1);
-    }
-
-    @Test
     public void testForStatement() {
+        var forStatement = getForStatement("for (a : to 5) {}\n");
+        NodeUtil.assertForStatement(forStatement, "a", "to5", 0);
+    }
+
+    @Test
+    public void testForStatementWithFrom() {
         var forStatement = getForStatement("for (a : 0 to 5 by 1) {}\n");
         NodeUtil.assertForStatement(forStatement, "a", "0to5by1", 0);
     }
@@ -176,9 +170,27 @@ public class TestStatements {
     }
 
     @Test
+    public void testRangeStatementToBy() {
+        var rangeStatement = getRangeStatement("to 5 by 2\n");
+        NodeUtil.assertRangeStatement(rangeStatement, null, "5", "2");
+    }
+
+    @Test
     public void testRangeStatementBy() {
         var rangeStatement = getRangeStatement("0 to 5 by 1\n");
         NodeUtil.assertRangeStatement(rangeStatement, "0", "5", "1");
+    }
+
+    @Test
+    public void testForEachStatement() {
+        var forEachStatement = getForEachStatement("foreach(int a : numbers) {}\n");
+        NodeUtil.assertForEachStatement(forEachStatement, "int", "a", "numbers", 0);
+    }
+
+    @Test
+    public void testForEachStatementWithStatements() {
+        var forEachStatement = getForEachStatement("foreach(int a : numbers) {int a = 5\n}\n");
+        NodeUtil.assertForEachStatement(forEachStatement, "int", "a", "numbers", 1);
     }
 
     @Test
