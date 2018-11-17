@@ -256,10 +256,23 @@ public class NodeUtil {
 
     public static void assertForEachStatement(LazoParser.ForEachStatementContext node, String type, String name,
                                               String expression, int numOfStatements) {
+        assertForEachStatement(node, type, name, expression, numOfStatements, null);
+    }
+
+    public static void assertForEachStatement(LazoParser.ForEachStatementContext node, String type, String name,
+                                              String expression, int numOfStatements, String index) {
         Assert.assertEquals(type, node.type().getText());
-        Assert.assertEquals(name, node.IDENTIFIER().getText());
         assertExpression(node.expression(), expression);
         Assert.assertEquals(numOfStatements, node.statementBlock().getChildCount() - 2);
+
+        if (index == null) {
+            Assert.assertEquals(1, node.IDENTIFIER().size());
+            LexerUtil.assertIdentifier(node.IDENTIFIER(0).getSymbol(), name);
+        } else {
+            Assert.assertEquals(2, node.IDENTIFIER().size());
+            LexerUtil.assertIdentifier(node.IDENTIFIER(0).getSymbol(), index);
+            LexerUtil.assertIdentifier(node.IDENTIFIER(1).getSymbol(), name);
+        }
     }
 
     public static void assertForStatement(LazoParser.ForStatementContext node, String name,

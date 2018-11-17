@@ -200,6 +200,13 @@ public class TestStatements {
     }
 
     @Test
+    public void testForEachStatementWithIndex() {
+        var forEachStatement = getForEachStatement("foreach(index, int a : numbers) { continue \n }\n");
+        NodeUtil.assertForEachStatement(
+                forEachStatement, "int", "a", "numbers", 1, "index");
+    }
+
+    @Test
     public void testForEachStatementWithStatements() {
         var forEachStatement = getForEachStatement("foreach(int a : numbers) {int a = 5\n}\n");
         NodeUtil.assertForEachStatement(forEachStatement, "int", "a", "numbers", 1);
@@ -208,27 +215,17 @@ public class TestStatements {
     @Test
     public void testMapForEachStatement() {
         var mapForEachStatement = getMapForEachStatement("foreach(int k, int v : a) {}\n");
-        NodeUtil.assertMapForEachStatement(mapForEachStatement, "int", "k", "int", "v", "a", 0);
+        NodeUtil.assertMapForEachStatement(
+                mapForEachStatement, "int", "k", "int", "v", "a", 0);
     }
 
     @Test
     public void testMapForEachStatementWithStatements() {
         var mapForEachStatement = getMapForEachStatement("foreach(int k, int v : a) { int a = 5\n}\n");
-        NodeUtil.assertMapForEachStatement(mapForEachStatement, "int", "k", "int", "v", "a", 1);
+        NodeUtil.assertMapForEachStatement(
+                mapForEachStatement,
+                "int", "k", "int", "v", "a", 1);
     }
-
-    @Test
-    public void testMapForEachStatementKeyWithoutType() {
-        var mapForEachStatement = getMapForEachStatement("foreach(k, int v : a) {}\n");
-        NodeUtil.assertMapForEachStatement(mapForEachStatement, null, "k", "int", "v", "a", 0);
-    }
-
-    @Test
-    public void testMapForEachStatementOnlyValue() {
-        var mapForEachStatement = getMapForEachStatement("foreach(int v : a) {}\n");
-        NodeUtil.assertMapForEachStatement(mapForEachStatement, null, null, "int", "v", "a", 0);
-    }
-
 
     private <R> R getStatementNode(String input, Function<LazoParser, R> func) {
         var parser = ParserUtil.getParserForInput(input);

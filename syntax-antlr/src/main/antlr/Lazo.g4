@@ -114,10 +114,10 @@ forStatement
   : 'for' '(' IDENTIFIER ':' rangeStatement ')' statementBlock ;
 
 forEachStatement
-  : 'foreach' '(' type IDENTIFIER ':' expression ')' statementBlock ;
+  : 'foreach' '(' (IDENTIFIER ',')? type IDENTIFIER ':' expression ')' statementBlock ;
 
 mapForEachStatement
-  : 'foreach' '(' (type? IDENTIFIER ',')? type IDENTIFIER ':' expression ')' statementBlock ;
+  : 'foreach' '(' type IDENTIFIER ',' type IDENTIFIER ':' expression ')' statementBlock ;
 
 breakStatement
   : 'break' NLS ;
