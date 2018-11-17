@@ -98,6 +98,7 @@ statement
   : assignmentStatement
   | returnStatement
   | expressionStatement
+  | sendStatement
   | emitStatement
   | variableDeclaration
   | ifStatement
@@ -136,8 +137,13 @@ rangeStatement
 expressionStatement
   : expression NLS ;
 
+sendStatement
+  : expression '.' 'send' '(' expression? ')' NLS ;
+
 argumentList
-  : expression (',' expression)* (',' namedArgument)* ;
+  : expression (',' expression)* (',' namedArgument)*
+  | namedArgument (',' namedArgument)*
+  ;
 
 namedArgument
   : IDENTIFIER '=' expression ;

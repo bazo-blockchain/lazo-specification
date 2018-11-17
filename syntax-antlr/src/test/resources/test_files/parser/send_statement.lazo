@@ -1,0 +1,8 @@
+version 1.1
+
+contract A {
+    function void test() {
+        MsgArgs args = new MsgArgs(coins=10)
+        person.transfer().send(args)
+    }
+}

@@ -241,6 +241,17 @@ public class TestStatements {
         );
     }
 
+    @Test
+    public void testSendStatement() throws IOException {
+        var function = getFunction(getContractParts("parser/send_statement.lazo").get(0));
+
+        var sendStatement = function.statementBlock()
+                .getChild(LazoParser.StatementContext.class, 1)
+                .getChild(LazoParser.SendStatementContext.class, 0);
+        NodeUtil.assertCallExpression(sendStatement.expression(0), "person.transfer");
+        NodeUtil.assertExpression(sendStatement.expression(1), "args");
+    }
+
     private <R> R getStatementNode(String input, Function<LazoParser, R> func) {
         var parser = ParserUtil.getParserForInput(input);
         R result = func.apply(parser);

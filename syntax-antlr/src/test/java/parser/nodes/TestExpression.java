@@ -96,6 +96,10 @@ public class TestExpression {
         NodeUtil.assertCallExpression(
                 getExpression("test(true, x = 123)"),
                 "test", "true", "x=123");
+
+        NodeUtil.assertCallExpression(
+                getExpression("test(y = 4, x = 123)"),
+                "test", "y=4", "x=123");
     }
 
     @Test
