@@ -230,11 +230,11 @@ INTERFACE : 'interface' ;
 INTERNAL : 'internal' ;
 IS : 'is' ;
 MAP : 'Map' ;
+READONLY : 'readonly' ;
 RETURN : 'return' ;
 STRUCT : 'struct' ;
+THROW: 'throw';
 VERSION : 'version' ;
-READONLY : 'readonly' ;
-// ----- TODO: complete the keywords
 
 BOOL
   : 'true'
