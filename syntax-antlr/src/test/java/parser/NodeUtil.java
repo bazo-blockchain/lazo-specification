@@ -38,18 +38,6 @@ public class NodeUtil {
         }
     }
 
-    public static void assertNewArrayCreation(LazoParser.ArrayCreationContext arrayCreationContext,
-                                              String type, String expression, String... values) {
-        Assert.assertEquals(type, arrayCreationContext.IDENTIFIER().getText());
-        if (values.length == 0) {
-            assertExpression(arrayCreationContext.expression(0), expression);
-        } else {
-            for (int i = 0; i < arrayCreationContext.expression().size(); i++) {
-                assertExpression(arrayCreationContext.expression(i), values[i]);
-            }
-        }
-    }
-
     public static void assertNewMapCreation(LazoParser.MapCreationContext mapCreationContext,
                                             String keyType, String valueType) {
         Assert.assertEquals(keyType, mapCreationContext.mapType().type(0).getText());
@@ -188,6 +176,11 @@ public class NodeUtil {
         assertExpression(callNode.getChild(LazoParser.ExpressionContext.class, 0), func);
 
         var argList = callNode.getChild(LazoParser.ArgumentListContext.class, 0);
+        assertArgumentList(argList, args);
+    }
+
+    private static void assertArgumentList(LazoParser.ArgumentListContext argList,
+                                           String... args){
         if (args.length == 0) {
             Assert.assertNull(argList);
         } else {
@@ -203,6 +196,27 @@ public class NodeUtil {
             Assert.assertEquals(args.length, i);
         }
     }
+
+    public static void assertStructCreation(LazoParser.StructCreationContext newStructNode,
+                                            String type, String... args){
+        LexerUtil.assertIdentifier(newStructNode.IDENTIFIER().getSymbol(), type);
+
+        var argList = newStructNode.getChild(LazoParser.ArgumentListContext.class, 0);
+        assertArgumentList(argList, args);
+    }
+
+    public static void assertNewArrayCreation(LazoParser.ArrayCreationContext arrayCreationContext,
+                                              String type, String expression, String... values) {
+        Assert.assertEquals(type, arrayCreationContext.IDENTIFIER().getText());
+        if (values.length == 0) {
+            assertExpression(arrayCreationContext.expression(0), expression);
+        } else {
+            for (int i = 0; i < arrayCreationContext.expression().size(); i++) {
+                assertExpression(arrayCreationContext.expression(i), values[i]);
+            }
+        }
+    }
+
 
     public static void assertCastExpression(LazoParser.ExpressionContext castNode,
                                             String type, String expression) {

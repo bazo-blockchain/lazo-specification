@@ -6,6 +6,7 @@ import parser.NodeUtil;
 import parser.ParserUtil;
 
 import java.util.List;
+import java.util.function.Function;
 
 public class TestTypes {
     @Test
@@ -74,21 +75,6 @@ public class TestTypes {
     }
 
     @Test
-    public void testMapCreation() {
-        NodeUtil.assertNewMapCreation(getNewMapCreation("new Map<int, int>()\n"), "int", "int");
-    }
-
-    @Test
-    public void testArrayCreationSingle() {
-        NodeUtil.assertNewArrayCreation(getNewArrayCreation("new int[5]\n"), "int", "5");
-    }
-
-    @Test
-    public void testArrayCreationMultiple() {
-        NodeUtil.assertNewArrayCreation(getNewArrayCreation("new int[]{ 1, 2, 3 }\n"), "int", null, "1", "2", "3");
-    }
-
-    @Test
     public void testInterface() {
         NodeUtil.assertInterfaceDecl(getInterface("interface X {}\n"), "X");
     }
@@ -100,7 +86,7 @@ public class TestTypes {
 
     @Test
     public void testStructField() {
-        var fields = getFields(getStruct("struct X { int a\n }\n"));
+        var fields = getStruct("struct X { int a\n }\n").structField();
         for (var field : fields) {
             NodeUtil.assertField(field, "int", "a");
         }
@@ -108,7 +94,7 @@ public class TestTypes {
 
     @Test
     public void testStructFields() {
-        var fields = getFields(getStruct("struct X { int a\n bool b\n }\n"));
+        var fields = getStruct("struct X { int a\n bool b\n }\n").structField();
         var types = new String[]{"int", "bool"};
         var names = new String[]{"a", "b"};
         for (int i = 0; i < fields.size(); i++) {
@@ -134,46 +120,34 @@ public class TestTypes {
         }
     }
 
-    private LazoParser getParser(String input) {
+    private <R> R getDeclaration(String input, Function<LazoParser, R> func) {
         var parser = ParserUtil.getParserForInput(input);
+        R result = func.apply(parser);
         ParserUtil.assertNoErrors(parser);
-        return parser;
+        return result;
     }
 
     private LazoParser.VariableDeclarationContext getType(String input) {
-        return getParser(input).variableDeclaration();
+        return getDeclaration(input, (p) -> p.variableDeclaration());
     }
 
     private LazoParser.StructDeclarationContext getStruct(String input) {
-        return getParser(input).structDeclaration();
+        return getDeclaration(input, (p) -> p.structDeclaration());
     }
 
     private LazoParser.EnumDeclarationContext getEnum(String input) {
-        return getParser(input).enumDeclaration();
+        return getDeclaration(input, (p) -> p.enumDeclaration());
     }
 
     private LazoParser.InterfaceDeclarationContext getInterface(String input) {
-        return getParser(input).interfaceDeclaration();
-    }
-
-    private LazoParser.ArrayCreationContext getNewArrayCreation(String input) {
-        return getParser(input).arrayCreation();
-    }
-
-    private LazoParser.MapCreationContext getNewMapCreation(String input) {
-        return getParser(input).mapCreation();
+        return getDeclaration(input, (p) -> p.interfaceDeclaration());
     }
 
     private LazoParser.EventDeclarationContext getEvent(String input) {
-        return getParser(input).eventDeclaration();
-    }
-
-    private List<LazoParser.StructFieldContext> getFields(LazoParser.StructDeclarationContext structDeclNode) {
-        return structDeclNode.structField();
+        return getDeclaration(input, (p) -> p.eventDeclaration());
     }
 
     private List<LazoParser.ParameterContext> getFields(LazoParser.EventDeclarationContext eventDeclNode) {
         return eventDeclNode.paramList().parameter();
     }
-
 }

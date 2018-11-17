@@ -184,7 +184,7 @@ newCreation
   ;
 
 structCreation
-  : 'new' IDENTIFIER '('(IDENTIFIER assignment | expression)* ')' ;
+  : 'new' IDENTIFIER '(' argumentList? ')' ;
 
 arrayCreation
   : 'new' IDENTIFIER ('[' expression ']' ('{' '}')?| '[' ']' '{' expression (',' expression)* '}');

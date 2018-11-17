@@ -6,6 +6,8 @@ import org.junit.Test;
 import parser.NodeUtil;
 import parser.ParserUtil;
 
+import java.util.function.Function;
+
 public class TestExpression {
 
     @Test
@@ -36,8 +38,6 @@ public class TestExpression {
                 getExpression("test().x[2]"),
                 "test().x",
                 "2");
-
-        // todo test more complex index access
     }
 
     @Test
@@ -66,8 +66,6 @@ public class TestExpression {
                 getExpression("test().x"),
                 "test()",
                 "x");
-
-        // todo add more complex cases
     }
 
     @Test
@@ -102,11 +100,33 @@ public class TestExpression {
     }
 
     @Test
-    public void testNewCreation() {
+    public void testStructCreation() {
+        NodeUtil.assertStructCreation(
+                getNewStructCreation("new Person(1, true)"),
+                "Person",
+                "1", "true"
+        );
 
-        // new Person(12, s = "test")
-        // new int[23]
-        // new Map<int, Person>()
+        NodeUtil.assertStructCreation(
+                getNewStructCreation("new Person(1, x=true, y=5)"),
+                "Person",
+                "1", "x=true", "y=5"
+        );
+    }
+
+    @Test
+    public void testMapCreation() {
+        NodeUtil.assertNewMapCreation(getNewMapCreation("new Map<int, int>()\n"), "int", "int");
+    }
+
+    @Test
+    public void testArrayCreationSingle() {
+        NodeUtil.assertNewArrayCreation(getNewArrayCreation("new int[5]\n"), "int", "5");
+    }
+
+    @Test
+    public void testArrayCreationMultiple() {
+        NodeUtil.assertNewArrayCreation(getNewArrayCreation("new int[]{ 1, 2, 3 }\n"), "int", null, "1", "2", "3");
     }
 
     // todo test ( expression )
@@ -297,4 +317,24 @@ public class TestExpression {
     private LazoParser.ExpressionContext getSubExpression(LazoParser.ExpressionContext exp, int index) {
         return exp.getChild(LazoParser.ExpressionContext.class, index);
     }
+
+    private <R> R getNewCreationNode(String input, Function<LazoParser, R> func) {
+        var parser = ParserUtil.getParserForInput(input);
+        R result = func.apply(parser);
+        ParserUtil.assertNoErrors(parser);
+        return result;
+    }
+
+    private LazoParser.StructCreationContext getNewStructCreation(String input){
+        return getNewCreationNode(input, (p) -> p.structCreation());
+    }
+
+    private LazoParser.ArrayCreationContext getNewArrayCreation(String input) {
+        return getNewCreationNode(input, (p) -> p.arrayCreation());
+    }
+
+    private LazoParser.MapCreationContext getNewMapCreation(String input) {
+        return getNewCreationNode(input, (p) -> p.mapCreation());
+    }
+
 }
