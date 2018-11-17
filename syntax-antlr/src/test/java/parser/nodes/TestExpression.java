@@ -129,8 +129,6 @@ public class TestExpression {
         NodeUtil.assertNewArrayCreation(getNewArrayCreation("new int[]{ 1, 2, 3 }\n"), "int", null, "1", "2", "3");
     }
 
-    // todo test ( expression )
-
     @Test
     public void testPrefixIncrement() {
         var expression = getExpression("++x.y[2]");
@@ -210,6 +208,13 @@ public class TestExpression {
                 "2",
                 "3*4",
                 "+");
+    }
+
+    @Test
+    public void testParenthesis(){
+        var exp = getExpression("(2+3)*4");
+        NodeUtil.assertBinaryExpression(exp, "(2+3)", "4", "*");
+        NodeUtil.assertBinaryExpression(getSubExpression(exp, 0).expression(0), "2", "3", "+");
     }
 
     @Test
