@@ -51,7 +51,7 @@ public class NodeUtil {
     }
 
     public static void assertErrorDecl(LazoParser.ErrorDeclarationContext errorNode,
-                                        String name, int totalFields) {
+                                       String name, int totalFields) {
         LexerUtil.assertIdentifier(errorNode.IDENTIFIER().getSymbol(), name);
         Assert.assertEquals(totalFields, errorNode.structField().size());
     }
@@ -186,7 +186,7 @@ public class NodeUtil {
     }
 
     private static void assertArgumentList(LazoParser.ArgumentListContext argList,
-                                           String... args){
+                                           String... args) {
         if (args.length == 0) {
             Assert.assertNull(argList);
         } else {
@@ -204,7 +204,7 @@ public class NodeUtil {
     }
 
     public static void assertStructCreation(LazoParser.StructCreationContext newStructNode,
-                                            String type, String... args){
+                                            String type, String... args) {
         LexerUtil.assertIdentifier(newStructNode.IDENTIFIER().getSymbol(), type);
 
         var argList = newStructNode.getChild(LazoParser.ArgumentListContext.class, 0);
@@ -341,6 +341,14 @@ public class NodeUtil {
         assertExpression(node.expression(), expression);
 
         Assert.assertEquals(numOfStatements, node.statementBlock().getChildCount() - 2);
+    }
+
+    public static void assertThrowStatement(LazoParser.ThrowStatementContext node,
+                                            String errorType, String... args) {
+        LexerUtil.assertIdentifier(node.IDENTIFIER().getSymbol(), errorType);
+
+        var argList = node.argumentList();
+        assertArgumentList(argList, args);
     }
 
     public static void removeNewlines(List<? extends ParserRuleContext> nodes) {

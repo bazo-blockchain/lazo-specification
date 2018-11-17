@@ -106,6 +106,7 @@ statement
   | mapForEachStatement
   | breakStatement
   | continueStatement
+  | throwStatement
   ;
 
 emitStatement
@@ -149,6 +150,9 @@ assignment
 
 designator
   : IDENTIFIER ;
+
+throwStatement
+  : 'throw' IDENTIFIER '{' argumentList? '}' NLS ;
 
 returnStatement
   : 'return' (expression (',' expression)*)? NLS ;

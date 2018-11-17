@@ -5,6 +5,8 @@ import org.junit.Test;
 import parser.NodeUtil;
 import parser.ParserUtil;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.function.Function;
 
 public class TestStatements {
@@ -227,6 +229,18 @@ public class TestStatements {
                 "int", "k", "int", "v", "a", 1);
     }
 
+    @Test
+    public void testThrowStatement() throws IOException {
+        var function = getFunction(getContractParts("parser/error_handling.lazo").get(1));
+
+        NodeUtil.assertThrowStatement(
+                function.statementBlock()
+                        .getChild(LazoParser.StatementContext.class, 0)
+                        .getChild(LazoParser.ThrowStatementContext.class, 0),
+                "MyError", "100", "message=\"test\""
+        );
+    }
+
     private <R> R getStatementNode(String input, Function<LazoParser, R> func) {
         var parser = ParserUtil.getParserForInput(input);
         R result = func.apply(parser);
@@ -268,5 +282,15 @@ public class TestStatements {
 
     private LazoParser.MapForEachStatementContext getMapForEachStatement(String input) {
         return getStatementNode(input, (p) -> p.mapForEachStatement());
+    }
+
+    private List<LazoParser.ContractPartContext> getContractParts(String path) throws IOException {
+        return ParserUtil.getProgramFromFile(path)
+                .contractDeclaration()
+                .contractPart();
+    }
+
+    private LazoParser.FunctionDeclarationContext getFunction(LazoParser.ContractPartContext contractPart) {
+        return contractPart.getChild(LazoParser.FunctionDeclarationContext.class, 0);
     }
 }
