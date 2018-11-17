@@ -47,7 +47,7 @@ eventDeclaration
   : 'event' IDENTIFIER '(' paramList? ')' NLS;
 
 enumDeclaration
-  : 'enum' IDENTIFIER '{' IDENTIFIER (',' IDENTIFIER)* '}' NLS ; // todo allow optional newlines between constants
+  : 'enum' IDENTIFIER '{' NLS* IDENTIFIER (',' NLS* IDENTIFIER)* NLS*'}' NLS ;
 
 constructorDeclaration
   :  annotation* 'constructor' '(' paramList? ')' statementBlock ;
