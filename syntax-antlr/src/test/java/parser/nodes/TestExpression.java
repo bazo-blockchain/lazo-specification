@@ -1,7 +1,6 @@
 package parser.nodes;
 
 import bazolang.LazoParser;
-import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Test;
 import parser.NodeUtil;
 import parser.ParserUtil;
@@ -89,7 +88,7 @@ public class TestExpression {
     }
 
     @Test
-    public void testCallParameters(){
+    public void testCallParameters() {
         NodeUtil.assertCallExpression(
                 getExpression("test(1)"),
                 "test", "1");
@@ -211,7 +210,7 @@ public class TestExpression {
     }
 
     @Test
-    public void testParenthesis(){
+    public void testParenthesis() {
         var exp = getExpression("(2+3)*4");
         NodeUtil.assertBinaryExpression(exp, "(2+3)", "4", "*");
         NodeUtil.assertBinaryExpression(getSubExpression(exp, 0).expression(0), "2", "3", "+");
@@ -303,6 +302,13 @@ public class TestExpression {
     }
 
     @Test
+    public void testShorthandAssignmentExpression() {
+        NodeUtil.assertShorthandAssignment(
+                getExpression("x += 5"),
+                "x", "5", "+");
+    }
+
+    @Test
     public void assertOperandExpression() {
         NodeUtil.assertExpression(getExpression("x"), "x");
     }
@@ -312,11 +318,6 @@ public class TestExpression {
         var expression = parser.expression();
         ParserUtil.assertNoErrors(parser);
         return expression;
-    }
-
-    private <T extends ParseTree> T getExpression(Class<? extends T> ctxType, String input) {
-        var expression = getExpression(input);
-        return expression.getChild(ctxType, 0);
     }
 
     private LazoParser.ExpressionContext getSubExpression(LazoParser.ExpressionContext exp, int index) {
@@ -330,7 +331,7 @@ public class TestExpression {
         return result;
     }
 
-    private LazoParser.StructCreationContext getNewStructCreation(String input){
+    private LazoParser.StructCreationContext getNewStructCreation(String input) {
         return getNewCreationNode(input, (p) -> p.structCreation());
     }
 
