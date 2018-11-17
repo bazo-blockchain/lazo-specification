@@ -50,6 +50,12 @@ public class NodeUtil {
         Assert.assertEquals(totalFields, structNode.structField().size());
     }
 
+    public static void assertErrorDecl(LazoParser.ErrorDeclarationContext errorNode,
+                                        String name, int totalFields) {
+        LexerUtil.assertIdentifier(errorNode.IDENTIFIER().getSymbol(), name);
+        Assert.assertEquals(totalFields, errorNode.structField().size());
+    }
+
     public static void assertEventDecl(LazoParser.EventDeclarationContext eventNode,
                                        String name, int totalFields) {
         LexerUtil.assertIdentifier(eventNode.IDENTIFIER().getSymbol(), name);

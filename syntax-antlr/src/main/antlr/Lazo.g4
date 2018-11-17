@@ -25,6 +25,7 @@ contractDeclaration
 contractPart
   : variableDeclaration
   | structDeclaration
+  | errorDeclaration
   | enumDeclaration
   | eventDeclaration
   | constructorDeclaration
@@ -39,6 +40,9 @@ variableDeclaration
 
 structDeclaration
   : 'struct' IDENTIFIER '{' NLS* structField* '}' NLS ;
+
+errorDeclaration
+  : 'error' IDENTIFIER '{' NLS* structField* '}' NLS ;
 
 structField
   : type IDENTIFIER NLS;
