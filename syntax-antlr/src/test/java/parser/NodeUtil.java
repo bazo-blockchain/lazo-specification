@@ -267,7 +267,6 @@ public class NodeUtil {
         Assert.assertEquals(name, node.IDENTIFIER().getText());
         Assert.assertEquals(range, node.rangeStatement().getText());
         Assert.assertEquals(numOfStatements, node.statementBlock().getChildCount() - 2);
-
     }
 
     public static void assertRangeStatement(LazoParser.RangeStatementContext node, String from, String to, String by) {

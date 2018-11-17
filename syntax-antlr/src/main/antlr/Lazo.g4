@@ -99,7 +99,10 @@ statement
   | ifStatement
   | forEachStatement
   | forStatement
-  | mapForEachStatement ;
+  | mapForEachStatement
+  | breakStatement
+  | continueStatement
+  ;
 
 emitStatement
   : 'emit' expression NLS;
@@ -111,10 +114,16 @@ forStatement
   : 'for' '(' IDENTIFIER ':' rangeStatement ')' statementBlock ;
 
 forEachStatement
-  : 'foreach' '(' type IDENTIFIER ':' expression ')' statementBlock;
+  : 'foreach' '(' type IDENTIFIER ':' expression ')' statementBlock ;
 
 mapForEachStatement
   : 'foreach' '(' (type? IDENTIFIER ',')? type IDENTIFIER ':' expression ')' statementBlock ;
+
+breakStatement
+  : 'break' NLS ;
+
+continueStatement
+  : 'continue' NLS ;
 
 rangeStatement
   : expression? 'to' expression ('by' expression)?; // Expression as we could use .size or negative integers

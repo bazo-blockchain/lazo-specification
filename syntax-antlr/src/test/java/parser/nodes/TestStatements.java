@@ -158,6 +158,12 @@ public class TestStatements {
     }
 
     @Test
+    public void testForStatementWithBreak() {
+        var forStatement = getForStatement("for (a : to 5) { break \n}\n");
+        NodeUtil.assertForStatement(forStatement, "a", "to5", 1);
+    }
+
+    @Test
     public void testRangeStatement() {
         var rangeStatement = getRangeStatement("0 to 5\n");
         NodeUtil.assertRangeStatement(rangeStatement, "0", "5", null);
@@ -185,6 +191,12 @@ public class TestStatements {
     public void testForEachStatement() {
         var forEachStatement = getForEachStatement("foreach(int a : numbers) {}\n");
         NodeUtil.assertForEachStatement(forEachStatement, "int", "a", "numbers", 0);
+    }
+
+    @Test
+    public void testForEachStatementWithContinue() {
+        var forEachStatement = getForEachStatement("foreach(int a : numbers) { continue \n }\n");
+        NodeUtil.assertForEachStatement(forEachStatement, "int", "a", "numbers", 1);
     }
 
     @Test
