@@ -17,7 +17,10 @@ interfaceDeclaration
   : 'interface' IDENTIFIER '{' NLS* interfacePart* '}' NLS ;
 
 interfacePart
-  : functionHead NLS ;
+  : functionSignature NLS ;
+
+functionSignature
+  : annotation* ( type | '(' type (',' type)* ')' ) IDENTIFIER '(' paramList? ')' ;
 
 contractDeclaration
   : 'contract' IDENTIFIER ('is' IDENTIFIER (',' IDENTIFIER)* )? '{' (NLS | contractPart)* '}' NLS? ;

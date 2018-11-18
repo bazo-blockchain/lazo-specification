@@ -26,6 +26,18 @@ public class NodeUtil {
         LexerUtil.assertIdentifier(interfaceNode.IDENTIFIER().getSymbol(), name);
     }
 
+    public static void assertFunctionSignature(LazoParser.FunctionSignatureContext functionSignatureHead,
+                                               String name, int totalParams, String[][] annotations, String... returnTypes) {
+        LexerUtil.assertIdentifier(functionSignatureHead.IDENTIFIER().getSymbol(), name);
+        assertParameterListSize(functionSignatureHead.paramList(), totalParams);
+
+        for (int i = 0; i < returnTypes.length; i++) {
+            assertType(functionSignatureHead.type(i), returnTypes[i]);
+        }
+
+        assertAnnotations(functionSignatureHead.annotation(), annotations);
+    }
+
     public static void assertVariableDecl(LazoParser.VariableDeclarationContext variableNode,
                                           String name, String type, String assignment) {
         LexerUtil.assertIdentifier(variableNode.IDENTIFIER().getSymbol(), name);
@@ -101,6 +113,11 @@ public class NodeUtil {
     }
 
     public static void assertAnnotations(List<LazoParser.AnnotationContext> annotations, String[][] expected) {
+        if (expected == null) {
+            Assert.assertEquals(0, annotations.size());
+            return;
+        }
+
         for (int i = 0; i < expected.length; i++) {
             assertAnnotation(annotations.get(i), expected[i][0], expected[i][1]);
         }
