@@ -342,7 +342,7 @@ WHITE_SPACE
   ;
 
 LINE_COMMENT
-  : '//' ~[\r\n]* [\r\n] -> skip ;
+  : '//' ~[\r\n]* [\r\n]* -> skip ;
 
 BLOCK_COMMENT
   : '/*' .*? '*/' -> skip ;
