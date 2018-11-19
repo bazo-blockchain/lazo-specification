@@ -1,8 +1,6 @@
 package lexer.features;
 
 import lexer.LexerUtil;
-import org.antlr.v4.runtime.Token;
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;

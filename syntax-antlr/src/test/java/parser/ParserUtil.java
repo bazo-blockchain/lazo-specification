@@ -13,17 +13,22 @@ import java.nio.charset.StandardCharsets;
 public class ParserUtil {
 
     public static LazoParser.ProgramContext getProgramFromFile(String path) throws IOException {
-        return getProgram(getParserForFile(path));
+        return getProgram(getParserForFile(path, true));
+    }
+
+    public static LazoParser.ProgramContext getProgramFromFile(String path, boolean isInTestFiles) throws IOException {
+        return getProgram(getParserForFile(path, isInTestFiles));
     }
 
     public static LazoParser getParserForInput(String input) {
         return getParser(CharStreams.fromString(input));
     }
 
-    public static LazoParser getParserForFile(String path) throws IOException {
+    private static LazoParser getParserForFile(String path, boolean isInTestFiles) throws IOException {
+        String filePath = isInTestFiles ? "src/test/resources/test_files/" + path : path;
         return getParser(
                 CharStreams.fromFileName(
-                        "src/test/resources/test_files/" + path,
+                        filePath,
                         StandardCharsets.UTF_8
                 ));
     }

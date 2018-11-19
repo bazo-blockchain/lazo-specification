@@ -1,0 +1,14 @@
+version 1.0
+
+contract TestFunctions {
+
+    // public function
+    function String getName(){
+        return "public function"
+    }
+
+    // internal function
+    internal function int getInternalValue(){
+        return 5
+    }
+}

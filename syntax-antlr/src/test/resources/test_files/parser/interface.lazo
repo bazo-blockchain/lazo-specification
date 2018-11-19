@@ -1,0 +1,18 @@
+version 1.1
+
+interface Bank{
+
+    [Payable]
+    void deposit()
+
+    void withdraw()
+
+}
+
+contract MyContract is Bank {
+
+    [Payable]
+    function void deposit(){
+
+    }
+}
