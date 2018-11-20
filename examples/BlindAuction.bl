@@ -54,7 +54,7 @@ contract BlindAuction {
             bool _fake = fake[i]
             String _secret = secret[i]
 
-            if (bidToCheck.blindedBid != keccak256(_value, _fake, _secret)) {
+            if (bidToCheck.blindedBid != sha3((String)_value + (String)_fake + _secret)) {
                 continue
             }
 
