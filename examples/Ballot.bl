@@ -14,15 +14,12 @@ contract Ballot {
         int voteCount
     }
 
-    address chairperson
-
     Map<address, Voter> voters
 
     Proposal[] proposals
 
     constructor(String[] proposalNames) {
-        chairperson = msg.sender
-        voters[chairperson].weight = 1
+        voters[owner].weight = 1
         proposals = new Proposal[proposalNames.length]
 
         foreach(i, String name : proposalNames) {
@@ -30,38 +27,38 @@ contract Ballot {
         }
     }
 
-    [Pre=msg.sender == chairperson]
-    [Pre=!voters[voter].voted]
-    [Pre=voters[voter].weight == 0]
+    [Pre: msg.sender == owner]
+    [Pre: !voters[voter].voted]
+    [Pre: voters[voter].weight == 0]
     function void giveRightToVote(address voter) {
         voters[voter].weight = 1
     }
 
-    [Pre = !voters[msg.sender].voted]
-    [Pre = to != msg.sender]
-    function void delegate(address to) {
+    [Pre: !voters[msg.sender].voted]
+    [Pre: initialTo != msg.sender]
+    function void delegate(address initialTo) {
         Voter sender = voters[msg.sender]
-        to_ = to
+        address currentTo = initialTo
         for (_ : to 9) {
             if (voters[to_].delegate == address(0)) {
                 break
             }
-            to_ = voters[to_].delegate
+            currentTo = voters[currentTo].delegate
 
-            assert(to_ != msg.sender) // Found loop in delegation
+            assert(currentTo != msg.sender) // Found loop in delegation
         }
 
         sender.voted = true
-        sender.delegate = to_
-        Voter delegate_ = voters[to_]
-        if (delegate_.voted) {
-            proposals[delegate_.vote].voteCount += sender.weight
+        sender.delegate = currentTo
+        Voter delegatedVoter = voters[currentTo]
+        if (delegatedVoter.voted) {
+            proposals[delegatedVoter.vote].voteCount += sender.weight
         } else {
-            delegate_.weight += sender.weight
+            delegatedVoter.weight += sender.weight
         }
     }
 
-    [Pre=!voters[msg.sender].voted]
+    [Pre: !voters[msg.sender].voted]
     function void vote(int proposal) {
         Voter sender = voters[msg.sender]
         sender.voted = true
@@ -82,7 +79,21 @@ contract Ballot {
             return winningPoposal
     }
 
-    readonly function String winnerName() {
+    [ReadOnly]
+    function int winningPoposal() {
+            int winningVoteCount = 0
+            int winningProposal = 0
+            foreach (i, Proposal p : proposals) {
+                if (p.voteCount > winningVoteCount) {
+                    winningVoteCount = p.voteCount
+                    winningPoposal = i
+                }
+            }
+            return winningPoposal
+    }
+
+    [ReadOnly]
+    function String winnerName() {
         return proposals[winningPoposal()].name
     }
 

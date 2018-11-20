@@ -7,7 +7,7 @@ contract BlindAuction {
         int deposit
     }
 
-    payableaddress beneficiary
+    Payable beneficiary
     int biddingEnd
     int revealEnd
     bool ended
@@ -21,11 +21,11 @@ contract BlindAuction {
 
     event AuctionEnded(address winner, int highestBid)
 
-    function bool onlyBefore(int time) {
+    internal function bool onlyBefore(int time) {
         return now < time
     }
 
-    function bool onlyAfter(int time) {
+    internal function bool onlyAfter(int time) {
         return now > time
     }
 

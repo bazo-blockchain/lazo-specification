@@ -63,10 +63,10 @@ functionDeclaration
   : annotation* functionHead statementBlock ;
 
 functionHead
-  : 'internal'? 'readonly'? 'function' (type | '(' type (',' type)*')') IDENTIFIER '(' paramList? ')' ;
+  : 'internal'? 'function' (type | '(' type (',' type)*')') IDENTIFIER '(' paramList? ')' ;
 
 annotation
-  : '[' IDENTIFIER ('=' expression)? ']' NLS ;
+  : '[' IDENTIFIER (':' expression)? ']' NLS ;
 
 paramList
   : parameter (',' parameter)* (',' defaultParameter)* ; // todo allow optional newline
