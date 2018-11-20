@@ -17,15 +17,14 @@ contract OpenAuction {
     event HighestBidIncreased(address bidder, int amount)
     event AuctionEnded(address winner, int amount)
 
-
     constructor(int biddingTime, address beneficiary){
         auctionEndTime = block.timestamp + biddingTime
         this.beneficiary = beneficiary
     }
 
     [Payable]
-    [Pre = block.timestamp <= auctionEndTime]
-    [Pre = msg.coins > highestBid]
+    [Pre: block.timestamp <= auctionEndTime]
+    [Pre: msg.coins > highestBid]
     function void bid(){
         if(highestBid != 0){
             pendingReturns[highestBidder] += highestBid
@@ -48,8 +47,8 @@ contract OpenAuction {
         }
     }
 
-    [Pre = block.timestamp >= auctionEndTime]
-    [Pre = !ended]
+    [Pre: block.timestamp >= auctionEndTime]
+    [Pre: !ended]
     function void auctionEnd(){
         ended = true
         emit AuctionEnded(highestBidder, highestBid)

@@ -8,7 +8,7 @@ grammar Lazo;
 // ------------
 
 program
-  : versionDirective interfaceDeclaration* contractDeclaration EOF ;
+  : NLS* versionDirective interfaceDeclaration* contractDeclaration EOF ;
 
 versionDirective
   : 'version' INTEGER '.' INTEGER NLS ;
@@ -342,7 +342,7 @@ WHITE_SPACE
   ;
 
 LINE_COMMENT
-  : '//' ~[\r\n]* [\r\n]* -> skip ;
+  : '//' ~[\r\n]* -> skip ;
 
 BLOCK_COMMENT
   : '/*' .*? '*/' -> skip ;
