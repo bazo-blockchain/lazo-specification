@@ -8,7 +8,7 @@ grammar Lazo;
 // ------------
 
 program
-  : versionDirective interfaceDeclaration* contractDeclaration EOF ;
+  : NLS* versionDirective interfaceDeclaration* contractDeclaration EOF ;
 
 versionDirective
   : 'version' INTEGER '.' INTEGER NLS ;
@@ -66,7 +66,7 @@ functionHead
   : 'internal'? 'function' (type | '(' type (',' type)*')') IDENTIFIER '(' paramList? ')' ;
 
 annotation
-  : '[' IDENTIFIER ('=' expression)? ']' NLS ;
+  : '[' IDENTIFIER (':' expression)? ']' NLS ;
 
 paramList
   : parameter (',' parameter)* (',' defaultParameter)* ; // todo allow optional newline
@@ -342,7 +342,7 @@ WHITE_SPACE
   ;
 
 LINE_COMMENT
-  : '//' ~[\r\n]* [\r\n]* -> skip ;
+  : '//' ~[\r\n]* -> skip ;
 
 BLOCK_COMMENT
   : '/*' .*? '*/' -> skip ;

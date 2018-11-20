@@ -1,0 +1,102 @@
+version 1.1
+
+contract BlindAuction {
+
+    struct Bid {
+        String blindedBid
+        int deposit
+    }
+
+    Payable beneficiary
+    int biddingEnd
+    int revealEnd
+    bool ended
+
+    Map<address, Bid[]> bids
+
+    address highestBidder
+    int highestBid
+
+    Map<address, int> pendingReturns
+
+    event AuctionEnded(address winner, int highestBid)
+
+    internal function bool onlyBefore(int time) {
+        return now < time
+    }
+
+    internal function bool onlyAfter(int time) {
+        return now > time
+    }
+
+    constructor(int biddingTime, int revealTime, address beneficiary) {
+        this.beneficiary = beneficiary
+        biddingEnd = now + biddingTime
+        revealEnd = biddingEnd + revealTime
+    }
+
+    [Payable]
+    [Pre: onlyBefore(biddingEnd)]
+    function void bid(String blindedBid) {
+        bids[msg.sender] = new Bid(blindedBid, msg.value)
+    }
+
+    [Pre: onlyAfter(biddingEnd)]
+    [Pre: onlyBefore(revealEnd)]
+    [Pre: values.length == bids[msg.sender].length]
+    [Pre: fake.length == bids[msg.sender].length]
+    [Pre: secret.length == bids[msg.sender].length]
+    function void reveal(int[] values, bool[] fake, String[] secret) {
+        int refund
+        for (i : 0 to bids[msg.sender].length - 1) {
+            Bid bidToCheck = bids[msg.sender][i]
+            int _value = values[i]
+            bool _fake = fake[i]
+            String _secret = secret[i]
+
+            if (bidToCheck.blindedBid != sha3((String)_value + (String)_fake + _secret)) {
+                continue
+            }
+
+            refund += bidToCheck.deposit
+            if (_fake && bidToCheck.deposit >= _value) {
+                if (placeBid(msg.sender, _value)){
+                    refund -= _value
+                }
+            }
+            bidToCheck.blindedBid = "0"
+        }
+        msg.sender.transfer().send(refund)
+    }
+
+    internal function bool placeBid(address bidder, int value) {
+        if (value <= highestBid) {
+            return false
+        }
+
+        if (highestBidder != address(0)) {
+            pendingReturns[highestBidder] += highestBid
+        }
+
+        highestBid = value
+        highestBidder = bidder
+        return true
+    }
+
+    function void withdraw() {
+        int amount = pendingReturns[msg.sender]
+        if (amount > 0) {
+            pendingReturns[msg.sender] = 0
+            msg.sender.transfer().send(amount)
+        }
+    }
+
+    [Pre: onlyAfter(revealEnd)]
+    [Pre: !ended]
+    function void auctionEnd() {
+        emit AuctionEnded(highestBidder, highestBid)
+        ended = true
+        beneficiary.transfer().send(highestBid)
+    }
+
+}

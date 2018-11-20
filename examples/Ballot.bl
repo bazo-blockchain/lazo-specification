@@ -1,0 +1,101 @@
+version 1.1
+
+contract Ballot {
+
+    struct Voter {
+        int weight
+        bool voted
+        address delegate
+        int vote
+    }
+
+    struct Proposal {
+        String name
+        int voteCount
+    }
+
+    Map<address, Voter> voters
+
+    Proposal[] proposals
+
+    constructor(String[] proposalNames) {
+        voters[owner].weight = 1
+        proposals = new Proposal[proposalNames.length]
+
+        foreach(i, String name : proposalNames) {
+            proposals[i] = new Proposal(name, 0)
+        }
+    }
+
+    [Pre: msg.sender == owner]
+    [Pre: !voters[voter].voted]
+    [Pre: voters[voter].weight == 0]
+    function void giveRightToVote(address voter) {
+        voters[voter].weight = 1
+    }
+
+    [Pre: !voters[msg.sender].voted]
+    [Pre: initialTo != msg.sender]
+    function void delegate(address initialTo) {
+        Voter sender = voters[msg.sender]
+        address currentTo = initialTo
+        for (_ : to 9) {
+            if (voters[to_].delegate == address(0)) {
+                break
+            }
+            currentTo = voters[currentTo].delegate
+
+            assert(currentTo != msg.sender) // Found loop in delegation
+        }
+
+        sender.voted = true
+        sender.delegate = currentTo
+        Voter delegatedVoter = voters[currentTo]
+        if (delegatedVoter.voted) {
+            proposals[delegatedVoter.vote].voteCount += sender.weight
+        } else {
+            delegatedVoter.weight += sender.weight
+        }
+    }
+
+    [Pre: !voters[msg.sender].voted]
+    function void vote(int proposal) {
+        Voter sender = voters[msg.sender]
+        sender.voted = true
+        sender.vote = proposal
+
+        proposals[proposal].voteCount += sender.weight
+    }
+
+    [ReadOnly]
+    function int winningPoposal() {
+            int winningVoteCount = 0
+            int winningProposal = 0
+            for (p : 0 to proposals.length - 1) {
+                if (proposals[p].voteCount > winningVoteCount) {
+                    winningVoteCount = proposals[p].voteCount
+                    winningPoposal = p
+                }
+            }
+            return winningPoposal
+    }
+
+    [ReadOnly]
+    function int winningPoposal() {
+            int winningVoteCount = 0
+            int winningProposal = 0
+            foreach (i, Proposal p : proposals) {
+                if (p.voteCount > winningVoteCount) {
+                    winningVoteCount = p.voteCount
+                    winningPoposal = i
+                }
+            }
+            return winningPoposal
+    }
+
+    [ReadOnly]
+    function String winnerName() {
+        return proposals[winningPoposal()].name
+    }
+
+}
