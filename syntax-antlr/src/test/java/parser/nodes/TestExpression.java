@@ -1,10 +1,11 @@
 package parser.nodes;
 
 import bazolang.LazoParser;
-import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Test;
 import parser.NodeUtil;
 import parser.ParserUtil;
+
+import java.util.function.Function;
 
 public class TestExpression {
 
@@ -36,8 +37,6 @@ public class TestExpression {
                 getExpression("test().x[2]"),
                 "test().x",
                 "2");
-
-        // todo test more complex index access
     }
 
     @Test
@@ -66,8 +65,6 @@ public class TestExpression {
                 getExpression("test().x"),
                 "test()",
                 "x");
-
-        // todo add more complex cases
     }
 
     @Test
@@ -91,14 +88,49 @@ public class TestExpression {
     }
 
     @Test
-    public void testNewCreation() {
+    public void testCallParameters() {
+        NodeUtil.assertCallExpression(
+                getExpression("test(1)"),
+                "test", "1");
 
-        // new Person(12, s = "test")
-        // new int[23]
-        // new Map<int, Person>()
+        NodeUtil.assertCallExpression(
+                getExpression("test(true, x = 123)"),
+                "test", "true", "x=123");
+
+        NodeUtil.assertCallExpression(
+                getExpression("test(y = 4, x = 123)"),
+                "test", "y=4", "x=123");
     }
 
-    // todo test ( expression )
+    @Test
+    public void testStructCreation() {
+        NodeUtil.assertStructCreation(
+                getNewStructCreation("new Person(1, true)"),
+                "Person",
+                "1", "true"
+        );
+
+        NodeUtil.assertStructCreation(
+                getNewStructCreation("new Person(1, x=true, y=5)"),
+                "Person",
+                "1", "x=true", "y=5"
+        );
+    }
+
+    @Test
+    public void testMapCreation() {
+        NodeUtil.assertNewMapCreation(getNewMapCreation("new Map<int, int>()\n"), "int", "int");
+    }
+
+    @Test
+    public void testArrayCreationSingle() {
+        NodeUtil.assertNewArrayCreation(getNewArrayCreation("new int[5]\n"), "int", "5");
+    }
+
+    @Test
+    public void testArrayCreationMultiple() {
+        NodeUtil.assertNewArrayCreation(getNewArrayCreation("new int[]{ 1, 2, 3 }\n"), "int", null, "1", "2", "3");
+    }
 
     @Test
     public void testPrefixIncrement() {
@@ -179,6 +211,13 @@ public class TestExpression {
                 "2",
                 "3*4",
                 "+");
+    }
+
+    @Test
+    public void testParenthesis() {
+        var exp = getExpression("(2+3)*4");
+        NodeUtil.assertBinaryExpression(exp, "(2+3)", "4", "*");
+        NodeUtil.assertBinaryExpression(getSubExpression(exp, 0).expression(0), "2", "3", "+");
     }
 
     @Test
@@ -267,7 +306,14 @@ public class TestExpression {
     }
 
     @Test
-    public void assertOperandExpression(){
+    public void testShorthandAssignmentExpression() {
+        NodeUtil.assertShorthandAssignment(
+                getExpression("x += 5"),
+                "x", "5", "+");
+    }
+
+    @Test
+    public void assertOperandExpression() {
         NodeUtil.assertExpression(getExpression("x"), "x");
     }
 
@@ -278,12 +324,27 @@ public class TestExpression {
         return expression;
     }
 
-    private <T extends ParseTree> T getExpression(Class<? extends T> ctxType, String input) {
-        var expression = getExpression(input);
-        return expression.getChild(ctxType, 0);
-    }
-
     private LazoParser.ExpressionContext getSubExpression(LazoParser.ExpressionContext exp, int index) {
         return exp.getChild(LazoParser.ExpressionContext.class, index);
     }
+
+    private <R> R getNewCreationNode(String input, Function<LazoParser, R> func) {
+        var parser = ParserUtil.getParserForInput(input);
+        R result = func.apply(parser);
+        ParserUtil.assertNoErrors(parser);
+        return result;
+    }
+
+    private LazoParser.StructCreationContext getNewStructCreation(String input) {
+        return getNewCreationNode(input, (p) -> p.structCreation());
+    }
+
+    private LazoParser.ArrayCreationContext getNewArrayCreation(String input) {
+        return getNewCreationNode(input, (p) -> p.arrayCreation());
+    }
+
+    private LazoParser.MapCreationContext getNewMapCreation(String input) {
+        return getNewCreationNode(input, (p) -> p.mapCreation());
+    }
+
 }

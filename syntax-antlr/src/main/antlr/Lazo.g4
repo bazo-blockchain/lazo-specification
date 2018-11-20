@@ -11,20 +11,24 @@ program
   : versionDirective interfaceDeclaration* contractDeclaration EOF ;
 
 versionDirective
-  : 'version' INTEGER '.' INTEGER NLS; // todo prevent version 0x3.0x2
+  : 'version' INTEGER '.' INTEGER NLS ;
 
 interfaceDeclaration
-  : 'interface' IDENTIFIER '{' NLS* interfacePart* '}' NLS;
+  : 'interface' IDENTIFIER '{' NLS* interfacePart* '}' NLS ;
 
 interfacePart
-  : functionHead NLS ;
+  : functionSignature NLS ;
+
+functionSignature
+  : annotation* ( type | '(' type (',' type)* ')' ) IDENTIFIER '(' paramList? ')' ;
 
 contractDeclaration
-  : 'contract' IDENTIFIER ('is' IDENTIFIER (',' IDENTIFIER)* )? '{' (NLS | contractPart)* '}' NLS?;
+  : 'contract' IDENTIFIER ('is' IDENTIFIER (',' IDENTIFIER)* )? '{' (NLS | contractPart)* '}' NLS? ;
 
 contractPart
   : variableDeclaration
   | structDeclaration
+  | errorDeclaration
   | enumDeclaration
   | eventDeclaration
   | constructorDeclaration
@@ -40,6 +44,9 @@ variableDeclaration
 structDeclaration
   : 'struct' IDENTIFIER '{' NLS* structField* '}' NLS ;
 
+errorDeclaration
+  : 'error' IDENTIFIER '{' NLS* structField* '}' NLS ;
+
 structField
   : type IDENTIFIER NLS;
 
@@ -47,7 +54,7 @@ eventDeclaration
   : 'event' IDENTIFIER '(' paramList? ')' NLS;
 
 enumDeclaration
-  : 'enum' IDENTIFIER '{' IDENTIFIER (',' IDENTIFIER)* '}' NLS ; // todo allow optional newlines between constants
+  : 'enum' IDENTIFIER '{' NLS* IDENTIFIER (',' NLS* IDENTIFIER)* NLS*'}' NLS ;
 
 constructorDeclaration
   :  annotation* 'constructor' '(' paramList? ')' statementBlock ;
@@ -59,13 +66,16 @@ functionHead
   : 'internal'? 'readonly'? 'function' (type | '(' type (',' type)*')') IDENTIFIER '(' paramList? ')' ;
 
 annotation
-  : '[' IDENTIFIER ('=' IDENTIFIER)? ']' NLS ;
+  : '[' IDENTIFIER ('=' expression)? ']' NLS ;
 
 paramList
-  : parameter (',' parameter)* ; // todo allow optional newline
+  : parameter (',' parameter)* (',' defaultParameter)* ; // todo allow optional newline
 
 parameter
-  : type IDENTIFIER assignment? ;
+  : type IDENTIFIER ;
+
+defaultParameter
+  : parameter assignment ;
 
 // Types
 // -----
@@ -90,16 +100,21 @@ statementBlock
 statement
   : assignmentStatement
   | returnStatement
-  | callStatement
+  | expressionStatement
+  | sendStatement
   | emitStatement
   | variableDeclaration
   | ifStatement
   | forEachStatement
   | forStatement
-  | mapForEachStatement ;
+  | mapForEachStatement
+  | breakStatement
+  | continueStatement
+  | throwStatement
+  ;
 
 emitStatement
-  : 'emit' callStatement ;
+  : 'emit' expression NLS;
 
 ifStatement
   : 'if' '(' expression ')' statementBlock ('else if' '(' expression ')' statementBlock)? ('else' statementBlock)? ;
@@ -108,31 +123,45 @@ forStatement
   : 'for' '(' IDENTIFIER ':' rangeStatement ')' statementBlock ;
 
 forEachStatement
-  : 'foreach' '(' type IDENTIFIER ':' expression ')' statementBlock;
+  : 'foreach' '(' (IDENTIFIER ',')? type IDENTIFIER ':' expression ')' statementBlock ;
 
 mapForEachStatement
-  : 'foreach' '(' (type? IDENTIFIER ',')? type IDENTIFIER ':' expression ')' statementBlock ;
+  : 'foreach' '(' type IDENTIFIER ',' type IDENTIFIER ':' expression ')' statementBlock ;
+
+breakStatement
+  : 'break' NLS ;
+
+continueStatement
+  : 'continue' NLS ;
 
 rangeStatement
   : expression? 'to' expression ('by' expression)?; // Expression as we could use .size or negative integers
 
-callStatement
+expressionStatement
   : expression NLS ;
 
-argumentList
-  : expression (',' expression)* ;
+sendStatement
+  : expression '.' 'send' '(' expression? ')' NLS ;
 
-// todo support indexAccess = exp;
-// todo support test().x = 5
+argumentList
+  : expression (',' expression)* (',' namedArgument)*
+  | namedArgument (',' namedArgument)*
+  ;
+
+namedArgument
+  : IDENTIFIER '=' expression ;
+
 assignmentStatement
-  : designator assignment NLS ;
+  : expression assignment NLS ;
 
 assignment
   : '=' expression ;
 
 designator
-  : IDENTIFIER
-  ;
+  : IDENTIFIER ;
+
+throwStatement
+  : 'throw' IDENTIFIER '{' argumentList? '}' NLS ;
 
 returnStatement
   : 'return' (expression (',' expression)*)? NLS ;
@@ -161,6 +190,7 @@ expression
   | expression '&&' expression
   | expression '||' expression
   | <assoc=right> expression '?' expression ':' expression
+  | <assoc=right> expression ( '+' | '-' | '**' | '*' | '/' | '%' | '<<' | '>>' | '&' | '^' | '|' ) '=' expression
   | operand
   ;
 
@@ -171,7 +201,7 @@ newCreation
   ;
 
 structCreation
-  : 'new' IDENTIFIER '('(IDENTIFIER assignment | expression)* ')' ;
+  : 'new' IDENTIFIER '(' argumentList? ')' ;
 
 arrayCreation
   : 'new' IDENTIFIER ('[' expression ']' ('{' '}')?| '[' ']' '{' expression (',' expression)* '}');
@@ -209,11 +239,11 @@ INTERFACE : 'interface' ;
 INTERNAL : 'internal' ;
 IS : 'is' ;
 MAP : 'Map' ;
+READONLY : 'readonly' ;
 RETURN : 'return' ;
 STRUCT : 'struct' ;
+THROW: 'throw';
 VERSION : 'version' ;
-READONLY : 'readonly' ;
-// ----- TODO: complete the keywords
 
 BOOL
   : 'true'
@@ -303,20 +333,16 @@ NLS
 fragment NL
   : [\n]
   | [\r\n]
-  ; // TODO: remove terminator and add CRLF as well
+  ;
 
 // Skip Rules
 // --------
-
-TERMINATOR
-  : [\r\n]+ -> skip ;
-
 WHITE_SPACE
   : [ \t\f\r]+ -> skip // skip spaces, tabs, form feed and carrige return
   ;
 
 LINE_COMMENT
-  : '//' ~[\r\n]* -> skip ;
+  : '//' ~[\r\n]* [\r\n]* -> skip ;
 
 BLOCK_COMMENT
   : '/*' .*? '*/' -> skip ;

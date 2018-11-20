@@ -5,13 +5,33 @@ import org.junit.Test;
 import parser.NodeUtil;
 import parser.ParserUtil;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.function.Function;
 
 public class TestStatements {
 
     @Test
+    public void testAssignmentStatement() {
+        NodeUtil.assertAssignmentStatement(
+                getAssignmentStatement("x.y = 5\n"),
+                "x.y", "5");
+    }
+
+    @Test
+    public void testExpressionStatement() {
+        NodeUtil.assertShorthandAssignment(
+                getExpressionStatement("x += 5\n").expression(),
+                "x", "5", "+");
+
+        NodeUtil.assertExpression(
+                getExpressionStatement("x++\n").expression(),
+                "x++");
+    }
+
+    @Test
     public void testEmptyReturnStatement() {
-        NodeUtil.assertReturnStatement(getReturnStatement("return \n"), null);
+        NodeUtil.assertReturnStatement(getReturnStatement("return \n"));
     }
 
     @Test
@@ -31,22 +51,30 @@ public class TestStatements {
 
     @Test
     public void testCallStatement() {
-        NodeUtil.assertExpression(getCallStatement("a()\n").expression(), "a()");
+        NodeUtil.assertCallExpression(getExpressionStatement("a()\n").expression(), "a");
+    }
+
+    @Test
+    public void testCallStatementWithParams() {
+        NodeUtil.assertCallExpression(
+                getExpressionStatement("a('c', x = 45)\n").expression(),
+                "a",
+                "'c'", "x=45");
     }
 
     @Test
     public void testNestedCallStatement() {
-        NodeUtil.assertExpression(getCallStatement("a.a()\n").expression(), "a.a()");
+        NodeUtil.assertCallExpression(getExpressionStatement("a.a()\n").expression(), "a.a");
     }
 
     @Test
     public void testEmitStatement() {
-        NodeUtil.assertExpression(getEmitStatement("emit A()\n").callStatement().expression(), "A()");
+        NodeUtil.assertCallExpression(getEmitStatement("emit A()\n").expression(), "A");
     }
 
     @Test
     public void testEmitStatementWithParams() {
-        NodeUtil.assertExpression(getEmitStatement("emit A(1, 2)\n").callStatement().expression(), "A(1,2)");
+        NodeUtil.assertCallExpression(getEmitStatement("emit A(1, 2)\n").expression(), "A", "1", "2");
     }
 
     @Test
@@ -114,19 +142,13 @@ public class TestStatements {
     }
 
     @Test
-    public void testForEachStatement() {
-        var forEachStatement = getForEachStatement("foreach(int a : numbers) {}\n");
-        NodeUtil.assertForEachStatement(forEachStatement, "int", "a", "numbers", 0);
-    }
-
-    @Test
-    public void testForEachStatementWithStatements() {
-        var forEachStatement = getForEachStatement("foreach(int a : numbers) {int a = 5\n}\n");
-        NodeUtil.assertForEachStatement(forEachStatement, "int", "a", "numbers", 1);
-    }
-
-    @Test
     public void testForStatement() {
+        var forStatement = getForStatement("for (a : to 5) {}\n");
+        NodeUtil.assertForStatement(forStatement, "a", "to5", 0);
+    }
+
+    @Test
+    public void testForStatementWithFrom() {
         var forStatement = getForStatement("for (a : 0 to 5 by 1) {}\n");
         NodeUtil.assertForStatement(forStatement, "a", "0to5by1", 0);
     }
@@ -135,6 +157,12 @@ public class TestStatements {
     public void testForStatementWithStatements() {
         var forStatement = getForStatement("for (a : 0 to 5 by 1) {int a = 5 \n}\n");
         NodeUtil.assertForStatement(forStatement, "a", "0to5by1", 1);
+    }
+
+    @Test
+    public void testForStatementWithBreak() {
+        var forStatement = getForStatement("for (a : to 5) { break \n}\n");
+        NodeUtil.assertForStatement(forStatement, "a", "to5", 1);
     }
 
     @Test
@@ -150,71 +178,130 @@ public class TestStatements {
     }
 
     @Test
+    public void testRangeStatementToBy() {
+        var rangeStatement = getRangeStatement("to 5 by 2\n");
+        NodeUtil.assertRangeStatement(rangeStatement, null, "5", "2");
+    }
+
+    @Test
     public void testRangeStatementBy() {
         var rangeStatement = getRangeStatement("0 to 5 by 1\n");
         NodeUtil.assertRangeStatement(rangeStatement, "0", "5", "1");
     }
 
     @Test
+    public void testForEachStatement() {
+        var forEachStatement = getForEachStatement("foreach(int a : numbers) {}\n");
+        NodeUtil.assertForEachStatement(forEachStatement, "int", "a", "numbers", 0);
+    }
+
+    @Test
+    public void testForEachStatementWithContinue() {
+        var forEachStatement = getForEachStatement("foreach(int a : numbers) { continue \n }\n");
+        NodeUtil.assertForEachStatement(forEachStatement, "int", "a", "numbers", 1);
+    }
+
+    @Test
+    public void testForEachStatementWithIndex() {
+        var forEachStatement = getForEachStatement("foreach(index, int a : numbers) { continue \n }\n");
+        NodeUtil.assertForEachStatement(
+                forEachStatement, "int", "a", "numbers", 1, "index");
+    }
+
+    @Test
+    public void testForEachStatementWithStatements() {
+        var forEachStatement = getForEachStatement("foreach(int a : numbers) {int a = 5\n}\n");
+        NodeUtil.assertForEachStatement(forEachStatement, "int", "a", "numbers", 1);
+    }
+
+    @Test
     public void testMapForEachStatement() {
         var mapForEachStatement = getMapForEachStatement("foreach(int k, int v : a) {}\n");
-        NodeUtil.assertMapForEachStatement(mapForEachStatement, "int", "k", "int", "v", "a", 0);
+        NodeUtil.assertMapForEachStatement(
+                mapForEachStatement, "int", "k", "int", "v", "a", 0);
     }
 
     @Test
     public void testMapForEachStatementWithStatements() {
         var mapForEachStatement = getMapForEachStatement("foreach(int k, int v : a) { int a = 5\n}\n");
-        NodeUtil.assertMapForEachStatement(mapForEachStatement, "int", "k", "int", "v", "a", 1);
+        NodeUtil.assertMapForEachStatement(
+                mapForEachStatement,
+                "int", "k", "int", "v", "a", 1);
     }
 
     @Test
-    public void testMapForEachStatementKeyWithoutType() {
-        var mapForEachStatement = getMapForEachStatement("foreach(k, int v : a) {}\n");
-        NodeUtil.assertMapForEachStatement(mapForEachStatement, null, "k", "int", "v", "a", 0);
+    public void testThrowStatement() throws IOException {
+        var function = getFunction(getContractParts("parser/error_handling.lazo").get(1));
+
+        NodeUtil.assertThrowStatement(
+                function.statementBlock()
+                        .getChild(LazoParser.StatementContext.class, 0)
+                        .getChild(LazoParser.ThrowStatementContext.class, 0),
+                "MyError", "100", "message=\"test\""
+        );
     }
 
     @Test
-    public void testMapForEachStatementOnlyValue() {
-        var mapForEachStatement = getMapForEachStatement("foreach(int v : a) {}\n");
-        NodeUtil.assertMapForEachStatement(mapForEachStatement, null, null, "int", "v", "a", 0);
+    public void testSendStatement() throws IOException {
+        var function = getFunction(getContractParts("parser/send_statement.lazo").get(0));
+
+        var sendStatement = function.statementBlock()
+                .getChild(LazoParser.StatementContext.class, 1)
+                .getChild(LazoParser.SendStatementContext.class, 0);
+        NodeUtil.assertCallExpression(sendStatement.expression(0), "person.transfer");
+        NodeUtil.assertExpression(sendStatement.expression(1), "args");
     }
 
-
-    private LazoParser getParser(String input) {
+    private <R> R getStatementNode(String input, Function<LazoParser, R> func) {
         var parser = ParserUtil.getParserForInput(input);
+        R result = func.apply(parser);
         ParserUtil.assertNoErrors(parser);
-        return parser;
+        return result;
+    }
+
+    private LazoParser.AssignmentStatementContext getAssignmentStatement(String input) {
+        return getStatementNode(input, (p) -> p.assignmentStatement());
+    }
+
+    private LazoParser.ExpressionStatementContext getExpressionStatement(String input) {
+        return getStatementNode(input, (p) -> p.expressionStatement());
     }
 
     private LazoParser.ReturnStatementContext getReturnStatement(String input) {
-        return getParser(input).returnStatement();
-    }
-
-    private LazoParser.CallStatementContext getCallStatement(String input) {
-        return getParser(input).callStatement();
+        return getStatementNode(input, (p) -> p.returnStatement());
     }
 
     private LazoParser.EmitStatementContext getEmitStatement(String input) {
-        return getParser(input).emitStatement();
+        return getStatementNode(input, (p) -> p.emitStatement());
     }
 
     private LazoParser.IfStatementContext getIfStatement(String input) {
-        return getParser(input).ifStatement();
+        return getStatementNode(input, (p) -> p.ifStatement());
     }
 
     private LazoParser.RangeStatementContext getRangeStatement(String input) {
-        return getParser(input).rangeStatement();
+        return getStatementNode(input, (p) -> p.rangeStatement());
     }
 
     private LazoParser.ForStatementContext getForStatement(String input) {
-        return getParser(input).forStatement();
+        return getStatementNode(input, (p) -> p.forStatement());
     }
 
     private LazoParser.ForEachStatementContext getForEachStatement(String input) {
-        return getParser(input).forEachStatement();
+        return getStatementNode(input, (p) -> p.forEachStatement());
     }
 
     private LazoParser.MapForEachStatementContext getMapForEachStatement(String input) {
-        return getParser(input).mapForEachStatement();
+        return getStatementNode(input, (p) -> p.mapForEachStatement());
+    }
+
+    private List<LazoParser.ContractPartContext> getContractParts(String path) throws IOException {
+        return ParserUtil.getProgramFromFile(path)
+                .contractDeclaration()
+                .contractPart();
+    }
+
+    private LazoParser.FunctionDeclarationContext getFunction(LazoParser.ContractPartContext contractPart) {
+        return contractPart.getChild(LazoParser.FunctionDeclarationContext.class, 0);
     }
 }

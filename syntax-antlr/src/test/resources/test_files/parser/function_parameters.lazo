@@ -1,0 +1,19 @@
+version 1.0
+
+contract TestFunctions {
+
+    function void params(int i, String s){
+        int amount = pendingReturns[msg.sender]
+
+        if(amount > 0){
+            pendingReturns[msg.sender] = 0
+
+            Account a = (Account) msg.sender
+            a.transfer(amount).send()
+        }
+    }
+
+    function void defaultValue(int i, String s = "default"){
+        int x = s == "default" ? 0 : i
+    }
+}

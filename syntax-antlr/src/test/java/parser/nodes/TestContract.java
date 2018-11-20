@@ -26,7 +26,7 @@ public class TestContract {
 
     @Test
     public void testSimpleContract() throws IOException {
-        var program = ParserUtil.getProgramFromFile("parser/simple_contract.lz");
+        var program = ParserUtil.getProgramFromFile("parser/simple_contract.lazo");
         NodeUtil.assertVersion(program.versionDirective(), 1, 0);
         NodeUtil.assertInterfaceDecl(program.interfaceDeclaration(0), "AInterface");
         NodeUtil.assertInterfaceDecl(program.interfaceDeclaration(1), "BInterface");
@@ -35,11 +35,11 @@ public class TestContract {
 
     @Test
     public void testContractParts() throws IOException {
-        var contractParts = ParserUtil.getProgramFromFile("parser/contract_parts.lz")
+        var contractParts = ParserUtil.getProgramFromFile("parser/contract_parts.lazo")
                 .contractDeclaration()
                 .contractPart();
         NodeUtil.removeNewlines(contractParts);
-        Assert.assertEquals(7, contractParts.size());
+        Assert.assertEquals(8, contractParts.size());
 
         // Variable Declaration
         var varX = contractParts.get(0).getChild(LazoParser.VariableDeclarationContext.class, 0);
@@ -59,12 +59,16 @@ public class TestContract {
         var enumE = contractParts.get(4).getChild(LazoParser.EnumDeclarationContext.class, 0);
         NodeUtil.assertEnumDecl(enumE, "TestEnum", "TEST1", "TEST2");
 
+        // Error Declaration
+        var error = contractParts.get(5).getChild(LazoParser.ErrorDeclarationContext.class, 0);
+        NodeUtil.assertErrorDecl(error, "MyError", 2);
+
         // Constructor Declaration
-        var constructor = contractParts.get(5).getChild(LazoParser.ConstructorDeclarationContext.class, 0);
+        var constructor = contractParts.get(6).getChild(LazoParser.ConstructorDeclarationContext.class, 0);
         NodeUtil.assertConstructorDecl(constructor, 0, 0, 0);
 
         // Function Declaration
-        var testFunc = contractParts.get(6).getChild(LazoParser.FunctionDeclarationContext.class, 0);
+        var testFunc = contractParts.get(7).getChild(LazoParser.FunctionDeclarationContext.class, 0);
         Assert.assertEquals(0, testFunc.annotation().size());
         NodeUtil.assertFunctionHead(testFunc.functionHead(), "test", 0, "void");
         Assert.assertEquals(0, testFunc.statementBlock().statement().size());

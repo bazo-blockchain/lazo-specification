@@ -1,0 +1,20 @@
+version 1.0
+
+contract TestAnnotation {
+
+    [Owner]
+    [ReadOnly]
+    [MaxCalls=2]
+    function void test(int x){
+        this.x = x
+    }
+
+    [Pre = x > y ]
+    [Post = y > x ]
+    function (int, int) test2(int x, int y){
+        int temp = x
+        x = y
+        y = temp
+        return x, y
+    }
+}

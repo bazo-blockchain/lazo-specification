@@ -13,6 +13,11 @@ contract SimpleContract {
 
   enum TestEnum { TEST1, TEST2 }
 
+  error MyError {
+    int code
+    String message
+  }
+
   constructor () {
 
   }
