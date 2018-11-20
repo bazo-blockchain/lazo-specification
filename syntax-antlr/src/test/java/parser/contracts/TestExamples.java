@@ -9,10 +9,20 @@ public class TestExamples {
 
     @Test
     public void testOpenAuction() throws IOException {
-        parseContract("../examples/OpenAuction.lazo");
+        parseContract("OpenAuction.lazo");
     }
 
-    private void parseContract(String path) throws IOException {
-        ParserUtil.getProgramFromFile(path, false);
+    @Test
+    public void testBlindAuction() throws IOException {
+        parseContract("BlindAuction.bl");
+    }
+
+    @Test
+    public void testBallot() throws IOException {
+        parseContract("Ballot.bl");
+    }
+
+    private void parseContract(String contractName) throws IOException {
+        ParserUtil.getProgramFromFile("../examples/" + contractName, false);
     }
 }
