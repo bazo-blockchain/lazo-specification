@@ -67,7 +67,8 @@ contract Ballot {
         proposals[proposal].voteCount += sender.weight
     }
 
-    readonly function int winningPoposal() {
+    [ReadOnly]
+    function int winningPoposal() {
             int winningVoteCount = 0
             int winningProposal = 0
             for (p : 0 to proposals.length - 1) {

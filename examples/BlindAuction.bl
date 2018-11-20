@@ -36,16 +36,16 @@ contract BlindAuction {
     }
 
     [Payable]
-    [Pre=onlyBefore(biddingEnd)]
+    [Pre: onlyBefore(biddingEnd)]
     function void bid(String blindedBid) {
         bids[msg.sender] = new Bid(blindedBid, msg.value)
     }
 
-    [Pre=onlyAfter(biddingEnd)]
-    [Pre=onlyBefore(revealEnd)]
-    [Pre=values.length == bids[msg.sender].length]
-    [Pre=fake.length == bids[msg.sender].length]
-    [Pre=secret.length == bids[msg.sender].length]
+    [Pre: onlyAfter(biddingEnd)]
+    [Pre: onlyBefore(revealEnd)]
+    [Pre: values.length == bids[msg.sender].length]
+    [Pre: fake.length == bids[msg.sender].length]
+    [Pre: secret.length == bids[msg.sender].length]
     function void reveal(int[] values, bool[] fake, String[] secret) {
         int refund
         for (i : 0 to bids[msg.sender].length - 1) {
@@ -61,12 +61,12 @@ contract BlindAuction {
             refund += bidToCheck.deposit
             if (_fake && bidToCheck.deposit >= _value) {
                 if (placeBid(msg.sender, _value)){
-                    refund -= _value;
+                    refund -= _value
                 }
             }
             bidToCheck.blindedBid = "0"
         }
-        msg.sender.transfer().send(refund);
+        msg.sender.transfer().send(refund)
     }
 
     internal function bool placeBid(address bidder, int value) {
@@ -91,12 +91,12 @@ contract BlindAuction {
         }
     }
 
-    [Pre=onlyAfter(revealEnd)]
-    [Pre=!ended]
+    [Pre: onlyAfter(revealEnd)]
+    [Pre: !ended]
     function void auctionEnd() {
         emit AuctionEnded(highestBidder, highestBid)
         ended = true
-        beneficiary.transfer()send(highestBid)
+        beneficiary.transfer().send(highestBid)
     }
 
 }
