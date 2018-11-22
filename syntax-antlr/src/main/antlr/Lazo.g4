@@ -251,7 +251,6 @@ FOR: 'for' ;
 FOREACH: 'foreach' ;
 TO: 'to' ;
 BY: 'by' ;
-THIS: 'this' ;
 ENUM: 'enum' ;
 
 
