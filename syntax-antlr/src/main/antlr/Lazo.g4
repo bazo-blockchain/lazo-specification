@@ -258,16 +258,30 @@ BOOL
   : 'true'
   | 'false' ;
 
-// Reserved Keywords which are not used in the language
+// Reserved Keywords which are not used in the language (prohibited)
 // ----------------
 PUBLIC: 'public' ;
 SWITCH: 'switch' ;
 CASE: 'case' ;
 WHILE: 'while' ;
-TRY: 'try';
+TRY: 'try' ;
 CATCH: 'catch' ;
-FINALLY: 'finally';
-
+FINALLY: 'finally' ;
+GOTO: 'goto' ;
+ABSTRACT: 'abstract' ;
+IMPLEMENTS: 'implements' ;
+EXTERNAL: 'external' ;
+PRIVATE: 'private' ;
+REF: 'ref' ;
+OUT: 'out' ;
+AS: 'as' ;
+STATIC: 'static' ;
+EXTENDS: 'extends' ;
+OVERRIDE: 'override' ;
+VIRTUAL: 'virtual' ;
+CONST: 'const' ;
+VAR: 'var' ;
+NULL: 'null';
 // ----------------
 
 // Punctuation marks
