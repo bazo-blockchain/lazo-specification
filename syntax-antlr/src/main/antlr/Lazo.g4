@@ -221,7 +221,7 @@ literal
   | BOOL
   ;
 
-// End of Expressions
+// End of Expressions±
 
 // ---------------------------------------------------
 // Lexer Tokens
@@ -234,6 +234,7 @@ CONSTRUCTOR : 'constructor';
 CONTINUE: 'continue' ;
 CONTRACT : 'contract' ;
 EMIT : 'emit' ;
+EVENT: 'event' ;
 FUNCTION : 'function' ;
 INTERFACE : 'interface' ;
 INTERNAL : 'internal' ;
@@ -244,10 +245,31 @@ RETURN : 'return' ;
 STRUCT : 'struct' ;
 THROW: 'throw';
 VERSION : 'version' ;
+IF: 'if' ;
+ELSE: 'else' ;
+FOR: 'for' ;
+FOREACH: 'foreach' ;
+TO: 'to' ;
+BY: 'by' ;
+THIS: 'this' ;
+ENUM: 'enum' ;
+
 
 BOOL
   : 'true'
   | 'false' ;
+
+// Reserved Keywords which are not used in the language
+// ----------------
+PUBLIC: 'public' ;
+SWITCH: 'switch' ;
+CASE: 'case' ;
+WHILE: 'while' ;
+TRY: 'try';
+CATCH: 'catch' ;
+FINALLY: 'finally';
+
+// ----------------
 
 // Punctuation marks
 // ----------------
