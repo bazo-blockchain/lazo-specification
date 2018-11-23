@@ -30,3 +30,4 @@ out/
 
 # Generated grammar
 src/main/java/bazolang
+src/main/antlr/.antlr
