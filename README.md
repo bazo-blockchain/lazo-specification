@@ -2,4 +2,10 @@
 
 [![Build Status](https://travis-ci.org/bazo-blockchain/lazo-specification.svg?branch=master)](https://travis-ci.org/bazo-blockchain/lazo-specification)
 
-Die Bazo Blockchain ist eine Research Blockchain um verschiedene Mechanismen und Algorithmen zu testen. In der momentanen Version sind Proof of Stake integriert, sowie Mechanismen um die Bazo Blockchain auf einem mobilen Gerät laufen zu lassen. Es lassen sich nur Bazo Coins transferieren. Die Idee dieser Arbeit ist es die Bazo Blockchain um Smart Contracts zu erweitern.
+The Bazo Blockchain is a research blockchain to test different mechanisms and algorithms. In the current version, a Proof-of-Stake consensus algorithm and mechanisms to run the blockchain on mobile devices are integrated. Furthermore, there is also a virtual machine available to interpret and execute IL codes on the Bazo Blockchain. The goal of this study work is to specify a smart contract language for the Bazo Blochchain.
+
+
+**Result**:
+* Language specification - in progress
+* [Lazo grammar in AntLR](syntax-antlr/src/main/antlr/Lazo.g4)
+* [Contract examples](examples/)
