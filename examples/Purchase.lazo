@@ -30,13 +30,17 @@ contract Purchase {
         return 2 * value
     }
 
+    internal function void refundSeller() {
+        seller.transfer().send(new MsgArgs(coins=getDepositValue()))
+    }
+
     [Owner]
     [Pre: state == State.CREATED]
     function void abort() {
         emit Aborted()
         state = State.INACTIVE
         
-        seller.transfer().send(new MsgArgs(coins=getDepositValue()))
+        refundSeller()
     }
 
     [Payable]
@@ -55,6 +59,6 @@ contract Purchase {
         state = State.INACTIVE
 
         buyer.transfer().send(new MsgArgs(coins=value))                 // return buyer's extra deposit
-        seller.transfer().send(new MsgArgs(coins=getDepositValue()))    // return seller's deposit
+        refundSeller()
     }
 }

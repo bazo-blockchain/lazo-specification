@@ -27,6 +27,11 @@ public class TestExamples {
         parseContract("Purchase.lazo");
     }
 
+    @Test
+    public void testCrowdFund() throws IOException {
+        parseContract("CrowdFund.lazo");
+    }
+
     private void parseContract(String contractName) throws IOException {
         ParserUtil.getProgramFromFile("../examples/" + contractName, false);
     }
