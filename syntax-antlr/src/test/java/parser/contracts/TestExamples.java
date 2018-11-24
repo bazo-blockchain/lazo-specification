@@ -14,12 +14,12 @@ public class TestExamples {
 
     @Test
     public void testBlindAuction() throws IOException {
-        parseContract("BlindAuction.bl");
+        parseContract("BlindAuction.lazo");
     }
 
     @Test
     public void testBallot() throws IOException {
-        parseContract("Ballot.bl");
+        parseContract("Ballot.lazo");
     }
 
     private void parseContract(String contractName) throws IOException {
