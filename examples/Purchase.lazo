@@ -1,0 +1,17 @@
+/* The following example shows an escrow contract
+   where a buyer and a seller can make transactions
+   without a middleman (trusted 3rd party) */
+
+version 1.0
+
+contract Purchase {
+
+    int value
+    Payable seller
+    Payable buyer
+
+    enum State { CREATED, LOCKED, INACTIVE }
+    State state
+
+        
+}
