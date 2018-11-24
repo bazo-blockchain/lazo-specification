@@ -1,0 +1,8 @@
+/* In the CrowdFund contract, participants can contribute to a campaign.
+   If predetermined funding goal is reached, the funds will be sent to the beneficiary.
+   Otherwise, participants will be refunded.
+   See https://www.ethereum.org/crowdsale for the contract in Solidity
+*/
+
+version 1.0
+

@@ -1,6 +1,5 @@
 /* The following example shows an escrow contract
-   where a buyer and a seller can make transactions
-   without a middleman (trusted 3rd party)
+   where a buyer and a seller can make transactions without a middleman (trusted 3rd party)
    See Solidity: https://solidity.readthedocs.io/en/v0.5.0/solidity-by-example.html#safe-remote-purchase
 */
 
@@ -26,32 +25,36 @@ contract Purchase {
         value = msg.coins / 2       // The seller initially makes a safety deposit of twice the value of the selling item
     }
 
+    [ReadOnly]
+    internal function int getDepositValue() {
+        return 2 * value
+    }
+
     [Owner]
     [Pre: state == State.CREATED]
     function void abort() {
         emit Aborted()
         state = State.INACTIVE
         
-        seller.transfer().send(new MsgArgs(coins=balance(this)))
+        seller.transfer().send(new MsgArgs(coins=getDepositValue()))
     }
 
     [Payable]
     [Pre: state == State.CREATED]
-    [Pre: msg.coins == 2 * value]
+    [Pre: msg.coins == getDepositValue()]
     function void confirmPurchase() {
         emit PurchaseConfirmed()
         buyer = (Payable) msg.sender
         state = State.LOCKED
     }
 
-    [Pre: msg.sender == buyer]
+    [Pre: buyer == msg.sender]
     [Pre: state == State.LOCKED]
     function void confirmReceived() {
         emit ItemReceived()
         state = State.INACTIVE
 
-        MsgArgs args = new MsgArgs(coins=value)
-        buyer.transfer().send(args)
-        seller.transfer().send(args)
-    }    
+        buyer.transfer().send(new MsgArgs(coins=value))                 // return buyer's extra deposit
+        seller.transfer().send(new MsgArgs(coins=getDepositValue()))    // return seller's deposit
+    }
 }
