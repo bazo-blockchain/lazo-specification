@@ -22,6 +22,11 @@ public class TestExamples {
         parseContract("Ballot.lazo");
     }
 
+    @Test
+    public void testPurchase() throws IOException {
+        parseContract("Purchase.lazo");
+    }
+
     private void parseContract(String contractName) throws IOException {
         ParserUtil.getProgramFromFile("../examples/" + contractName, false);
     }
