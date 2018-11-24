@@ -51,7 +51,7 @@ contract CrowdFund {
     function void checkGoalReached() {
         if (isGoalReached()) {
             emit GoalReached(amountRaised)
-            beneficiary.transfer().send(new MsgArgs(balance(this)))
+            beneficiary.transfer().send(new MsgArgs(coins=balance(this)))
         } else {
             emit GoalFailed(amountRaised)       // inform the funders to withdraw their funds
         }
