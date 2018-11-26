@@ -232,72 +232,72 @@ literal
 
 // Reserved Keywords (Hint: Order by asc)
 // -----------------
-BREAK : 'break' ;
+BREAK: 'break' ;
 BY: 'by' ;
-CONSTRUCTOR : 'constructor' ;
+CONSTRUCTOR: 'constructor' ;
 CONTINUE: 'continue' ;
-CONTRACT : 'contract' ;
+CONTRACT: 'contract' ;
 ELSE: 'else' ;
-EMIT : 'emit' ;
+EMIT: 'emit' ;
 ENUM: 'enum' ;
 EVENT: 'event' ;
 FOR: 'for' ;
 FOREACH: 'foreach' ;
-FUNCTION : 'function' ;
-INTERFACE : 'interface' ;
-INTERNAL : 'internal' ;
+FUNCTION: 'function' ;
+INTERFACE: 'interface' ;
+INTERNAL: 'internal' ;
 IF: 'if' ;
-IS : 'is' ;
-MAP : 'Map' ;
-READONLY : 'readonly' ;
-RETURN : 'return' ;
-STRUCT : 'struct' ;
+IS: 'is' ;
+MAP: 'Map' ;
+READONLY: 'readonly' ;
+RETURN: 'return' ;
+STRUCT: 'struct' ;
 THROW: 'throw';
 TO: 'to' ;
-VERSION : 'version' ;
+VERSION: 'version' ;
 
 BOOL
   : 'true'
   | 'false'
   ;
 
-// Reserved Keywords which are not used in the language (prohibited)
+// Reserved Keywords which are not used in the language (prohibited) - Hint: Order by asc
 // ----------------
-PUBLIC: 'public' ;
-SWITCH: 'switch' ;
+ABSTRACT: 'abstract' ;
+AS: 'as' ;
 CASE: 'case' ;
-WHILE: 'while' ;
-TRY: 'try' ;
 CATCH: 'catch' ;
+CONST: 'const' ;
+EXTENDS: 'extends' ;
+EXTERNAL: 'external' ;
 FINALLY: 'finally' ;
 GOTO: 'goto' ;
-ABSTRACT: 'abstract' ;
 IMPLEMENTS: 'implements' ;
-EXTERNAL: 'external' ;
-PRIVATE: 'private' ;
-REF: 'ref' ;
-OUT: 'out' ;
-AS: 'as' ;
-STATIC: 'static' ;
-EXTENDS: 'extends' ;
-OVERRIDE: 'override' ;
-VIRTUAL: 'virtual' ;
-CONST: 'const' ;
-VAR: 'var' ;
 NULL: 'null';
+OUT: 'out' ;
+OVERRIDE: 'override' ;
+PRIVATE: 'private' ;
+PUBLIC: 'public' ;
+REF: 'ref' ;
+STATIC: 'static' ;
+SWITCH: 'switch' ;
+TRY: 'try' ;
+VAR: 'var' ;
+VIRTUAL: 'virtual' ;
+WHILE: 'while' ;
 // ----------------
 
 // Punctuation marks
 // ----------------
-LPAREN : '(' ;
-RPAREN : ')' ;
-LBRACE : '{' ;
-RBRACE : '}' ;
-LBRACK : '[' ;
-RBRACK : ']' ;
-SEMI : ';';
-COMMA : ',';
-DOT : '.';
+LPAREN: '(' ;
+RPAREN: ')' ;
+LBRACE: '{' ;
+RBRACE: '}' ;
+LBRACK: '[' ;
+RBRACK: ']' ;
+SEMI: ';';
+COMMA: ',';
+DOT: '.';
 // -----
 
 // Arithmatics
