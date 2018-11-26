@@ -69,21 +69,21 @@ contract Ballot {
     }
 
     [ReadOnly]
-    function int winningPoposal() {
+    function int winningProposal() {
         int winningVoteCount = 0
         int winningProposal = 0
         foreach (i, Proposal p : proposals) {
             if (p.voteCount > winningVoteCount) {
                 winningVoteCount = p.voteCount
-                winningPoposal = i
+                winningProposal = i
             }
         }
-        return winningPoposal
+        return winningProposal
     }
 
     [ReadOnly]
     function String winnerName() {
-        return proposals[winningPoposal()].name
+        return proposals[winningProposal()].name
     }
 
 }
