@@ -13,6 +13,8 @@ contract BlindAuction {
     bool ended
 
     Map<address, Bid[]> bids
+    Map<address, int> totalBids
+    readonly int maxBids = 10
 
     address highestBidder
     int highestBid
@@ -21,52 +23,61 @@ contract BlindAuction {
 
     event AuctionEnded(address winner, int highestBid)
 
-    internal function bool onlyBefore(int time) {
-        return now < time
-    }
-
-    internal function bool onlyAfter(int time) {
-        return now > time
-    }
-
     constructor(int biddingTime, int revealTime, address beneficiary) {
-        this.beneficiary = beneficiary
-        biddingEnd = now + biddingTime
+        this.beneficiary = (Payable) beneficiary
+        biddingEnd = block.timestamp + biddingTime
         revealEnd = biddingEnd + revealTime
+    }
+
+    [ReadOnly]
+    internal function bool onlyBefore(int time) {
+        return block.timestamp < time
+    }
+
+    [ReadOnly]
+    internal function bool onlyAfter(int time) {
+        return block.timestamp > time
     }
 
     [Payable]
     [Pre: onlyBefore(biddingEnd)]
+    [Pre: totalBids[msg.sender] < maxBids]
     function void bid(String blindedBid) {
-        bids[msg.sender] = new Bid(blindedBid, msg.value)
+        if(!bids.contains(msg.sender)){
+            bids[msg.sender] = new Bid[maxBids]
+        }
+        int count = totalBids[msg.sender]
+        bids[msg.sender][count] = new Bid(blindedBid, msg.value)
+        totalBids[msg.sender] = count + 1
     }
 
     [Pre: onlyAfter(biddingEnd)]
     [Pre: onlyBefore(revealEnd)]
     [Pre: values.length == bids[msg.sender].length]
-    [Pre: fake.length == bids[msg.sender].length]
-    [Pre: secret.length == bids[msg.sender].length]
-    function void reveal(int[] values, bool[] fake, String[] secret) {
+    [Pre: fakes.length == bids[msg.sender].length]
+    [Pre: secrets.length == bids[msg.sender].length]
+    function void reveal(int[] values, bool[] fakes, String[] secrets) {
         int refund
-        for (i : 0 to bids[msg.sender].length - 1) {
-            Bid bidToCheck = bids[msg.sender][i]
+        foreach (i, Bid bidToCheck : bids[msg.sender]) {
             int _value = values[i]
-            bool _fake = fake[i]
-            String _secret = secret[i]
+            bool _fake = fakes[i]
+            String _secret = secrets[i]
 
-            if (bidToCheck.blindedBid != sha3((String)_value + (String)_fake + _secret)) {
+            if (bidToCheck.blindedBid != sha3((String) _value + (String) _fake + _secret)) {
                 continue
             }
 
             refund += bidToCheck.deposit
-            if (_fake && bidToCheck.deposit >= _value) {
+            if (!_fake && bidToCheck.deposit >= _value) {
                 if (placeBid(msg.sender, _value)){
                     refund -= _value
                 }
             }
-            bidToCheck.blindedBid = "0"
+            bidToCheck.blindedBid = ""
         }
-        msg.sender.transfer().send(refund)
+
+        Payable sender = (Payable) msg.sender
+        sender.transfer().send(new MsgArgs(coins=refund))
     }
 
     internal function bool placeBid(address bidder, int value) {
@@ -74,7 +85,7 @@ contract BlindAuction {
             return false
         }
 
-        if (highestBidder != address(0)) {
+        if (highestBidder != 0x0) {
             pendingReturns[highestBidder] += highestBid
         }
 
@@ -87,7 +98,9 @@ contract BlindAuction {
         int amount = pendingReturns[msg.sender]
         if (amount > 0) {
             pendingReturns[msg.sender] = 0
-            msg.sender.transfer().send(amount)
+
+            Payable sender = (Payable) msg.sender
+            sender.transfer().send(new MsgArgs(coins=amount))
         }
     }
 
@@ -96,7 +109,7 @@ contract BlindAuction {
     function void auctionEnd() {
         emit AuctionEnded(highestBidder, highestBid)
         ended = true
-        beneficiary.transfer().send(highestBid)
+        beneficiary.transfer().send(new MsgArgs(coins=highestBid))
     }
 
 }

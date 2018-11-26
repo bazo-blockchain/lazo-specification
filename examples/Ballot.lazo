@@ -27,7 +27,7 @@ contract Ballot {
         }
     }
 
-    [Pre: msg.sender == owner]
+    [Owner]
     [Pre: !voters[voter].voted]
     [Pre: voters[voter].weight == 0]
     function void giveRightToVote(address voter) {
@@ -39,8 +39,9 @@ contract Ballot {
     function void delegate(address initialTo) {
         Voter sender = voters[msg.sender]
         address currentTo = initialTo
+
         for (_ : to 9) {
-            if (voters[to_].delegate == address(0)) {
+            if (voters[currentTo].delegate == 0x0) {
                 break
             }
             currentTo = voters[currentTo].delegate
@@ -68,34 +69,21 @@ contract Ballot {
     }
 
     [ReadOnly]
-    function int winningPoposal() {
-            int winningVoteCount = 0
-            int winningProposal = 0
-            for (p : 0 to proposals.length - 1) {
-                if (proposals[p].voteCount > winningVoteCount) {
-                    winningVoteCount = proposals[p].voteCount
-                    winningPoposal = p
-                }
+    function int winningProposal() {
+        int winningVoteCount = 0
+        int winningProposal = 0
+        foreach (i, Proposal p : proposals) {
+            if (p.voteCount > winningVoteCount) {
+                winningVoteCount = p.voteCount
+                winningProposal = i
             }
-            return winningPoposal
-    }
-
-    [ReadOnly]
-    function int winningPoposal() {
-            int winningVoteCount = 0
-            int winningProposal = 0
-            foreach (i, Proposal p : proposals) {
-                if (p.voteCount > winningVoteCount) {
-                    winningVoteCount = p.voteCount
-                    winningPoposal = i
-                }
-            }
-            return winningPoposal
+        }
+        return winningProposal
     }
 
     [ReadOnly]
     function String winnerName() {
-        return proposals[winningPoposal()].name
+        return proposals[winningProposal()].name
     }
 
 }

@@ -23,7 +23,8 @@ functionSignature
   : annotation* ( type | '(' type (',' type)* ')' ) IDENTIFIER '(' paramList? ')' ;
 
 contractDeclaration
-  : 'contract' IDENTIFIER ('is' IDENTIFIER (',' IDENTIFIER)* )? '{' (NLS | contractPart)* '}' NLS? ;
+  : 'contract' IDENTIFIER ('is' IDENTIFIER (',' IDENTIFIER)* )?
+    '{' (NLS | contractPart)* '}' NLS? ;
 
 contractPart
   : variableDeclaration
@@ -114,10 +115,15 @@ statement
   ;
 
 emitStatement
-  : 'emit' expression NLS;
+  : 'emit' expression NLS ;
+
+deleteStatement
+  : 'delete' expression NLS ;
 
 ifStatement
-  : 'if' '(' expression ')' statementBlock ('else if' '(' expression ')' statementBlock)? ('else' statementBlock)? ;
+  : 'if' '(' expression ')' statementBlock
+    ('else if' '(' expression ')' statementBlock)?
+    ('else' statementBlock)? ;
 
 forStatement
   : 'for' '(' IDENTIFIER ':' rangeStatement ')' statementBlock ;
@@ -135,7 +141,7 @@ continueStatement
   : 'continue' NLS ;
 
 rangeStatement
-  : expression? 'to' expression ('by' expression)?; // Expression as we could use .size or negative integers
+  : expression? 'to' expression ('by' expression)? ;
 
 expressionStatement
   : expression NLS ;
@@ -204,7 +210,8 @@ structCreation
   : 'new' IDENTIFIER '(' argumentList? ')' ;
 
 arrayCreation
-  : 'new' IDENTIFIER ('[' expression ']' ('{' '}')?| '[' ']' '{' expression (',' expression)* '}');
+  : 'new' IDENTIFIER ( '[' expression ']' ('{' '}')?
+                     | '[' ']' '{' expression (',' expression)* '}' );
 
 mapCreation
   : 'new' mapType '(' ')';
@@ -221,7 +228,7 @@ literal
   | BOOL
   ;
 
-// End of Expressions±
+// End of Expressions
 
 // ---------------------------------------------------
 // Lexer Tokens
@@ -229,72 +236,72 @@ literal
 
 // Reserved Keywords (Hint: Order by asc)
 // -----------------
-BREAK : 'break' ;
-CONSTRUCTOR : 'constructor';
+BREAK: 'break' ;
+BY: 'by' ;
+CONSTRUCTOR: 'constructor' ;
 CONTINUE: 'continue' ;
-CONTRACT : 'contract' ;
-EMIT : 'emit' ;
-EVENT: 'event' ;
-FUNCTION : 'function' ;
-INTERFACE : 'interface' ;
-INTERNAL : 'internal' ;
-IS : 'is' ;
-MAP : 'Map' ;
-READONLY : 'readonly' ;
-RETURN : 'return' ;
-STRUCT : 'struct' ;
-THROW: 'throw';
-VERSION : 'version' ;
-IF: 'if' ;
+CONTRACT: 'contract' ;
 ELSE: 'else' ;
+EMIT: 'emit' ;
+ENUM: 'enum' ;
+EVENT: 'event' ;
 FOR: 'for' ;
 FOREACH: 'foreach' ;
+FUNCTION: 'function' ;
+INTERFACE: 'interface' ;
+INTERNAL: 'internal' ;
+IF: 'if' ;
+IS: 'is' ;
+MAP: 'Map' ;
+READONLY: 'readonly' ;
+RETURN: 'return' ;
+STRUCT: 'struct' ;
+THROW: 'throw';
 TO: 'to' ;
-BY: 'by' ;
-ENUM: 'enum' ;
-
+VERSION: 'version' ;
 
 BOOL
   : 'true'
-  | 'false' ;
+  | 'false'
+  ;
 
-// Reserved Keywords which are not used in the language (prohibited)
+// Reserved Keywords which are not used in the language (prohibited) - Hint: Order by asc
 // ----------------
-PUBLIC: 'public' ;
-SWITCH: 'switch' ;
+ABSTRACT: 'abstract' ;
+AS: 'as' ;
 CASE: 'case' ;
-WHILE: 'while' ;
-TRY: 'try' ;
 CATCH: 'catch' ;
+CONST: 'const' ;
+EXTENDS: 'extends' ;
+EXTERNAL: 'external' ;
 FINALLY: 'finally' ;
 GOTO: 'goto' ;
-ABSTRACT: 'abstract' ;
 IMPLEMENTS: 'implements' ;
-EXTERNAL: 'external' ;
-PRIVATE: 'private' ;
-REF: 'ref' ;
-OUT: 'out' ;
-AS: 'as' ;
-STATIC: 'static' ;
-EXTENDS: 'extends' ;
-OVERRIDE: 'override' ;
-VIRTUAL: 'virtual' ;
-CONST: 'const' ;
-VAR: 'var' ;
 NULL: 'null';
+OUT: 'out' ;
+OVERRIDE: 'override' ;
+PRIVATE: 'private' ;
+PUBLIC: 'public' ;
+REF: 'ref' ;
+STATIC: 'static' ;
+SWITCH: 'switch' ;
+TRY: 'try' ;
+VAR: 'var' ;
+VIRTUAL: 'virtual' ;
+WHILE: 'while' ;
 // ----------------
 
 // Punctuation marks
 // ----------------
-LPAREN : '(' ;
-RPAREN : ')' ;
-LBRACE : '{' ;
-RBRACE : '}' ;
-LBRACK : '[' ;
-RBRACK : ']' ;
-SEMI : ';';
-COMMA : ',';
-DOT : '.';
+LPAREN: '(' ;
+RPAREN: ')' ;
+LBRACE: '{' ;
+RBRACE: '}' ;
+LBRACK: '[' ;
+RBRACK: ']' ;
+SEMI: ';';
+COMMA: ',';
+DOT: '.';
 // -----
 
 // Arithmatics
