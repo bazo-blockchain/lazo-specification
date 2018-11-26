@@ -114,7 +114,10 @@ statement
   ;
 
 emitStatement
-  : 'emit' expression NLS;
+  : 'emit' expression NLS ;
+
+deleteStatement
+  : 'delete' expression NLS ;
 
 ifStatement
   : 'if' '(' expression ')' statementBlock ('else if' '(' expression ')' statementBlock)? ('else' statementBlock)? ;
@@ -221,7 +224,7 @@ literal
   | BOOL
   ;
 
-// End of Expressions±
+// End of Expressions
 
 // ---------------------------------------------------
 // Lexer Tokens
@@ -230,33 +233,33 @@ literal
 // Reserved Keywords (Hint: Order by asc)
 // -----------------
 BREAK : 'break' ;
-CONSTRUCTOR : 'constructor';
+BY: 'by' ;
+CONSTRUCTOR : 'constructor' ;
 CONTINUE: 'continue' ;
 CONTRACT : 'contract' ;
+ELSE: 'else' ;
 EMIT : 'emit' ;
+ENUM: 'enum' ;
 EVENT: 'event' ;
+FOR: 'for' ;
+FOREACH: 'foreach' ;
 FUNCTION : 'function' ;
 INTERFACE : 'interface' ;
 INTERNAL : 'internal' ;
+IF: 'if' ;
 IS : 'is' ;
 MAP : 'Map' ;
 READONLY : 'readonly' ;
 RETURN : 'return' ;
 STRUCT : 'struct' ;
 THROW: 'throw';
-VERSION : 'version' ;
-IF: 'if' ;
-ELSE: 'else' ;
-FOR: 'for' ;
-FOREACH: 'foreach' ;
 TO: 'to' ;
-BY: 'by' ;
-ENUM: 'enum' ;
-
+VERSION : 'version' ;
 
 BOOL
   : 'true'
-  | 'false' ;
+  | 'false'
+  ;
 
 // Reserved Keywords which are not used in the language (prohibited)
 // ----------------

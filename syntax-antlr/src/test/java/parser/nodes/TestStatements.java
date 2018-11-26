@@ -78,6 +78,14 @@ public class TestStatements {
     }
 
     @Test
+    public void testDeleteStatement() {
+        NodeUtil.assertIndexAccessExpression(
+                getDeleteStatement("delete map[\"one\"]\n").expression(),
+                "map",
+                "\"one\"");
+    }
+
+    @Test
     public void testEmptyIfStatement() {
         var ifStatement = getIfStatement("if (a){}\n");
         NodeUtil.assertExpression(ifStatement.expression(0), "a");
@@ -273,6 +281,10 @@ public class TestStatements {
 
     private LazoParser.EmitStatementContext getEmitStatement(String input) {
         return getStatementNode(input, (p) -> p.emitStatement());
+    }
+
+    private LazoParser.DeleteStatementContext getDeleteStatement(String input) {
+        return getStatementNode(input, (p) -> p.deleteStatement());
     }
 
     private LazoParser.IfStatementContext getIfStatement(String input) {
