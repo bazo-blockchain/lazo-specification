@@ -23,7 +23,8 @@ functionSignature
   : annotation* ( type | '(' type (',' type)* ')' ) IDENTIFIER '(' paramList? ')' ;
 
 contractDeclaration
-  : 'contract' IDENTIFIER ('is' IDENTIFIER (',' IDENTIFIER)* )? '{' (NLS | contractPart)* '}' NLS? ;
+  : 'contract' IDENTIFIER ('is' IDENTIFIER (',' IDENTIFIER)* )?
+    '{' (NLS | contractPart)* '}' NLS? ;
 
 contractPart
   : variableDeclaration
@@ -120,7 +121,9 @@ deleteStatement
   : 'delete' expression NLS ;
 
 ifStatement
-  : 'if' '(' expression ')' statementBlock ('else if' '(' expression ')' statementBlock)? ('else' statementBlock)? ;
+  : 'if' '(' expression ')' statementBlock
+    ('else if' '(' expression ')' statementBlock)?
+    ('else' statementBlock)? ;
 
 forStatement
   : 'for' '(' IDENTIFIER ':' rangeStatement ')' statementBlock ;
@@ -138,7 +141,7 @@ continueStatement
   : 'continue' NLS ;
 
 rangeStatement
-  : expression? 'to' expression ('by' expression)?; // Expression as we could use .size or negative integers
+  : expression? 'to' expression ('by' expression)? ;
 
 expressionStatement
   : expression NLS ;
@@ -207,7 +210,8 @@ structCreation
   : 'new' IDENTIFIER '(' argumentList? ')' ;
 
 arrayCreation
-  : 'new' IDENTIFIER ('[' expression ']' ('{' '}')?| '[' ']' '{' expression (',' expression)* '}');
+  : 'new' IDENTIFIER ( '[' expression ']' ('{' '}')?
+                     | '[' ']' '{' expression (',' expression)* '}' );
 
 mapCreation
   : 'new' mapType '(' ')';
