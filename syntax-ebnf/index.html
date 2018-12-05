@@ -1,0 +1,772 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <meta name="generator" content="Railroad Diagram Generator 1.54.1745">
+      <style type="text/css" xml:space="preserve">
+    ::-moz-selection
+    {
+      color: #FFFCF0;
+      background: #0F0C00;
+    }
+    ::selection
+    {
+      color: #FFFCF0;
+      background: #0F0C00;
+    }      
+    .ebnf a
+    {
+      text-decoration: none;
+    }
+    .ebnf a:hover
+    {
+      color: #050400;
+      text-decoration: underline;
+    }    
+    .signature
+    {
+      color: #806600;
+      font-size: 11px;
+      text-align: right;
+    }
+    body
+    {
+      font: normal 12px Verdana, sans-serif;
+      color: #0F0C00;
+      background: #FFFCF0;
+    }
+    a:link, a:visited
+    {
+      color: #0F0C00;
+    }
+    a:link.signature, a:visited.signature
+    {
+      color: #806600;
+    }
+    a.button, #tabs li a
+    {
+      padding: 0.25em 0.5em;
+      border: 1px solid #806600;
+      background: #F1E8C6;
+      color: #806600;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    a.button:hover, #tabs li a:hover
+    {
+      color: #050400;
+      background: #FFF6D1;
+      border-color: #050400;       
+    }     
+    #tabs
+    {
+      padding: 3px 10px;
+      margin-left: 0;
+      margin-top: 58px;
+      border-bottom: 1px solid #0F0C00;
+    }  
+    #tabs li
+    {
+      list-style: none;
+      margin-left: 5px;
+      display: inline;
+    }
+    #tabs li a
+    {     
+      border-bottom: 1px solid #0F0C00;
+    }
+    #tabs li a.active
+    {
+      color: #0F0C00;
+      background: #FFFCF0;
+      border-color: #0F0C00;
+      border-bottom: 1px solid #FFFCF0;
+      outline: none;
+    }
+    #divs div
+    {
+      display: none;
+      overflow:auto;
+    }
+    #divs div.active
+    {
+      display: block;
+    }
+    #text
+    {
+      border-color: #806600;
+      background: #FFFEFA;
+      color: #050400;
+    }
+    .small
+    {
+      vertical-align: top;
+      text-align: right;
+      font-size: 9px;
+      font-weight: normal;
+      line-height: 120%;
+    }
+    td.small
+    {
+      padding-top: 0px;
+    }
+    .hidden
+    {
+      visibility: hidden;
+    }
+    td:hover .hidden 
+    {
+      visibility: visible;
+    }
+    div.download
+    {
+      display: none;
+      background: #FFFCF0;
+      position: absolute;
+      right: 34px;
+      top: 94px;
+      padding: 10px;
+      border: 1px dotted #0F0C00;
+    }
+    #divs div.ebnf, div.ebnf
+    {
+      display: block;
+      padding-left: 16px;
+      padding-top: 2px; 
+      padding-bottom: 2px; 
+      background: #FFF6D1;
+    }
+    tr.option-line td:first-child
+    {
+      text-align: right
+    }
+    tr.option-text td
+    {
+      padding-bottom: 10px
+    }
+    table.palette
+    {
+      border-top: 1px solid #050400;
+      border-right: 1px solid #050400;
+      margin-bottom: 4px
+    }
+    td.palette
+    {
+      border-bottom: 1px solid #050400;
+      border-left: 1px solid #050400;
+    }
+    a.palette
+    {
+      padding: 2px 3px 2px 10px;
+      text-decoration: none;
+    }
+    .palette
+    {
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -o-user-select: none;
+      -ms-user-select: none;
+    }
+  </style>
+   </head>
+   <body>
+      
+      <p style="font-size: 14px; font-weight:bold"><a name="program">program:</a></p><img border="0" src="diagram/program.png" height="71" width="721" usemap="#program.map"><map name="program.map"><area shape="rect" coords="49,1,93,33" href="#NLS" title="NLS"><area shape="rect" coords="133,35,255,67" href="#versionDirective" title="versionDirective"><area shape="rect" coords="295,1,443,33" href="#interfaceDeclaration" title="interfaceDeclaration"><area shape="rect" coords="483,35,627,67" href="#contractDeclaration" title="contractDeclaration"><area shape="rect" coords="647,35,691,67" href="#EOF" title="EOF"></map><p>no references</p><br><p style="font-size: 14px; font-weight:bold"><a name="versionDirective">versionDirective:</a></p><img border="0" src="diagram/versionDirective.png" height="37" width="425" usemap="#versionDirective.map"><map name="versionDirective.map"><area shape="rect" coords="119,1,193,33" href="#INTEGER" title="INTEGER"><area shape="rect" coords="257,1,331,33" href="#INTEGER" title="INTEGER"><area shape="rect" coords="351,1,395,33" href="#NLS" title="NLS"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#program" title="program">program</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="interfaceDeclaration">interfaceDeclaration:</a></p><img border="0" src="diagram/interfaceDeclaration.png" height="71" width="677" usemap="#interfaceDeclaration.map"><map name="interfaceDeclaration.map"><area shape="rect" coords="129,35,221,67" href="#IDENTIFIER" title="IDENTIFIER"><area shape="rect" coords="309,1,353,33" href="#NLS" title="NLS"><area shape="rect" coords="413,1,515,33" href="#interfacePart" title="interfacePart"><area shape="rect" coords="603,35,647,67" href="#NLS" title="NLS"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#program" title="program">program</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="interfacePart">interfacePart:</a></p><img border="0" src="diagram/interfacePart.png" height="37" width="255" usemap="#interfacePart.map"><map name="interfacePart.map"><area shape="rect" coords="29,1,161,33" href="#functionSignature" title="functionSignature"><area shape="rect" coords="181,1,225,33" href="#NLS" title="NLS"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#interfaceDeclaration" title="interfaceDeclaration">interfaceDeclaration</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="functionSignature">functionSignature:</a></p><img border="0" src="diagram/functionSignature.png" height="159" width="773" usemap="#functionSignature.map"><map name="functionSignature.map"><area shape="rect" coords="49,1,137,33" href="#annotation" title="annotation"><area shape="rect" coords="197,35,245,67" href="#type" title="type"><area shape="rect" coords="263,123,311,155" href="#type" title="type"><area shape="rect" coords="417,35,509,67" href="#IDENTIFIER" title="IDENTIFIER"><area shape="rect" coords="595,67,677,99" href="#paramList" title="paramList"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#interfacePart" title="interfacePart">interfacePart</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="contractDeclaration">contractDeclaration:</a></p><img border="0" src="diagram/contractDeclaration.png" height="147" width="847" usemap="#contractDeclaration.map"><map name="contractDeclaration.map"><area shape="rect" coords="125,79,217,111" href="#IDENTIFIER" title="IDENTIFIER"><area shape="rect" coords="327,79,419,111" href="#IDENTIFIER" title="IDENTIFIER"><area shape="rect" coords="547,45,591,77" href="#NLS" title="NLS"><area shape="rect" coords="547,1,645,33" href="#contractPart" title="contractPart"><area shape="rect" coords="753,111,797,143" href="#NLS" title="NLS"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#program" title="program">program</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="contractPart">contractPart:</a></p><img border="0" src="diagram/contractPart.png" height="301" width="263" usemap="#contractPart.map"><map name="contractPart.map"><area shape="rect" coords="49,1,191,33" href="#variableDeclaration" title="variableDeclaration"><area shape="rect" coords="49,45,177,77" href="#structDeclaration" title="structDeclaration"><area shape="rect" coords="49,89,171,121" href="#errorDeclaration" title="errorDeclaration"><area shape="rect" coords="49,133,177,165" href="#enumDeclaration" title="enumDeclaration"><area shape="rect" coords="49,177,177,209" href="#eventDeclaration" title="eventDeclaration"><area shape="rect" coords="49,221,213,253" href="#constructorDeclaration" title="constructorDeclaration"><area shape="rect" coords="49,265,191,297" href="#functionDeclaration" title="functionDeclaration"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#contractDeclaration" title="contractDeclaration">contractDeclaration</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="variableDeclaration">variableDeclaration:</a></p><img border="0" src="diagram/variableDeclaration.png" height="69" width="575" usemap="#variableDeclaration.map"><map name="variableDeclaration.map"><area shape="rect" coords="167,1,215,33" href="#type" title="type"><area shape="rect" coords="235,1,327,33" href="#IDENTIFIER" title="IDENTIFIER"><area shape="rect" coords="367,33,461,65" href="#assignment" title="assignment"><area shape="rect" coords="501,1,545,33" href="#NLS" title="NLS"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#contractPart" title="contractPart">contractPart</a></li>
+            
+            <li><a href="#statement" title="statement">statement</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="structDeclaration">structDeclaration:</a></p><img border="0" src="diagram/structDeclaration.png" height="71" width="639" usemap="#structDeclaration.map"><map name="structDeclaration.map"><area shape="rect" coords="107,35,199,67" href="#IDENTIFIER" title="IDENTIFIER"><area shape="rect" coords="287,1,331,33" href="#NLS" title="NLS"><area shape="rect" coords="391,1,477,33" href="#structField" title="structField"><area shape="rect" coords="565,35,609,67" href="#NLS" title="NLS"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#contractPart" title="contractPart">contractPart</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="errorDeclaration">errorDeclaration:</a></p><img border="0" src="diagram/errorDeclaration.png" height="71" width="635" usemap="#errorDeclaration.map"><map name="errorDeclaration.map"><area shape="rect" coords="103,35,195,67" href="#IDENTIFIER" title="IDENTIFIER"><area shape="rect" coords="283,1,327,33" href="#NLS" title="NLS"><area shape="rect" coords="387,1,473,33" href="#structField" title="structField"><area shape="rect" coords="561,35,605,67" href="#NLS" title="NLS"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#contractPart" title="contractPart">contractPart</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="structField">structField:</a></p><img border="0" src="diagram/structField.png" height="37" width="283" usemap="#structField.map"><map name="structField.map"><area shape="rect" coords="29,1,77,33" href="#type" title="type"><area shape="rect" coords="97,1,189,33" href="#IDENTIFIER" title="IDENTIFIER"><area shape="rect" coords="209,1,253,33" href="#NLS" title="NLS"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#errorDeclaration" title="errorDeclaration">errorDeclaration</a></li>
+            
+            <li><a href="#structDeclaration" title="structDeclaration">structDeclaration</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="eventDeclaration">eventDeclaration:</a></p><img border="0" src="diagram/eventDeclaration.png" height="69" width="527" usemap="#eventDeclaration.map"><map name="eventDeclaration.map"><area shape="rect" coords="107,1,199,33" href="#IDENTIFIER" title="IDENTIFIER"><area shape="rect" coords="285,33,367,65" href="#paramList" title="paramList"><area shape="rect" coords="453,1,497,33" href="#NLS" title="NLS"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#contractPart" title="contractPart">contractPart</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="enumDeclaration">enumDeclaration:</a></p><img border="0" src="diagram/enumDeclaration.png" height="115" width="785" usemap="#enumDeclaration.map"><map name="enumDeclaration.map"><area shape="rect" coords="107,79,199,111" href="#IDENTIFIER" title="IDENTIFIER"><area shape="rect" coords="287,45,331,77" href="#NLS" title="NLS"><area shape="rect" coords="391,79,483,111" href="#IDENTIFIER" title="IDENTIFIER"><area shape="rect" coords="411,1,455,33" href="#NLS" title="NLS"><area shape="rect" coords="579,45,623,77" href="#NLS" title="NLS"><area shape="rect" coords="711,79,755,111" href="#NLS" title="NLS"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#contractPart" title="contractPart">contractPart</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="constructorDeclaration">constructorDeclaration:</a></p><img border="0" src="diagram/constructorDeclaration.png" height="103" width="675" usemap="#constructorDeclaration.map"><map name="constructorDeclaration.map"><area shape="rect" coords="49,1,137,33" href="#annotation" title="annotation"><area shape="rect" coords="359,67,441,99" href="#paramList" title="paramList"><area shape="rect" coords="527,35,645,67" href="#statementBlock" title="statementBlock"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#contractPart" title="contractPart">contractPart</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="functionDeclaration">functionDeclaration:</a></p><img border="0" src="diagram/functionDeclaration.png" height="71" width="449" usemap="#functionDeclaration.map"><map name="functionDeclaration.map"><area shape="rect" coords="49,1,137,33" href="#annotation" title="annotation"><area shape="rect" coords="177,35,281,67" href="#functionHead" title="functionHead"><area shape="rect" coords="301,35,419,67" href="#statementBlock" title="statementBlock"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#contractPart" title="contractPart">contractPart</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="functionHead">functionHead:</a></p><img border="0" src="diagram/functionHead.png" height="125" width="851" usemap="#functionHead.map"><map name="functionHead.map"><area shape="rect" coords="275,1,323,33" href="#type" title="type"><area shape="rect" coords="341,89,389,121" href="#type" title="type"><area shape="rect" coords="495,1,587,33" href="#IDENTIFIER" title="IDENTIFIER"><area shape="rect" coords="673,33,755,65" href="#paramList" title="paramList"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#functionDeclaration" title="functionDeclaration">functionDeclaration</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="annotation">annotation:</a></p><img border="0" src="diagram/annotation.png" height="69" width="501" usemap="#annotation.map"><map name="annotation.map"><area shape="rect" coords="75,1,167,33" href="#IDENTIFIER" title="IDENTIFIER"><area shape="rect" coords="251,33,341,65" href="#expression" title="expression"><area shape="rect" coords="427,1,471,33" href="#NLS" title="NLS"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#constructorDeclaration" title="constructorDeclaration">constructorDeclaration</a></li>
+            
+            <li><a href="#functionDeclaration" title="functionDeclaration">functionDeclaration</a></li>
+            
+            <li><a href="#functionSignature" title="functionSignature">functionSignature</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="paramList">paramList:</a></p><img border="0" src="diagram/paramList.png" height="97" width="459" usemap="#paramList.map"><map name="paramList.map"><area shape="rect" coords="49,45,135,77" href="#parameter" title="parameter"><area shape="rect" coords="259,45,389,77" href="#defaultParameter" title="defaultParameter"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#constructorDeclaration" title="constructorDeclaration">constructorDeclaration</a></li>
+            
+            <li><a href="#eventDeclaration" title="eventDeclaration">eventDeclaration</a></li>
+            
+            <li><a href="#functionHead" title="functionHead">functionHead</a></li>
+            
+            <li><a href="#functionSignature" title="functionSignature">functionSignature</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="parameter">parameter:</a></p><img border="0" src="diagram/parameter.png" height="37" width="219" usemap="#parameter.map"><map name="parameter.map"><area shape="rect" coords="29,1,77,33" href="#type" title="type"><area shape="rect" coords="97,1,189,33" href="#IDENTIFIER" title="IDENTIFIER"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#defaultParameter" title="defaultParameter">defaultParameter</a></li>
+            
+            <li><a href="#paramList" title="paramList">paramList</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="defaultParameter">defaultParameter:</a></p><img border="0" src="diagram/defaultParameter.png" height="37" width="259" usemap="#defaultParameter.map"><map name="defaultParameter.map"><area shape="rect" coords="29,1,115,33" href="#parameter" title="parameter"><area shape="rect" coords="135,1,229,33" href="#assignment" title="assignment"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#paramList" title="paramList">paramList</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="type">type:</a></p><img border="0" src="diagram/type.png" height="125" width="191" usemap="#type.map"><map name="type.map"><area shape="rect" coords="49,1,131,33" href="#arrayType" title="arrayType"><area shape="rect" coords="49,45,127,77" href="#mapType" title="mapType"><area shape="rect" coords="49,89,141,121" href="#IDENTIFIER" title="IDENTIFIER"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#expression" title="expression">expression</a></li>
+            
+            <li><a href="#forEachStatement" title="forEachStatement">forEachStatement</a></li>
+            
+            <li><a href="#functionHead" title="functionHead">functionHead</a></li>
+            
+            <li><a href="#functionSignature" title="functionSignature">functionSignature</a></li>
+            
+            <li><a href="#mapForEachStatement" title="mapForEachStatement">mapForEachStatement</a></li>
+            
+            <li><a href="#mapType" title="mapType">mapType</a></li>
+            
+            <li><a href="#parameter" title="parameter">parameter</a></li>
+            
+            <li><a href="#structField" title="structField">structField</a></li>
+            
+            <li><a href="#variableDeclaration" title="variableDeclaration">variableDeclaration</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="arrayType">arrayType:</a></p><img border="0" src="diagram/arrayType.png" height="37" width="243" usemap="#arrayType.map"><map name="arrayType.map"><area shape="rect" coords="29,1,121,33" href="#IDENTIFIER" title="IDENTIFIER"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#type" title="type">type</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="mapType">mapType:</a></p><img border="0" src="diagram/mapType.png" height="37" width="387" usemap="#mapType.map"><map name="mapType.map"><area shape="rect" coords="147,1,195,33" href="#type" title="type"><area shape="rect" coords="259,1,307,33" href="#type" title="type"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#mapCreation" title="mapCreation">mapCreation</a></li>
+            
+            <li><a href="#type" title="type">type</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="statementBlock">statementBlock:</a></p><img border="0" src="diagram/statementBlock.png" height="115" width="281" usemap="#statementBlock.map"><map name="statementBlock.map"><area shape="rect" coords="97,45,141,77" href="#NLS" title="NLS"><area shape="rect" coords="97,1,183,33" href="#statement" title="statement"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#constructorDeclaration" title="constructorDeclaration">constructorDeclaration</a></li>
+            
+            <li><a href="#forEachStatement" title="forEachStatement">forEachStatement</a></li>
+            
+            <li><a href="#forStatement" title="forStatement">forStatement</a></li>
+            
+            <li><a href="#functionDeclaration" title="functionDeclaration">functionDeclaration</a></li>
+            
+            <li><a href="#ifStatement" title="ifStatement">ifStatement</a></li>
+            
+            <li><a href="#mapForEachStatement" title="mapForEachStatement">mapForEachStatement</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="statement">statement:</a></p><img border="0" src="diagram/statement.png" height="565" width="263" usemap="#statement.map"><map name="statement.map"><area shape="rect" coords="49,1,209,33" href="#assignmentStatement" title="assignmentStatement"><area shape="rect" coords="49,45,175,77" href="#returnStatement" title="returnStatement"><area shape="rect" coords="49,89,205,121" href="#expressionStatement" title="expressionStatement"><area shape="rect" coords="49,133,167,165" href="#sendStatement" title="sendStatement"><area shape="rect" coords="49,177,163,209" href="#emitStatement" title="emitStatement"><area shape="rect" coords="49,221,191,253" href="#variableDeclaration" title="variableDeclaration"><area shape="rect" coords="49,265,143,297" href="#ifStatement" title="ifStatement"><area shape="rect" coords="49,309,183,341" href="#forEachStatement" title="forEachStatement"><area shape="rect" coords="49,353,153,385" href="#forStatement" title="forStatement"><area shape="rect" coords="49,397,213,429" href="#mapForEachStatement" title="mapForEachStatement"><area shape="rect" coords="49,441,171,473" href="#breakStatement" title="breakStatement"><area shape="rect" coords="49,485,189,517" href="#continueStatement" title="continueStatement"><area shape="rect" coords="49,529,171,561" href="#throwStatement" title="throwStatement"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#statementBlock" title="statementBlock">statementBlock</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="emitStatement">emitStatement:</a></p><img border="0" src="diagram/emitStatement.png" height="37" width="283" usemap="#emitStatement.map"><map name="emitStatement.map"><area shape="rect" coords="99,1,189,33" href="#expression" title="expression"><area shape="rect" coords="209,1,253,33" href="#NLS" title="NLS"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#statement" title="statement">statement</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="deleteStatement">deleteStatement:</a></p><img border="0" src="diagram/deleteStatement.png" height="37" width="295" usemap="#deleteStatement.map"><map name="deleteStatement.map"><area shape="rect" coords="111,1,201,33" href="#expression" title="expression"><area shape="rect" coords="221,1,265,33" href="#NLS" title="NLS"></map><p>no references</p><br><p style="font-size: 14px; font-weight:bold"><a name="ifStatement">ifStatement:</a></p><img border="0" src="diagram/ifStatement.png" height="155" width="881" usemap="#ifStatement.map"><map name="ifStatement.map"><area shape="rect" coords="123,1,213,33" href="#expression" title="expression"><area shape="rect" coords="279,1,397,33" href="#statementBlock" title="statementBlock"><area shape="rect" coords="563,33,653,65" href="#expression" title="expression"><area shape="rect" coords="719,33,837,65" href="#statementBlock" title="statementBlock"><area shape="rect" coords="713,119,831,151" href="#statementBlock" title="statementBlock"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#statement" title="statement">statement</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="forStatement">forStatement:</a></p><img border="0" src="diagram/forStatement.png" height="37" width="627" usemap="#forStatement.map"><map name="forStatement.map"><area shape="rect" coords="133,1,225,33" href="#IDENTIFIER" title="IDENTIFIER"><area shape="rect" coords="289,1,413,33" href="#rangeStatement" title="rangeStatement"><area shape="rect" coords="479,1,597,33" href="#statementBlock" title="statementBlock"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#statement" title="statement">statement</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="forEachStatement">forEachStatement:</a></p><img border="0" src="diagram/forEachStatement.png" height="69" width="889" usemap="#forEachStatement.map"><map name="forEachStatement.map"><area shape="rect" coords="185,33,277,65" href="#IDENTIFIER" title="IDENTIFIER"><area shape="rect" coords="361,1,409,33" href="#type" title="type"><area shape="rect" coords="429,1,521,33" href="#IDENTIFIER" title="IDENTIFIER"><area shape="rect" coords="585,1,675,33" href="#expression" title="expression"><area shape="rect" coords="741,1,859,33" href="#statementBlock" title="statementBlock"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#statement" title="statement">statement</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="mapForEachStatement">mapForEachStatement:</a></p><img border="0" src="diagram/mapForEachStatement.png" height="37" width="917" usemap="#mapForEachStatement.map"><map name="mapForEachStatement.map"><area shape="rect" coords="165,1,213,33" href="#type" title="type"><area shape="rect" coords="233,1,325,33" href="#IDENTIFIER" title="IDENTIFIER"><area shape="rect" coords="389,1,437,33" href="#type" title="type"><area shape="rect" coords="457,1,549,33" href="#IDENTIFIER" title="IDENTIFIER"><area shape="rect" coords="613,1,703,33" href="#expression" title="expression"><area shape="rect" coords="769,1,887,33" href="#statementBlock" title="statementBlock"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#statement" title="statement">statement</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="breakStatement">breakStatement:</a></p><img border="0" src="diagram/breakStatement.png" height="37" width="181" usemap="#breakStatement.map"><map name="breakStatement.map"><area shape="rect" coords="107,1,151,33" href="#NLS" title="NLS"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#statement" title="statement">statement</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="continueStatement">continueStatement:</a></p><img border="0" src="diagram/continueStatement.png" height="37" width="201" usemap="#continueStatement.map"><map name="continueStatement.map"><area shape="rect" coords="127,1,171,33" href="#NLS" title="NLS"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#statement" title="statement">statement</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="rangeStatement">rangeStatement:</a></p><img border="0" src="diagram/rangeStatement.png" height="69" width="559" usemap="#rangeStatement.map"><map name="rangeStatement.map"><area shape="rect" coords="49,33,139,65" href="#expression" title="expression"><area shape="rect" coords="233,1,323,33" href="#expression" title="expression"><area shape="rect" coords="419,33,509,65" href="#expression" title="expression"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#forStatement" title="forStatement">forStatement</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="expressionStatement">expressionStatement:</a></p><img border="0" src="diagram/expressionStatement.png" height="37" width="213" usemap="#expressionStatement.map"><map name="expressionStatement.map"><area shape="rect" coords="29,1,119,33" href="#expression" title="expression"><area shape="rect" coords="139,1,183,33" href="#NLS" title="NLS"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#statement" title="statement">statement</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="sendStatement">sendStatement:</a></p><img border="0" src="diagram/sendStatement.png" height="69" width="571" usemap="#sendStatement.map"><map name="sendStatement.map"><area shape="rect" coords="29,1,119,33" href="#expression" title="expression"><area shape="rect" coords="321,33,411,65" href="#expression" title="expression"><area shape="rect" coords="497,1,541,33" href="#NLS" title="NLS"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#statement" title="statement">statement</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="argumentList">argumentList:</a></p><img border="0" src="diagram/argumentList.png" height="125" width="499" usemap="#argumentList.map"><map name="argumentList.map"><area shape="rect" coords="69,45,159,77" href="#expression" title="expression"><area shape="rect" coords="49,89,175,121" href="#namedArgument" title="namedArgument"><area shape="rect" coords="303,45,429,77" href="#namedArgument" title="namedArgument"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#expression" title="expression">expression</a></li>
+            
+            <li><a href="#structCreation" title="structCreation">structCreation</a></li>
+            
+            <li><a href="#throwStatement" title="throwStatement">throwStatement</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="namedArgument">namedArgument:</a></p><img border="0" src="diagram/namedArgument.png" height="37" width="311" usemap="#namedArgument.map"><map name="namedArgument.map"><area shape="rect" coords="29,1,121,33" href="#IDENTIFIER" title="IDENTIFIER"><area shape="rect" coords="191,1,281,33" href="#expression" title="expression"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#argumentList" title="argumentList">argumentList</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="assignmentStatement">assignmentStatement:</a></p><img border="0" src="diagram/assignmentStatement.png" height="37" width="327" usemap="#assignmentStatement.map"><map name="assignmentStatement.map"><area shape="rect" coords="29,1,119,33" href="#expression" title="expression"><area shape="rect" coords="139,1,233,33" href="#assignment" title="assignment"><area shape="rect" coords="253,1,297,33" href="#NLS" title="NLS"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#statement" title="statement">statement</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="assignment">assignment:</a></p><img border="0" src="diagram/assignment.png" height="37" width="199" usemap="#assignment.map"><map name="assignment.map"><area shape="rect" coords="79,1,169,33" href="#expression" title="expression"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#assignmentStatement" title="assignmentStatement">assignmentStatement</a></li>
+            
+            <li><a href="#defaultParameter" title="defaultParameter">defaultParameter</a></li>
+            
+            <li><a href="#variableDeclaration" title="variableDeclaration">variableDeclaration</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="designator">designator:</a></p><img border="0" src="diagram/designator.png" height="37" width="151" usemap="#designator.map"><map name="designator.map"><area shape="rect" coords="29,1,121,33" href="#IDENTIFIER" title="IDENTIFIER"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#operand" title="operand">operand</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="throwStatement">throwStatement:</a></p><img border="0" src="diagram/throwStatement.png" height="69" width="555" usemap="#throwStatement.map"><map name="throwStatement.map"><area shape="rect" coords="109,1,201,33" href="#IDENTIFIER" title="IDENTIFIER"><area shape="rect" coords="289,33,393,65" href="#argumentList" title="argumentList"><area shape="rect" coords="481,1,525,33" href="#NLS" title="NLS"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#statement" title="statement">statement</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="returnStatement">returnStatement:</a></p><img border="0" src="diagram/returnStatement.png" height="97" width="375" usemap="#returnStatement.map"><map name="returnStatement.map"><area shape="rect" coords="151,45,241,77" href="#expression" title="expression"><area shape="rect" coords="301,45,345,77" href="#NLS" title="NLS"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#statement" title="statement">statement</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="expression">expression:</a></p><img border="0" src="diagram/expression.png" height="1565" width="579" usemap="#expression.map"><map name="expression.map"><area shape="rect" coords="49,1,139,33" href="#expression" title="expression"><area shape="rect" coords="225,89,315,121" href="#expression" title="expression"><area shape="rect" coords="223,133,315,165" href="#IDENTIFIER" title="IDENTIFIER"><area shape="rect" coords="245,209,349,241" href="#argumentList" title="argumentList"><area shape="rect" coords="245,1089,335,1121" href="#expression" title="expression"><area shape="rect" coords="419,253,509,285" href="#expression" title="expression"><area shape="rect" coords="49,1133,149,1165" href="#newCreation" title="newCreation"><area shape="rect" coords="115,1177,205,1209" href="#expression" title="expression"><area shape="rect" coords="115,1221,163,1253" href="#type" title="type"><area shape="rect" coords="229,1221,319,1253" href="#expression" title="expression"><area shape="rect" coords="69,1485,125,1517" href="#TILDE" title="TILDE"><area shape="rect" coords="165,1265,255,1297" href="#expression" title="expression"><area shape="rect" coords="49,1529,121,1561" href="#operand" title="operand"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#annotation" title="annotation">annotation</a></li>
+            
+            <li><a href="#argumentList" title="argumentList">argumentList</a></li>
+            
+            <li><a href="#arrayCreation" title="arrayCreation">arrayCreation</a></li>
+            
+            <li><a href="#assignment" title="assignment">assignment</a></li>
+            
+            <li><a href="#assignmentStatement" title="assignmentStatement">assignmentStatement</a></li>
+            
+            <li><a href="#deleteStatement" title="deleteStatement">deleteStatement</a></li>
+            
+            <li><a href="#emitStatement" title="emitStatement">emitStatement</a></li>
+            
+            <li><a href="#expression" title="expression">expression</a></li>
+            
+            <li><a href="#expressionStatement" title="expressionStatement">expressionStatement</a></li>
+            
+            <li><a href="#forEachStatement" title="forEachStatement">forEachStatement</a></li>
+            
+            <li><a href="#ifStatement" title="ifStatement">ifStatement</a></li>
+            
+            <li><a href="#mapForEachStatement" title="mapForEachStatement">mapForEachStatement</a></li>
+            
+            <li><a href="#namedArgument" title="namedArgument">namedArgument</a></li>
+            
+            <li><a href="#rangeStatement" title="rangeStatement">rangeStatement</a></li>
+            
+            <li><a href="#returnStatement" title="returnStatement">returnStatement</a></li>
+            
+            <li><a href="#sendStatement" title="sendStatement">sendStatement</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="newCreation">newCreation:</a></p><img border="0" src="diagram/newCreation.png" height="125" width="209" usemap="#newCreation.map"><map name="newCreation.map"><area shape="rect" coords="49,1,159,33" href="#structCreation" title="structCreation"><area shape="rect" coords="49,45,157,77" href="#arrayCreation" title="arrayCreation"><area shape="rect" coords="49,89,151,121" href="#mapCreation" title="mapCreation"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#expression" title="expression">expression</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="structCreation">structCreation:</a></p><img border="0" src="diagram/structCreation.png" height="69" width="475" usemap="#structCreation.map"><map name="structCreation.map"><area shape="rect" coords="97,1,189,33" href="#IDENTIFIER" title="IDENTIFIER"><area shape="rect" coords="275,33,379,65" href="#argumentList" title="argumentList"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#newCreation" title="newCreation">newCreation</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="arrayCreation">arrayCreation:</a></p><img border="0" src="diagram/arrayCreation.png" height="157" width="597" usemap="#arrayCreation.map"><map name="arrayCreation.map"><area shape="rect" coords="97,1,189,33" href="#IDENTIFIER" title="IDENTIFIER"><area shape="rect" coords="275,1,365,33" href="#expression" title="expression"><area shape="rect" coords="389,121,479,153" href="#expression" title="expression"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#newCreation" title="newCreation">newCreation</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="mapCreation">mapCreation:</a></p><img border="0" src="diagram/mapCreation.png" height="37" width="297" usemap="#mapCreation.map"><map name="mapCreation.map"><area shape="rect" coords="97,1,175,33" href="#mapType" title="mapType"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#newCreation" title="newCreation">newCreation</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="operand">operand:</a></p><img border="0" src="diagram/operand.png" height="81" width="187" usemap="#operand.map"><map name="operand.map"><area shape="rect" coords="49,1,105,33" href="#literal" title="literal"><area shape="rect" coords="49,45,137,77" href="#designator" title="designator"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#expression" title="expression">expression</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="literal">literal:</a></p><img border="0" src="diagram/literal.png" height="169" width="193" usemap="#literal.map"><map name="literal.map"><area shape="rect" coords="49,1,123,33" href="#INTEGER" title="INTEGER"><area shape="rect" coords="49,45,143,77" href="#CHARACTER" title="CHARACTER"><area shape="rect" coords="49,89,115,121" href="#STRING" title="STRING"><area shape="rect" coords="49,133,103,165" href="#BOOL" title="BOOL"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#operand" title="operand">operand</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="_">_:</a></p><img border="0" src="diagram/_.png" height="125" width="231" usemap="#_.map"><map name="_.map"><area shape="rect" coords="49,1,159,33" href="#WHITE_SPACE" title="WHITE_SPACE"><area shape="rect" coords="49,45,169,77" href="#LINE_COMMENT" title="LINE_COMMENT"><area shape="rect" coords="49,89,181,121" href="#BLOCK_COMMENT" title="BLOCK_COMMENT"></map><p>no references</p><br><p style="font-size: 14px; font-weight:bold"><a name="BOOL">BOOL:</a></p><img border="0" src="diagram/BOOL.png" height="81" width="151"><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#literal" title="literal">literal</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="TILDE">TILDE:</a></p><img border="0" src="diagram/TILDE.png" height="37" width="149"><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#expression" title="expression">expression</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="IDENTIFIER">IDENTIFIER:</a></p><img border="0" src="diagram/IDENTIFIER.png" height="203" width="387" usemap="#IDENTIFIER.map"><map name="IDENTIFIER.map"><area shape="rect" coords="49,167,163,199" href="#ALPHA_LETTER" title="ALPHA_LETTER"><area shape="rect" coords="223,45,337,77" href="#ALPHA_LETTER" title="ALPHA_LETTER"><area shape="rect" coords="223,1,313,33" href="#DEC_DIGIT" title="DEC_DIGIT"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#annotation" title="annotation">annotation</a></li>
+            
+            <li><a href="#arrayCreation" title="arrayCreation">arrayCreation</a></li>
+            
+            <li><a href="#arrayType" title="arrayType">arrayType</a></li>
+            
+            <li><a href="#contractDeclaration" title="contractDeclaration">contractDeclaration</a></li>
+            
+            <li><a href="#designator" title="designator">designator</a></li>
+            
+            <li><a href="#enumDeclaration" title="enumDeclaration">enumDeclaration</a></li>
+            
+            <li><a href="#errorDeclaration" title="errorDeclaration">errorDeclaration</a></li>
+            
+            <li><a href="#eventDeclaration" title="eventDeclaration">eventDeclaration</a></li>
+            
+            <li><a href="#expression" title="expression">expression</a></li>
+            
+            <li><a href="#forEachStatement" title="forEachStatement">forEachStatement</a></li>
+            
+            <li><a href="#forStatement" title="forStatement">forStatement</a></li>
+            
+            <li><a href="#functionHead" title="functionHead">functionHead</a></li>
+            
+            <li><a href="#functionSignature" title="functionSignature">functionSignature</a></li>
+            
+            <li><a href="#interfaceDeclaration" title="interfaceDeclaration">interfaceDeclaration</a></li>
+            
+            <li><a href="#mapForEachStatement" title="mapForEachStatement">mapForEachStatement</a></li>
+            
+            <li><a href="#namedArgument" title="namedArgument">namedArgument</a></li>
+            
+            <li><a href="#parameter" title="parameter">parameter</a></li>
+            
+            <li><a href="#structCreation" title="structCreation">structCreation</a></li>
+            
+            <li><a href="#structDeclaration" title="structDeclaration">structDeclaration</a></li>
+            
+            <li><a href="#structField" title="structField">structField</a></li>
+            
+            <li><a href="#throwStatement" title="throwStatement">throwStatement</a></li>
+            
+            <li><a href="#type" title="type">type</a></li>
+            
+            <li><a href="#variableDeclaration" title="variableDeclaration">variableDeclaration</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="ALPHA_LETTER">ALPHA_LETTER:</a></p><img border="0" src="diagram/ALPHA_LETTER.png" height="81" width="161"><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#IDENTIFIER" title="IDENTIFIER">IDENTIFIER</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="INTEGER">INTEGER:</a></p><img border="0" src="diagram/INTEGER.png" height="81" width="215" usemap="#INTEGER.map"><map name="INTEGER.map"><area shape="rect" coords="49,1,165,33" href="#DEC_DIGIT_LIT" title="DEC_DIGIT_LIT"><area shape="rect" coords="49,45,165,77" href="#HEX_DIGIT_LIT" title="HEX_DIGIT_LIT"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#literal" title="literal">literal</a></li>
+            
+            <li><a href="#versionDirective" title="versionDirective">versionDirective</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="HEX_DIGIT_LIT">HEX_DIGIT_LIT:</a></p><img border="0" src="diagram/HEX_DIGIT_LIT.png" height="53" width="243" usemap="#HEX_DIGIT_LIT.map"><map name="HEX_DIGIT_LIT.map"><area shape="rect" coords="105,17,193,49" href="#HEX_DIGIT" title="HEX_DIGIT"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#INTEGER" title="INTEGER">INTEGER</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="HEX_DIGIT">HEX_DIGIT:</a></p><img border="0" src="diagram/HEX_DIGIT.png" height="125" width="161"><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#HEX_DIGIT_LIT" title="HEX_DIGIT_LIT">HEX_DIGIT_LIT</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="DEC_DIGIT_LIT">DEC_DIGIT_LIT:</a></p><img border="0" src="diagram/DEC_DIGIT_LIT.png" height="53" width="189" usemap="#DEC_DIGIT_LIT.map"><map name="DEC_DIGIT_LIT.map"><area shape="rect" coords="49,17,139,49" href="#DEC_DIGIT" title="DEC_DIGIT"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#INTEGER" title="INTEGER">INTEGER</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="DEC_DIGIT">DEC_DIGIT:</a></p><img border="0" src="diagram/DEC_DIGIT.png" height="37" width="121"><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#DEC_DIGIT_LIT" title="DEC_DIGIT_LIT">DEC_DIGIT_LIT</a></li>
+            
+            <li><a href="#IDENTIFIER" title="IDENTIFIER">IDENTIFIER</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="STRING">STRING:</a></p><img border="0" src="diagram/STRING.png" height="71" width="311" usemap="#STRING.map"><map name="STRING.map"><area shape="rect" coords="95,1,215,33" href="#UNICODE_CHAR" title="UNICODE_CHAR"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#literal" title="literal">literal</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="CHARACTER">CHARACTER:</a></p><img border="0" src="diagram/CHARACTER.png" height="81" width="307" usemap="#CHARACTER.map"><map name="CHARACTER.map"><area shape="rect" coords="93,1,213,33" href="#ESCAPED_CHAR" title="ESCAPED_CHAR"><area shape="rect" coords="93,45,213,77" href="#UNICODE_CHAR" title="UNICODE_CHAR"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#literal" title="literal">literal</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="ESCAPED_CHAR">ESCAPED_CHAR:</a></p><img border="0" src="diagram/ESCAPED_CHAR.png" height="213" width="175"><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#CHARACTER" title="CHARACTER">CHARACTER</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="UNICODE_CHAR">UNICODE_CHAR:</a></p><img border="0" src="diagram/UNICODE_CHAR.png" height="37" width="207"><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#CHARACTER" title="CHARACTER">CHARACTER</a></li>
+            
+            <li><a href="#STRING" title="STRING">STRING</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="NLS">NLS:</a></p><img border="0" src="diagram/NLS.png" height="53" width="135" usemap="#NLS.map"><map name="NLS.map"><area shape="rect" coords="49,17,85,49" href="#NL" title="NL"></map><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#annotation" title="annotation">annotation</a></li>
+            
+            <li><a href="#assignmentStatement" title="assignmentStatement">assignmentStatement</a></li>
+            
+            <li><a href="#breakStatement" title="breakStatement">breakStatement</a></li>
+            
+            <li><a href="#continueStatement" title="continueStatement">continueStatement</a></li>
+            
+            <li><a href="#contractDeclaration" title="contractDeclaration">contractDeclaration</a></li>
+            
+            <li><a href="#deleteStatement" title="deleteStatement">deleteStatement</a></li>
+            
+            <li><a href="#emitStatement" title="emitStatement">emitStatement</a></li>
+            
+            <li><a href="#enumDeclaration" title="enumDeclaration">enumDeclaration</a></li>
+            
+            <li><a href="#errorDeclaration" title="errorDeclaration">errorDeclaration</a></li>
+            
+            <li><a href="#eventDeclaration" title="eventDeclaration">eventDeclaration</a></li>
+            
+            <li><a href="#expressionStatement" title="expressionStatement">expressionStatement</a></li>
+            
+            <li><a href="#interfaceDeclaration" title="interfaceDeclaration">interfaceDeclaration</a></li>
+            
+            <li><a href="#interfacePart" title="interfacePart">interfacePart</a></li>
+            
+            <li><a href="#program" title="program">program</a></li>
+            
+            <li><a href="#returnStatement" title="returnStatement">returnStatement</a></li>
+            
+            <li><a href="#sendStatement" title="sendStatement">sendStatement</a></li>
+            
+            <li><a href="#statementBlock" title="statementBlock">statementBlock</a></li>
+            
+            <li><a href="#structDeclaration" title="structDeclaration">structDeclaration</a></li>
+            
+            <li><a href="#structField" title="structField">structField</a></li>
+            
+            <li><a href="#throwStatement" title="throwStatement">throwStatement</a></li>
+            
+            <li><a href="#variableDeclaration" title="variableDeclaration">variableDeclaration</a></li>
+            
+            <li><a href="#versionDirective" title="versionDirective">versionDirective</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="NL">NL:</a></p><img border="0" src="diagram/NL.png" height="81" width="189"><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#NLS" title="NLS">NLS</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="WHITE_SPACE">WHITE_SPACE:</a></p><img border="0" src="diagram/WHITE_SPACE.png" height="185" width="229"><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#_" title="_">_</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="LINE_COMMENT">LINE_COMMENT:</a></p><img border="0" src="diagram/LINE_COMMENT.png" height="69" width="343"><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#_" title="_">_</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="BLOCK_COMMENT">BLOCK_COMMENT:</a></p><img border="0" src="diagram/BLOCK_COMMENT.png" height="71" width="245"><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#_" title="_">_</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="EOF">EOF:</a></p><img border="0" src="diagram/EOF.png" height="37" width="97"><p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#program" title="program">program</a></li>
+            </ul>
+         </p><br><hr>
+      
+      <p>
+         
+         <table border="0" class="signature">
+            
+            <tr>
+               
+               <td style="width: 100%">&nbsp;</td>
+               
+               <td valign="top">
+                  
+                  <nobr class="signature">... generated by <a name="Railroad-Diagram-Generator" class="signature" title="http://www.bottlecaps.de/rr/ui" href="http://www.bottlecaps.de/rr/ui" target="_blank">Railroad Diagram Generator</a></nobr>
+                  </td>
+               
+               <td><a name="Railroad-Diagram-Generator" title="http://www.bottlecaps.de/rr/ui" href="http://www.bottlecaps.de/rr/ui" target="_blank"><img border="0" src="diagram/rr-1.54.1745.png" height="16" width="16"></a></td>
+               </tr>
+            </table>
+         </p>
+      </body>
+</html>

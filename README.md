@@ -7,6 +7,8 @@ The Bazo Blockchain is a research blockchain to test different mechanisms and al
 
 **Result**:
 * [Language specification](https://github.com/bazo-blockchain/lazo-specification/releases/download/v0.5/Lazo.Specification.pdf) - in progress
-* [Lazo grammar in AntLR](syntax-antlr/src/main/antlr/Lazo.g4)
+* Lazo grammar
+  * [AntLR](syntax-antlr/src/main/antlr/Lazo.g4)
+  * [EBNF (generated)](syntax-ebnf/lazo.ebnf)
 * [Contract examples](examples/)
 * [Presentation](https://docs.google.com/presentation/d/1NFIAtIN9LL2fssvS7Yw1wGSYKf3AX5rshSoDYe4OwTo/edit?usp=sharing)

@@ -1,0 +1,167 @@
+/* converted on Wed Dec 5, 2018, 14:59 (UTC+01) by antlr_4-to-w3c v0.45 which is Copyright (c) 2011-2018 by Gunther Rademacher <grd@gmx.net> */
+
+program  ::= NLS* versionDirective interfaceDeclaration* contractDeclaration EOF
+versionDirective
+         ::= 'version' INTEGER '.' INTEGER NLS
+interfaceDeclaration
+         ::= 'interface' IDENTIFIER '{' NLS* interfacePart* '}' NLS
+interfacePart
+         ::= functionSignature NLS
+functionSignature
+         ::= annotation* ( type | '(' type ( ',' type )* ')' ) IDENTIFIER '(' paramList? ')'
+contractDeclaration
+         ::= 'contract' IDENTIFIER ( 'is' IDENTIFIER ( ',' IDENTIFIER )* )? '{' ( NLS | contractPart )* '}' NLS?
+contractPart
+         ::= variableDeclaration
+           | structDeclaration
+           | errorDeclaration
+           | enumDeclaration
+           | eventDeclaration
+           | constructorDeclaration
+           | functionDeclaration
+variableDeclaration
+         ::= 'readonly'? type IDENTIFIER assignment? NLS
+structDeclaration
+         ::= 'struct' IDENTIFIER '{' NLS* structField* '}' NLS
+errorDeclaration
+         ::= 'error' IDENTIFIER '{' NLS* structField* '}' NLS
+structField
+         ::= type IDENTIFIER NLS
+eventDeclaration
+         ::= 'event' IDENTIFIER '(' paramList? ')' NLS
+enumDeclaration
+         ::= 'enum' IDENTIFIER '{' NLS* IDENTIFIER ( ',' NLS* IDENTIFIER )* NLS* '}' NLS
+constructorDeclaration
+         ::= annotation* 'constructor' '(' paramList? ')' statementBlock
+functionDeclaration
+         ::= annotation* functionHead statementBlock
+functionHead
+         ::= 'internal'? 'function' ( type | '(' type ( ',' type )* ')' ) IDENTIFIER '(' paramList? ')'
+annotation
+         ::= '[' IDENTIFIER ( ':' expression )? ']' NLS
+paramList
+         ::= parameter ( ',' parameter )* ( ',' defaultParameter )*
+parameter
+         ::= type IDENTIFIER
+defaultParameter
+         ::= parameter assignment
+type     ::= arrayType
+           | mapType
+           | IDENTIFIER
+arrayType
+         ::= IDENTIFIER '[' ']'
+mapType  ::= 'Map' '<' type ',' type '>'
+statementBlock
+         ::= '{' ( NLS | statement )* '}'
+statement
+         ::= assignmentStatement
+           | returnStatement
+           | expressionStatement
+           | sendStatement
+           | emitStatement
+           | variableDeclaration
+           | ifStatement
+           | forEachStatement
+           | forStatement
+           | mapForEachStatement
+           | breakStatement
+           | continueStatement
+           | throwStatement
+emitStatement
+         ::= 'emit' expression NLS
+deleteStatement
+         ::= 'delete' expression NLS
+ifStatement
+         ::= 'if' '(' expression ')' statementBlock ( 'else if' '(' expression ')' statementBlock )? ( 'else' statementBlock )?
+forStatement
+         ::= 'for' '(' IDENTIFIER ':' rangeStatement ')' statementBlock
+forEachStatement
+         ::= 'foreach' '(' ( IDENTIFIER ',' )? type IDENTIFIER ':' expression ')' statementBlock
+mapForEachStatement
+         ::= 'foreach' '(' type IDENTIFIER ',' type IDENTIFIER ':' expression ')' statementBlock
+breakStatement
+         ::= 'break' NLS
+continueStatement
+         ::= 'continue' NLS
+rangeStatement
+         ::= expression? 'to' expression ( 'by' expression )?
+expressionStatement
+         ::= expression NLS
+sendStatement
+         ::= expression '.' 'send' '(' expression? ')' NLS
+argumentList
+         ::= ( expression ( ',' expression )* | namedArgument ) ( ',' namedArgument )*
+namedArgument
+         ::= IDENTIFIER '=' expression
+assignmentStatement
+         ::= expression assignment NLS
+assignment
+         ::= '=' expression
+designator
+         ::= IDENTIFIER
+throwStatement
+         ::= 'throw' IDENTIFIER '{' argumentList? '}' NLS
+returnStatement
+         ::= 'return' ( expression ( ',' expression )* )? NLS
+expression
+         ::= expression ( '++' | '--' | '[' expression ']' | '.' IDENTIFIER | '(' argumentList? ')' | ( ( '+' | '-' | '**' | '*' | '/' | '%' | '<<' | '>>' | '&' | '^' | '|' ) '='? | '<' | '>' | '<=' | '>=' | '==' | '!=' | '&&' | '||' | '?' expression ':' ) expression )
+           | newCreation
+           | '(' ( expression ')' | type ')' expression )
+           | ( '++' | '--' | '+' | '-' | '!' | TILDE ) expression
+           | operand
+newCreation
+         ::= structCreation
+           | arrayCreation
+           | mapCreation
+structCreation
+         ::= 'new' IDENTIFIER '(' argumentList? ')'
+arrayCreation
+         ::= 'new' IDENTIFIER '[' ( expression ']' ( '{' '}' )? | ']' '{' expression ( ',' expression )* '}' )
+mapCreation
+         ::= 'new' mapType '(' ')'
+operand  ::= literal
+           | designator
+literal  ::= INTEGER
+           | CHARACTER
+           | STRING
+           | BOOL
+_        ::= WHITE_SPACE
+           | LINE_COMMENT
+           | BLOCK_COMMENT
+          /* ws: definition */
+
+<?TOKENS?>
+
+BOOL     ::= 'true'
+           | 'false'
+TILDE    ::= #x007e
+IDENTIFIER
+         ::= ( '_' | ALPHA_LETTER ) ( '_' | ALPHA_LETTER | DEC_DIGIT )*
+ALPHA_LETTER
+         ::= [a-zA-Z]
+INTEGER  ::= DEC_DIGIT_LIT
+           | HEX_DIGIT_LIT
+HEX_DIGIT_LIT
+         ::= '0x' HEX_DIGIT+
+HEX_DIGIT
+         ::= [0-9a-fA-F]
+DEC_DIGIT_LIT
+         ::= DEC_DIGIT+
+DEC_DIGIT
+         ::= [0-9]
+STRING   ::= '"' UNICODE_CHAR* '"'
+CHARACTER
+         ::= "'" ( ESCAPED_CHAR | UNICODE_CHAR ) "'"
+ESCAPED_CHAR
+         ::= '\' ( '0' | 'n' | '\' | "'" | '"' )
+UNICODE_CHAR
+         ::= [^#xd#xa]
+NLS      ::= NL+
+NL       ::= [#xa#xd]
+WHITE_SPACE
+         ::= [ #x9#xc#xd]+
+LINE_COMMENT
+         ::= '//' [^#xd#xa]*
+BLOCK_COMMENT?
+         ::= '/*' .* '*/'
+EOF      ::= $
