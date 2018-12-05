@@ -70,7 +70,7 @@ annotation
   : '[' IDENTIFIER (':' expression)? ']' NLS ;
 
 paramList
-  : parameter (',' parameter)* (',' defaultParameter)* ; // todo allow optional newline
+  : parameter (',' parameter)* (',' defaultParameter)* ;
 
 parameter
   : type IDENTIFIER ;
