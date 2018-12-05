@@ -1,0 +1,71 @@
+/* In the CrowdFund contract, participants can contribute to a campaign.
+   If predetermined funding goal is reached, the funds will be sent to the beneficiary.
+   Otherwise, participants will be refunded.
+   See https://www.ethereum.org/crowdsale for the contract in Solidity
+*/
+
+version 1.0
+
+contract CrowdFund {
+
+    readonly Payable beneficiary
+    readonly int goal
+    int amountRaised
+    readonly int deadline
+
+    Map<address, int> balances
+    bool isClosed
+
+    event FundRaised(int totalAmountRaised)
+    event GoalReached(int totalAmountRaised)
+    event GoalFailed(int totalAmountRaised)
+
+    constructor(address beneficiary, int goal, int duration) {
+        this.beneficiary = (Payable) beneficiary
+        this.goal = goal
+        deadline = block.timestamp + duration
+    }
+
+    [ReadOnly]
+    internal function bool isActive() {
+        return !isClosed && block.timestamp < deadline
+    }
+
+    [ReadOnly]
+    internal function bool isGoalReached() {
+        return amountRaised >= goal
+    }
+
+    [Payable]
+    [Pre: isActive()]
+    [Pre: msg.coins > 0] // TODO remove if no: Does Bazo VM allow to send negative coins?
+    function void participate() {
+        balances[msg.sender] += msg.coins
+        amountRaised += msg.coins
+
+        emit FundRaised(amountRaised)
+    }
+
+    [Pre: !isClosed]
+    [Pre: block.timestamp >= deadline]
+    function void checkGoalReached() {
+        if (isGoalReached()) {
+            emit GoalReached(amountRaised)
+            beneficiary.transfer().send(new MsgArgs(coins=balance(this)))
+        } else {
+            emit GoalFailed(amountRaised)       // inform the funders to withdraw their funds
+        }
+
+        isClosed = true     // Re-entrancy attack is not possible here because MaxCalls is 1 by default
+    }
+
+    [Pre: !isActive()]
+    [Pre: !isGoalReached()]
+    function void withdrawFund() {
+        int amount = balances[msg.sender]
+        balances[msg.sender] = 0
+
+        Payable funder = (Payable) msg.sender
+        funder.transfer().send(new MsgArgs(coins=amount))
+    }
+}
