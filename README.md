@@ -38,3 +38,12 @@ contract SimpleContract{
     }
 }
 ```
+
+Run Tests
+---------
+In order to run tests, execute the following command:
+
+```bash
+cd syntax-antlr
+./gradlew test
+```
