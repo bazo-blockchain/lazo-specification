@@ -50,3 +50,5 @@ cd syntax-antlr
 // Run tests
 ./gradlew test
 ```
+
+Or use an IDE such as IntelliJ with the Gradle plugin (config parameter: test).
