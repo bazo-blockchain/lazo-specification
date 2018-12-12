@@ -44,6 +44,9 @@ Run Tests
 In order to run tests, execute the following command:
 
 ```bash
+// Change directory
 cd syntax-antlr
+
+// Run tests
 ./gradlew test
 ```
